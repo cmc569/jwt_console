@@ -2,17 +2,11 @@
 
 namespace App\Http\Models;
 
-use App\Crypto\Crypto;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-
-class User extends Authenticatable implements JWTSubject {
+class Users extends Authenticatable implements JWTSubject {
     use Notifiable;
 
     /**
@@ -61,27 +55,5 @@ class User extends Authenticatable implements JWTSubject {
      */
     public function getJWTCustomClaims() {
         return [];
-    }
-
-    public static function addUserInfo($name, $email, $password): bool {
-        $id = DB::table('users')->insertGetId([
-            'name'              => $name,
-            'email'             => $email,
-            'password'          => bcrypt($password)
-        ]);
-        return $id != 0;
-    }
-    public static function isUserExist($email): bool {
-        $count = DB::table('users')
-            ->where("email", $email)
-            ->count();
-        return $count > 0;
-    }
-    public static function isPasswordAuth($email, $password): bool {
-        $data = DB::table('users')
-            ->where('email', $email)
-            ->first();
-        $dbPassword = $data->password;
-        return Hash::check($password, $dbPassword);
     }
 }

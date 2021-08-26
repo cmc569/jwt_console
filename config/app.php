@@ -231,5 +231,6 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
     ],
+    "accunixLINEBotId" => env('ACCUNIX_LINE_BOT_ID', '')
 
 ];
