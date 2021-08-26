@@ -37,6 +37,8 @@ class UserService {
             return UtilResponse::toJson(false, 'Password format is error', []);
         } else if (!$token = auth()->attempt(["email" => $email, "password" => $password])) {
             return UtilResponse::toJson(false, 'Unauthorized', []);
+        } else if (!$this->userRepository->isUserExist($email)) {
+            return UtilResponse::toJson(false, 'User is not existed', []);
         } else {
             return UtilResponse::toJson(true, 'Login successfully', [
                 'access_token' => $token,
