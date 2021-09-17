@@ -33,7 +33,7 @@ class Inv {
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => 'version=1.0&action=bcv&barCode=' . $barCode . '&TxID=' . $txId . '&appId=' . $this->appId,
+            CURLOPT_POSTFIELDS => 'version=1.0&action=bcv&barCode=' . urlencode($barCode) . '&TxID=' . $txId . '&appId=' . $this->appId,
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/x-www-form-urlencoded'
             ),
