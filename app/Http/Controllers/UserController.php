@@ -15,7 +15,7 @@ class UserController extends Controller {
     }
 
     /**
-     * Get a JWT via given credentials.
+     * Login
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -29,7 +29,7 @@ class UserController extends Controller {
     }
 
     /**
-     * Register a User.
+     * Register
      *
      * @return \Illuminate\Http\JsonResponse
      */

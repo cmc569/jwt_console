@@ -27,9 +27,9 @@ class Validate {
      * @parameter $phone
      * @return bool
      **/
-    public static function CheckPhone($phone): bool {
-        // 判斷是否大於10碼
-        $regex = '/^[0-9]{10,}$/';
+    public static function checkPhone($phone): bool {
+        // 判斷是否為包含09開頭後8碼
+        $regex = '/^09\d{8}$/';
         return preg_match($regex, $phone);
     }
     /**
@@ -40,5 +40,15 @@ class Validate {
     public static function CheckDataBase64($base): bool {
         $regex = '/^data:image\/(jpg|gif|jpeg|png|mp4);base64,([^\"]*)$/';
         return preg_match($regex, $base);
+    }
+    /**
+     * 驗證驗證碼
+     * @parameter $verifyCode
+     * @return bool
+     **/
+    public static function checkVerifyCode($verifyCode): bool {
+        // 判斷是否為4碼
+        $regex = '/^\d{4}$/';
+        return preg_match($regex, $verifyCode);
     }
 }
