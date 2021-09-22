@@ -14,13 +14,12 @@ class UtilResponse{
     public static function toJson(bool $status = true, string $message = "", array $data = []): JsonResponse {
         $statusCode = $status ? 200 : 400;
         $response = [
-            "status_code" => $statusCode,
+            "status" => $status,
             "message" => $message,
         ];
         if (!empty($data)) {
             $response["data"] = $data;
         }
-
         return response()->json($response, $statusCode);
     }
 }
