@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Taipei',
 
     /*
     |--------------------------------------------------------------------------
@@ -231,6 +231,10 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
     ],
-    "accunixLINEBotId" => env('ACCUNIX_LINE_BOT_ID', '')
+    
+    "accuNixLINEBotId" => env('ACCUNIX_LINE_BOT_ID', ''),
+    "accuNixAuthToken" => env('ACCUNIX_AUTH_TOKEN', '')
+
+
 
 ];

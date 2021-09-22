@@ -15,10 +15,10 @@ class AccuNixApi
     public function __construct()
     {
         $this->client = new Client();
-        $this->api_host = "https://api-tf.accunix.net/api/line/" . config('app.accunixLINEBotId');
+        $this->api_host = "https://api-tf.accunix.net/api/line/" . config('app.accuNixLINEBotId');
         $this->headers = [
             'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer ' .  config('app.authToken')
+            'Authorization' => 'Bearer ' .  config('app.accuNixAuthToken')
         ];
     }
 

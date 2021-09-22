@@ -19,7 +19,8 @@
         "tymon/jwt-auth": "dev-develop",
         "vlucas/pikirasa": "^1.0",
         "ext-json": "*",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

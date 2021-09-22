@@ -5,6 +5,14 @@
 
 <br>
 
+### config
+#### - app/config/app.php
+除了資料庫連線帳密，其餘共用環境變數皆在此處，
+資料庫的連線帳密應應安全性需將env.json提交給MIS匯入，
+格式如sample_env.json。
+
+<br>
+
 ### 路由架構
 ### - api
 #### 分為兩個 '/api', '/api/auth'<br>

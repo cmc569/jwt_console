@@ -1,0 +1,57 @@
+[
+    {
+        "name": "APP_NAME",
+        "value": "",
+        "slotSetting": false
+    },
+    {
+        "name": "APP_URL",
+        "value": "",
+        "slotSetting": false
+    },
+    {
+        "name": "APP_ENV",
+        "value": "production",
+        "slotSetting": false
+    },
+    {
+        "name": "APP_KEY",
+        "value": "",
+        "slotSetting": false
+    },
+    {
+        "name": "APP_DEBUG",
+        "value": "false",
+        "slotSetting": false
+    },
+    {
+        "name": "DB_CONNECTION",
+        "value": "mysql",
+        "slotSetting": false
+    },
+    {
+        "name": "DB_HOST",
+        "value": "",
+        "slotSetting": false
+    },
+    {
+        "name": "DB_PORT",
+        "value": "3306",
+        "slotSetting": false
+    },
+    {
+        "name": "DB_DATABASE",
+        "value": "",
+        "slotSetting": false
+    },
+    {
+        "name": "DB_USERNAME",
+        "value": "",
+        "slotSetting": false
+    },
+    {
+        "name": "DB_PASSWORD",
+        "value": "",
+        "slotSetting": false
+    }
+]
