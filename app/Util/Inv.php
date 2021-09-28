@@ -25,6 +25,9 @@ class Inv {
         $txId = strtotime(date("Y-m-d h:i:s"), 0);
         $curl = curl_init();
         curl_setopt_array($curl, array(
+            CURLOPT_SSL_CIPHER_LIST => 'DEFAULT@SECLEVEL=1',
+            CURLOPT_SSL_VERIFYPEER  => false,
+            CURLOPT_SSL_VERIFYHOST  => false,
             CURLOPT_URL => $api_host,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
