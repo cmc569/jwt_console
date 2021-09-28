@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function () {
             print "start call\n";
-            $messageBody = '{"to": "U47cebfa7c2cb22ab6962735c91485531", "messages":[{"type":"text","text":"test message"}]}';
+            $messageBody = '{"to": ["U47cebfa7c2cb22ab6962735c91485531"], "messages":[{"type":"text","text":"test message"}]}';
             $re = (new \App\Util\LineWebhook\PushMessage)->push($messageBody);
             print_r($re);
             print "end call\n";

@@ -22,7 +22,7 @@ class PushMessage {
         );
     }
 
-    /** 推送訊息
+    /** 推送訊息(多人)
      * @params
      * messageBody String Required 每則訊息格式請依照LINE官方Messages格式: https://developers.line.biz/en/reference/messaging-api/
      *
@@ -35,9 +35,9 @@ class PushMessage {
      * @throws GuzzleException
      * @throws \Exception
      */
-    public function push(string $messagesBody) {
+    public function multicast(string $messagesBody) {
         $curl = curl_init();
-        $url = $this->api_host . '/message/push';
+        $url = $this->api_host . '/message/multicast';
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
