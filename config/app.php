@@ -231,10 +231,8 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
     ],
-    
+
     "accuNixLINEBotId" => env('ACCUNIX_LINE_BOT_ID', ''),
-    "accuNixAuthToken" => env('ACCUNIX_AUTH_TOKEN', '')
-
-
-
+    "accuNixAuthToken" => env('ACCUNIX_AUTH_TOKEN', ''),
+    "lineBotBearToken" => env('LINE_BOT_BEAR_TOKEN', '')
 ];
