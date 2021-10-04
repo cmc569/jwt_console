@@ -1,4 +1,14 @@
 # Public Backend Module
+| 日期         | 項目                    | 狀態 |
+| ---------- | -----------------------  | ------- |
+| 2021-08-12 | 建置JWT 框架              | 開發完成 |
+| 2021-08-25 | 新增UtilResponse 共用     | 開發完成 |
+| 2021-09-17 | 新增財政部 api 共用        | 開發完成 |
+| 2021-09-17 | 新增AccuNix api 共用      | 開發完成 |
+| 2021-09-22 | 新增env.json 共用         | 開發完成 |
+| 2021-10-04 | [Line-Push-Message](###Line-Push-Message)  | 開發完成 |
+
+<br>
 
 ### 專案建置流程
 #### - composer install
@@ -50,3 +60,8 @@
 
 ### 產生 jwt:secret
 #### php artisan jwt:secret
+
+<br>
+
+### Line-Push-Message
+#### 需新增環境變數LINE_BOT_BEAR_TOKEN共用函數才能跑
