@@ -38,7 +38,11 @@ class PushMessage {
         if (count($messages) > 5){
             return ["status" => false, "message" => "messages is overed 5"];
         }
-        $messageBody = '{"to": '.$userToken.', "messages": '.json_encode($messages)."}'";
+
+        $messageBody = json_encode([
+            "to" => $userToken,
+            "messages" => $messages
+        ]);
         $path = '/message/push';
         return $this->curl($path, 'POST', $messageBody);
     }
@@ -64,7 +68,10 @@ class PushMessage {
         if (count($messages) > 5){
             return ["status" => false, "message" => "messages is overed 5"];
         }
-        $messageBody = '{"to": '.json_encode($userTokens).', "messages": '.json_encode($messages)."}'";
+        $messageBody = json_encode([
+            "to" => $userTokens,
+            "messages" => $messages
+        ]);
         $path = '/message/multicast';
         return $this->curl($path, 'POST', $messageBody);
     }
@@ -97,6 +104,8 @@ class PushMessage {
         }
         curl_close($curl);
         if (isset($response->message)){
+            Log::info(sprintf("Line Push Message Body: %s", json_encode($messageBody))."\n");
+            Log::info(sprintf("Line Push Message Err: %s", $response->message)."\n");
             return ["status" => false, "message" => $response->message];
         }
         return ["status" => true, "message" => ""];
