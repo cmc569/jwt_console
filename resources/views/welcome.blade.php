@@ -15,7 +15,9 @@
 <div id="app">
     <router-view></router-view>
 </div>
+<script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
 <!-- 引入 Vue app -->
 <script src="{{mix('js/app.js')}}"></script>
+
 </body>
 </html>

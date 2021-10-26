@@ -10,6 +10,8 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 require('./bootstrap');
 
+// add Liff
+Vue.prototype.$liff = window.liff
 
 window.Vue = require('vue').default;
 
