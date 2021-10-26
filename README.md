@@ -7,6 +7,7 @@
 | 2021-09-17 | 新增AccuNix api 共用       | 開發完成 |
 | 2021-09-22 | 新增env.json 共用          | 開發完成 |
 | 2021-10-04 | 新增Line Push Message 共用 | 開發完成 |
+| 2021-10-26 | 新增vue frontend           | 開發完成 |
 
 <br>
 
