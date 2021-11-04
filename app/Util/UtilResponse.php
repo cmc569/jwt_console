@@ -14,7 +14,7 @@ class UtilResponse{
     public static function toJson(bool $status = true, string $message = "", array $data = []): JsonResponse {
         $statusCode = $status ? 200 : 400;
         $response = [
-            "status" => $status,
+            "status" => $statusCode,
             "message" => $message,
         ];
         if (!empty($data)) {
