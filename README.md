@@ -71,19 +71,19 @@
 #### 驗證前端資料共用function
 #### - UtilResponse
 #### api回傳共用function - 使用範例如下：
-####回傳http status code 客製化
+#### 回傳http status code 客製化
 <pre>
 <code>
 UtilResponse::toJson(200, "response message", {{object}});
 </code>
 </pre>
-####固定回傳http status code 200
+#### 固定回傳http status code 200
 <pre>
 <code>
 UtilResponse::successResponse('success', {{object}});
 </code>
 </pre>
-####固定回傳http status code 400
+#### 固定回傳http status code 400
 <pre>
 <code>
 UtilResponse::errorResponse('Token is Invalid');
