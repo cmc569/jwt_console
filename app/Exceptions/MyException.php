@@ -24,6 +24,6 @@ class MyException extends \Exception
 
     public function render(): JsonResponse
     {
-        return UtilResponse::toJson(false, $this->getMessage());
+        return UtilResponse::errorResponse($this->getMessage());
     }
 }

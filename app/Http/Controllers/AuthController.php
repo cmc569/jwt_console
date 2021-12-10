@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Log;
-use Validator;
+use App\Util\UtilResponse;
 
 class AuthController extends Controller {
     /**
@@ -16,48 +15,74 @@ class AuthController extends Controller {
     }
 
     /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Put(
+     *     path="/users/logout",
+     *     tags={"使用者相關"},
+     *     summary="使用者登出",
+     *     description="",
+     *     security={{"apiAuth":{}}},
+     *      @OA\Response(
+     *          response=200,
+     *          description="{'data':{},'msg':'succsess'}",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="{'data':{},'msg':'error msg'}",
+     *      )
+     *     )
      */
     public function logout() {
         auth()->logout();
-        return response()->json(
-            [
-                "status" => true,
-                "message" => "User successfully logout out",
-                "data" => []
-            ]
-        );
+        return UtilResponse::successResponse("success");
     }
 
     /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Put(
+     *     path="/users/refresh",
+     *     tags={"使用者相關"},
+     *     summary="使用者更新jwt",
+     *     description="",
+     *     security={{"apiAuth":{}}},
+     *      @OA\Response(
+     *          response=200,
+     *          description="{'data':{},'msg':'succsess'}",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="{'data':{},'msg':'error msg'}",
+     *      )
+     *     )
      */
     public function refresh() {
-        response()->json(
-            [
-                "status" => true,
-                "message" => "user's token refreshed successfully",
-                "data" => [
-                    'access_token' => auth()->refresh(),
-                    'token_type' => 'bearer',
-                    'expires_in' => auth()->factory()->getTTL() * 60,
-                    'user' => auth()->user()
-                ]
-            ]
-        );
+        $data = [
+            'access_token' => auth()->refresh(),
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60,
+            'user' => auth()->user()
+        ];
+        return UtilResponse::successResponse("success", $data);
     }
 
+
     /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Get(
+     *     path="/users/user-info",
+     *     tags={"使用者相關"},
+     *     summary="使用者更新jwt",
+     *     description="",
+     *     security={{"apiAuth":{}}},
+     *      @OA\Response(
+     *          response=200,
+     *          description="{'data':{},'msg':'succsess'}",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="{'data':{},'msg':'error msg'}",
+     *      )
+     * )
      */
-    public function userProfile() {
-        Log::info(auth()->user());
-        return response()->json(auth()->user());
+    public function getUserInfo() {
+        $data = ["dataInfo" => auth()->user()];
+        return UtilResponse::successResponse("success", $data);
     }
 }

@@ -9,7 +9,7 @@ class Validate {
      * @parameter $email
      * @return bool
      **/
-    public static function CheckEmail($email): bool {
+    public static function checkEmail($email): bool {
         $regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
         return preg_match($regex, $email);
     }
@@ -18,7 +18,7 @@ class Validate {
      * @parameter $password
      * @return bool
      **/
-    public static function CheckPassword($password): bool {
+    public static function checkPassword($password): bool {
         $regex = '/^[a-z|A-Z0-9]{6,12}$/';
         return preg_match($regex, $password);
     }
@@ -37,7 +37,7 @@ class Validate {
      * @parameter $base64
      * @return bool
      **/
-    public static function CheckDataBase64($base): bool {
+    public static function checkDataBase64($base): bool {
         $regex = '/^data:image\/(jpg|gif|jpeg|png|mp4);base64,([^\"]*)$/';
         return preg_match($regex, $base);
     }

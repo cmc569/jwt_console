@@ -8,6 +8,8 @@
 | 2021-09-22 | 新增env.json 共用          | 開發完成 |
 | 2021-10-04 | 新增Line Push Message 共用 | 開發完成 |
 | 2021-10-26 | 新增vue frontend           | 開發完成 |
+| 2021-12-10 | 加入Swagger機制使用DarkaOnLine/L5-Swagger             | 開發完成 |
+| 2021-12-10 | 修正response參數            | 開發完成 |
 
 <br>
 
@@ -26,7 +28,8 @@
 
 ### 路由架構
 ### - api
-#### 分為兩個 '/api', '/api/auth'<br>
+#### 版本號預設:v1
+#### 分為兩個 '/api/{版本號}', '/api/auth/{版本號}'<br>
 #### auth均走middleware->Authenticate做token驗證<br>
 ### - web
 #### 使用上注意不能與api的router重疊
@@ -46,6 +49,11 @@
 
 <br>
 
+### Swagger套件文件撰寫請洽官方github
+[Link to Swagger](https://github.com/DarkaOnLine/L5-Swagger)
+
+<br>
+
 ### 共用函數使用說明
 #### - AccuNixApi
 #### 需新增環境變數 ACCUNIX_LINE_BOT_ID, ACCUNIX_AUTH_TOKEN
@@ -57,9 +65,22 @@
 #### 驗證前端資料共用function
 #### - UtilResponse
 #### api回傳共用function - 使用範例如下：
+####回傳http status code 客製化
 <pre>
 <code>
-UtilResponse::toJson(false, "success", ["userInfo"=>["id"=> 1]]);
+UtilResponse::toJson(200, "response message", {{object}});
+</code>
+</pre>
+####固定回傳http status code 200
+<pre>
+<code>
+UtilResponse::successResponse('success', {{object}});
+</code>
+</pre>
+####固定回傳http status code 400
+<pre>
+<code>
+UtilResponse::errorResponse('Token is Invalid');
 </code>
 </pre>
 
@@ -81,3 +102,7 @@ UtilResponse::toJson(false, "success", ["userInfo"=>["id"=> 1]]);
 ### 產生 jwt:secret
 #### php artisan jwt:secret
 
+<br>
+
+### 產生 swagger文件
+#### php artisan l5-swagger:generate

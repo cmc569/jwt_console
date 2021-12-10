@@ -14,15 +14,25 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-/* path: /api */
-Route::post('/login', [UserController::class, 'login']);
-Route::post('/register', [UserController::class, 'register']);
-/* path: /api/auth */
+/* path: /api/v1 */
+Route::group([
+    'prefix' => 'v1'
+], function () {
+    Route::group(["prefix"=> "users"], function (){
+        Route::post('/login', [UserController::class, 'login']);
+        Route::post('/register', [UserController::class, 'register']);
+        Route::get('/user-type-list', [UserController::class, 'getUserTypeList']);
+    });
+});
+
+/* path: /api/auth/v1 */
 Route::group([
     'middleware' => 'api',
-    'prefix' => 'auth'
-], function ($router) {
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::post('/user-profile', [AuthController::class, 'userProfile']);
+    'prefix' => 'auth/v1'
+], function () {
+    Route::group(["prefix"=> "users"], function (){
+        Route::put('/logout', [AuthController::class, 'logout']);
+        Route::put('/refresh', [AuthController::class, 'refresh']);
+        Route::get('/user-info', [AuthController::class, 'getUserInfo']);
+    });
 });

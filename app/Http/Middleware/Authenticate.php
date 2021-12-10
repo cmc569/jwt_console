@@ -7,6 +7,7 @@ use Exception;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 
 
+
 class Authenticate extends BaseMiddleware
 {
     /**
@@ -19,16 +20,16 @@ class Authenticate extends BaseMiddleware
     public function handle($request, Closure $next)
     {
         try {
-            $user = JWTAuth::parseToken()->authenticate();
+            JWTAuth::parseToken()->authenticate();
         } catch (Exception $e) {
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
-                return UtilResponse::toJson(false, 'Token is Invalid');
+                return UtilResponse::errorResponse('Token is Invalid');
             }else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
-                return UtilResponse::toJson(false, 'Token is Expired');
+                return UtilResponse::errorResponse('Token is Expired');
             }else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException){
-                return UtilResponse::toJson(false, 'Token is Blacklisted');
+                return UtilResponse::errorResponse('Token is Blacklisted');
             }else{
-                return UtilResponse::toJson(false, 'Authorization Token not found');
+                return UtilResponse::errorResponse('Authorization Token not found');
             }
         }
         return $next($request);

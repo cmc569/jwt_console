@@ -8,6 +8,7 @@
     ],
     "license": "MIT",
     "require": {
+        "darkaonline/l5-swagger": "^8.0",
         "php": "^7.2.5|^8.0",
         "ext-openssl": "*",
         "barryvdh/laravel-cors": "^2.0",

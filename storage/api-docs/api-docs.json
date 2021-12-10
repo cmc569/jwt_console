@@ -1,0 +1,214 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Document",
+        "description": "",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000/api/v1",
+            "description": "master"
+        }
+    ],
+    "paths": {
+        "/users/logout": {
+            "put": {
+                "tags": [
+                    "使用者相關"
+                ],
+                "summary": "使用者登出",
+                "description": "",
+                "operationId": "eea75ac68ef602679bd5c854d63b0422",
+                "responses": {
+                    "200": {
+                        "description": "{'data':{},'msg':'succsess'}"
+                    },
+                    "400": {
+                        "description": "{'data':{},'msg':'error msg'}"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/refresh": {
+            "put": {
+                "tags": [
+                    "使用者相關"
+                ],
+                "summary": "使用者更新jwt",
+                "description": "",
+                "operationId": "3345c1acda44155f9e7681e88f8f6adf",
+                "responses": {
+                    "200": {
+                        "description": "{'data':{},'msg':'succsess'}"
+                    },
+                    "400": {
+                        "description": "{'data':{},'msg':'error msg'}"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/user-info": {
+            "get": {
+                "tags": [
+                    "使用者相關"
+                ],
+                "summary": "使用者更新jwt",
+                "description": "",
+                "operationId": "c3f913a724c564872f8ce8453860062f",
+                "responses": {
+                    "200": {
+                        "description": "{'data':{},'msg':'succsess'}"
+                    },
+                    "400": {
+                        "description": "{'data':{},'msg':'error msg'}"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/login": {
+            "post": {
+                "tags": [
+                    "使用者相關"
+                ],
+                "summary": "使用者登入",
+                "description": "",
+                "operationId": "2bed00028ae8e20c4e21a4f7b8c6c281",
+                "requestBody": {
+                    "description": "Request Body Description",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DocsUsersLogin"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "{'data':{},'msg':'succsess'}"
+                    },
+                    "400": {
+                        "description": "{'data':{},'msg':'error msg'}"
+                    }
+                }
+            }
+        },
+        "/users/register": {
+            "post": {
+                "tags": [
+                    "使用者相關"
+                ],
+                "summary": "使用者註冊",
+                "description": "",
+                "operationId": "443fe5031579f75404200de0559783b0",
+                "requestBody": {
+                    "description": "Request Body Description",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DocsUsersRegister"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "{'data':{},'msg':'succsess'}"
+                    },
+                    "400": {
+                        "description": "{'data':{},'msg':'error msg'}"
+                    }
+                }
+            }
+        },
+        "/users/user-type-list": {
+            "get": {
+                "tags": [
+                    "使用者相關"
+                ],
+                "summary": "取得使用者類型",
+                "description": "",
+                "operationId": "901f7adc085f0bfde6ec84377d728661",
+                "parameters": [
+                    {
+                        "name": "typeId",
+                        "in": "query",
+                        "description": "typeId",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{'data':{},'msg':'succsess'}"
+                    },
+                    "400": {
+                        "description": "{'data':{},'msg':'error msg'}"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "DocsUsersLogin": {
+                "title": "",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "default": ""
+                    },
+                    "password": {
+                        "type": "string",
+                        "default": ""
+                    }
+                },
+                "type": "object"
+            },
+            "DocsUsersRegister": {
+                "title": "",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "default": ""
+                    },
+                    "password": {
+                        "type": "string",
+                        "default": ""
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "apiAuth": {
+                "type": "http",
+                "description": "Login with email and password to get the authentication token",
+                "name": "Token based Based",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}

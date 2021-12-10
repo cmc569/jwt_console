@@ -1,25 +1,34 @@
 <?php
-namespace App\Util;
-use Illuminate\Http\JsonResponse;
 
-class UtilResponse{
-    /**
-     * 客製化Json回傳
-     * @parameter $status: Bool, $message: String, $data: Any
-     * @param bool $status
-     * @param string $message
-     * @param array $data
-     * @return JsonResponse
-     */
-    public static function toJson(bool $status = true, string $message = "", array $data = []): JsonResponse {
-        $statusCode = $status ? 200 : 400;
+namespace App\Util;
+
+use Illuminate\Http\JsonResponse;
+use phpseclib3\Math\PrimeField\Integer;
+
+class UtilResponse {
+
+    public static function toJson(int $statusCode = 200, string $message = "", array $data = []): JsonResponse {
         $response = [
-            "status" => $statusCode,
             "message" => $message,
+            "data" => $data
         ];
-        if (!empty($data)) {
+        return response()->json($response, $statusCode);
+    }
+
+    public static function successResponse($message, $data): JsonResponse {
+        $response = [
+            "msg" => $message
+        ];
+        if (!empty($data)){
             $response["data"] = $data;
         }
-        return response()->json($response, $statusCode);
+        return response()->json($response);
+    }
+
+    public static function errorResponse(string $message = ""): JsonResponse {
+        $response = [
+            "msg" => $message
+        ];
+        return response()->json($response, 400);
     }
 }
