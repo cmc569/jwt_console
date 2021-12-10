@@ -51,6 +51,9 @@
 
 ### Swagger套件文件撰寫請洽[官方github](https://github.com/DarkaOnLine/L5-Swagger)
 相關config請參考 "./config/l5-swagger.php"
+專案標題以及相關models撰寫在 .app/Docs
+公版預設路徑：{domain}/api/docs
+
 <br>
 
 ### 共用函數使用說明
