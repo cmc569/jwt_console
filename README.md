@@ -49,9 +49,8 @@
 
 <br>
 
-### Swagger套件文件撰寫請洽官方github
-[Link to Swagger](https://github.com/DarkaOnLine/L5-Swagger)
-
+### Swagger套件文件撰寫請洽[官方github](https://github.com/DarkaOnLine/L5-Swagger)
+相關config請參考 "./config/l5-swagger.php"
 <br>
 
 ### 共用函數使用說明
