@@ -50,9 +50,13 @@
 <br>
 
 ### Swagger套件文件撰寫請洽[官方github](https://github.com/DarkaOnLine/L5-Swagger)
-相關config請參考 "./config/l5-swagger.php"
-專案標題以及相關models撰寫在 .app/Docs
-公版預設路徑：{domain}/api/docs
+####相關config請參考 "./config/l5-swagger.php"
+####專案標題以及相關models撰寫在 .app/Docs
+####公版預設路徑：{domain}/api/docs
+
+### 產生 swagger文件
+#### 相關controller撰寫完執行以下指令會自動產生文件
+#### php artisan l5-swagger:generate
 
 <br>
 
@@ -106,5 +110,3 @@ UtilResponse::errorResponse('Token is Invalid');
 
 <br>
 
-### 產生 swagger文件
-#### php artisan l5-swagger:generate
