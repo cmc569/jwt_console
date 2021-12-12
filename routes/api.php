@@ -22,6 +22,7 @@ if (!config('app.debug')){
 }
 /* path: /api/v1 */
 Route::group([
+    'middleware' => ['cors'],
     'prefix' => 'v1'
 ], function () {
     Route::group(["prefix"=> "users"], function (){
@@ -31,10 +32,10 @@ Route::group([
     });
 });
 
-/* path: /api/auth/v1 */
+/* path: /api/v1/auth */
 Route::group([
-    'middleware' => 'api',
-    'prefix' => 'auth/v1'
+    'middleware' => ['cors', 'auth'],
+    'prefix' => 'v1/auth'
 ], function () {
     Route::group(["prefix"=> "users"], function (){
         Route::put('/logout', [AuthController::class, 'logout']);

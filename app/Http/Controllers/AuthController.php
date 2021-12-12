@@ -16,7 +16,7 @@ class AuthController extends Controller {
 
     /**
      * @OA\Put(
-     *     path="/users/logout",
+     *     path="/auth/users/logout",
      *     tags={"使用者相關"},
      *     summary="使用者登出",
      *     description="",
@@ -38,7 +38,7 @@ class AuthController extends Controller {
 
     /**
      * @OA\Put(
-     *     path="/users/refresh",
+     *     path="/auth/users/refresh",
      *     tags={"使用者相關"},
      *     summary="使用者更新jwt",
      *     description="",
@@ -66,7 +66,7 @@ class AuthController extends Controller {
 
     /**
      * @OA\Get(
-     *     path="/users/user-info",
+     *     path="/auth/users/user-info",
      *     tags={"使用者相關"},
      *     summary="使用者更新jwt",
      *     description="",

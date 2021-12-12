@@ -29,7 +29,7 @@
 ### 路由架構
 ### - api
 #### 版本號預設:v1
-#### 分為兩個 '/api/{版本號}', '/api/auth/{版本號}'<br>
+#### 分為兩個 '/api/{版本號}', '/api/{版本號}/auth'<br>
 #### auth均走middleware->Authenticate做token驗證<br>
 ### - web
 #### 使用上注意不能與api的router重疊
@@ -74,6 +74,7 @@
 #### 回傳http status code 客製化
 <pre>
 <code>
+
 UtilResponse::toJson(200, "response message", {{object}});
 </code>
 </pre>

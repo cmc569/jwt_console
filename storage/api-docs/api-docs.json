@@ -12,14 +12,14 @@
         }
     ],
     "paths": {
-        "/users/logout": {
+        "/auth/users/logout": {
             "put": {
                 "tags": [
                     "使用者相關"
                 ],
                 "summary": "使用者登出",
                 "description": "",
-                "operationId": "eea75ac68ef602679bd5c854d63b0422",
+                "operationId": "b78837e273a3cef7bce753bcd289794b",
                 "responses": {
                     "200": {
                         "description": "{'data':{},'msg':'succsess'}"
@@ -35,14 +35,14 @@
                 ]
             }
         },
-        "/users/refresh": {
+        "/auth/users/refresh": {
             "put": {
                 "tags": [
                     "使用者相關"
                 ],
                 "summary": "使用者更新jwt",
                 "description": "",
-                "operationId": "3345c1acda44155f9e7681e88f8f6adf",
+                "operationId": "bd1ba7cd4ca890c2d545067419b4f404",
                 "responses": {
                     "200": {
                         "description": "{'data':{},'msg':'succsess'}"
@@ -58,14 +58,14 @@
                 ]
             }
         },
-        "/users/user-info": {
+        "/auth/users/user-info": {
             "get": {
                 "tags": [
                     "使用者相關"
                 ],
                 "summary": "使用者更新jwt",
                 "description": "",
-                "operationId": "c3f913a724c564872f8ce8453860062f",
+                "operationId": "f69017bec98219791e14e73e1077bb72",
                 "responses": {
                     "200": {
                         "description": "{'data':{},'msg':'succsess'}"
