@@ -15,7 +15,7 @@ class UtilResponse {
         return response()->json($response, $statusCode);
     }
 
-    public static function successResponse($message, $data): JsonResponse {
+    public static function successResponse($message, $data = []): JsonResponse {
         $response = [
             "msg" => $message
         ];

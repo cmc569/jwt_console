@@ -29,10 +29,10 @@ class UserService {
             return UtilResponse::toJson(false, 'Password format error', []);
         } else if ($this->userRepository->isUserExist($email)) {
             return UtilResponse::errorResponse('User is existed');
-        } else if ($this->userRepository->createUser($name, $email, $password) > 0) {
-            return UtilResponse::successResponse('success');
-        } else {
+        } else if ($this->userRepository->createUser($name, $email, $password) != true) {
             return UtilResponse::errorResponse('Insert db error');
+        } else {
+            return UtilResponse::successResponse('success');
         }
     }
 

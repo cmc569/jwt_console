@@ -38,8 +38,8 @@ Route::group([
     'prefix' => 'v1/auth'
 ], function () {
     Route::group(["prefix"=> "users"], function (){
-        Route::put('/logout', [AuthController::class, 'logout']);
-        Route::put('/refresh', [AuthController::class, 'refresh']);
-        Route::get('/user-info', [AuthController::class, 'getUserInfo']);
+        Route::put('/logout', [UserController::class, 'logout']);
+        Route::put('/refresh', [UserController::class, 'refresh']);
+        Route::get('/user-info', [UserController::class, 'getUserInfo']);
     });
 });

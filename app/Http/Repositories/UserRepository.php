@@ -12,7 +12,7 @@ class UserRepository extends BaseRepository {
             'email' => $email,
             'password' => bcrypt($password)
         ]);
-        return $id != 0;
+        return $id > 0;
     }
 
     public function isUserExist(string $email): bool {

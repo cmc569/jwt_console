@@ -12,75 +12,6 @@
         }
     ],
     "paths": {
-        "/auth/users/logout": {
-            "put": {
-                "tags": [
-                    "使用者相關"
-                ],
-                "summary": "使用者登出",
-                "description": "",
-                "operationId": "b78837e273a3cef7bce753bcd289794b",
-                "responses": {
-                    "200": {
-                        "description": "{'data':{},'msg':'succsess'}"
-                    },
-                    "400": {
-                        "description": "{'data':{},'msg':'error msg'}"
-                    }
-                },
-                "security": [
-                    {
-                        "apiAuth": []
-                    }
-                ]
-            }
-        },
-        "/auth/users/refresh": {
-            "put": {
-                "tags": [
-                    "使用者相關"
-                ],
-                "summary": "使用者更新jwt",
-                "description": "",
-                "operationId": "bd1ba7cd4ca890c2d545067419b4f404",
-                "responses": {
-                    "200": {
-                        "description": "{'data':{},'msg':'succsess'}"
-                    },
-                    "400": {
-                        "description": "{'data':{},'msg':'error msg'}"
-                    }
-                },
-                "security": [
-                    {
-                        "apiAuth": []
-                    }
-                ]
-            }
-        },
-        "/auth/users/user-info": {
-            "get": {
-                "tags": [
-                    "使用者相關"
-                ],
-                "summary": "使用者更新jwt",
-                "description": "",
-                "operationId": "f69017bec98219791e14e73e1077bb72",
-                "responses": {
-                    "200": {
-                        "description": "{'data':{},'msg':'succsess'}"
-                    },
-                    "400": {
-                        "description": "{'data':{},'msg':'error msg'}"
-                    }
-                },
-                "security": [
-                    {
-                        "apiAuth": []
-                    }
-                ]
-            }
-        },
         "/users/login": {
             "post": {
                 "tags": [
@@ -163,6 +94,75 @@
                         "description": "{'data':{},'msg':'error msg'}"
                     }
                 }
+            }
+        },
+        "/auth/users/logout": {
+            "put": {
+                "tags": [
+                    "使用者相關"
+                ],
+                "summary": "使用者登出",
+                "description": "",
+                "operationId": "c9e3a58ee848695a5e762a4f2d8f849c",
+                "responses": {
+                    "200": {
+                        "description": "{'data':{},'msg':'succsess'}"
+                    },
+                    "400": {
+                        "description": "{'data':{},'msg':'error msg'}"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/auth/users/refresh": {
+            "put": {
+                "tags": [
+                    "使用者相關"
+                ],
+                "summary": "使用者更新jwt",
+                "description": "",
+                "operationId": "34b7e0f83343e62aded931c06288f806",
+                "responses": {
+                    "200": {
+                        "description": "{'data':{},'msg':'succsess'}"
+                    },
+                    "400": {
+                        "description": "{'data':{},'msg':'error msg'}"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/auth/users/user-info": {
+            "get": {
+                "tags": [
+                    "使用者相關"
+                ],
+                "summary": "取得使用者資訊",
+                "description": "",
+                "operationId": "bad90efc1336461f31e7fce194954ab9",
+                "responses": {
+                    "200": {
+                        "description": "{'data':{},'msg':'succsess'}"
+                    },
+                    "400": {
+                        "description": "{'data':{},'msg':'error msg'}"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
             }
         }
     },
