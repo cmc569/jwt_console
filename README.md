@@ -76,7 +76,6 @@
 #### 回傳http status code 客製化
 <pre>
 <code>
-
 UtilResponse::toJson(200, "response message", {{object}});
 </code>
 </pre>
@@ -92,11 +91,22 @@ UtilResponse::successResponse('success', {{object}});
 UtilResponse::errorResponse('Token is Invalid');
 </code>
 </pre>
+#### 產生jwt token 預設過期時間1小時
+<pre>
+<code>
+$token = UtilJwt::encode(['usersId' => $userInfo->id]);
+</code>
+</pre>
 
 <br>
 
 ### 機敏資料加密使用rsa<br>
 #### - 請參考[RSA key 生產流程]把 public_key.pem, private_key.pem 放置 ./app/Crypto/key<br>
+
+<br>
+
+### JWT所需參數<br>
+#### - 加入環境變數JWT_SECRET
 
 <br>
 
@@ -106,5 +116,4 @@ UtilResponse::errorResponse('Token is Invalid');
 #### openssl rsa -in rsa_private_key.pem -pubout -out public_key.pem
 
 <br>
-
 

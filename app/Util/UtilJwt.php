@@ -7,20 +7,30 @@ namespace App\Util;
 use Exception;
 
 class UtilJwt {
+    /**
+     * @var string
+     */
+    private static $secret;
 
-    protected static $key;
+    private static $instance;
 
-    function __construct() {
-        self::$key = 'secret';
+    private function __construct() {}
+
+    public static function getInstance() {
+        if (is_null(self::$instance)) {
+            self::$instance = new self();
+            self::$secret = config("app.jwtSecret", "secret");
+        }
+        return self::$instance;
     }
 
-    public static function encode(array $payload, string $alg = 'SHA256') {
-        $key = md5(self::$key);
+    public static function encode(array $payload, string $alg = 'SHA256'): string {
+        $key = md5(self::$secret);
         $time = time();
         $arr = [
             'iss' => config('app.name', "accuProject"), //簽發者
             'iat' => $time, //簽發時間
-            'exp' => $time + 3600, //過期時間
+            'exp' => $time + 21600, //過期時間
             'nbf' => $time, //該時間之前不接收處理該Token
             'sub' => '', //面向用戶
             'jti' => md5(uniqid('JWT') . $time) //該token唯一認證
@@ -28,8 +38,8 @@ class UtilJwt {
         $payload = array_merge($arr, $payload);
 
         $jwt = self::urlsafeB64Encode(json_encode(['typ' => 'JWT', 'alg' => $alg])) . '.' . self::urlsafeB64Encode(json_encode($payload));
-
-        return $jwt . '.' . self::signature($jwt, $key, $alg);
+        $signature = self::signature($jwt, $key, $alg);
+        return $jwt . '.' . $signature;
     }
 
     /**
@@ -37,8 +47,7 @@ class UtilJwt {
      */
     public static function decode(string $jwt) {
         $tokens = explode('.', $jwt);
-        $key = md5(self::$key);
-
+        $key = md5(self::$secret);
         if (count($tokens) != 3)
             throw new Exception("tokens is error");
 
@@ -48,7 +57,8 @@ class UtilJwt {
         if (empty($header['alg']))
             throw new Exception("alg is error");
 
-        if (self::signature($header64 . '.' . $payload64, $key, $header['alg']) !== $sign)
+        $signature = self::signature($header64 . '.' . $payload64, $key, $header['alg']);
+        if ($signature !== $sign)
             throw new Exception("signature is error");
 
         $payload = json_decode(self::urlSafeB64Decode($payload64), JSON_OBJECT_AS_ARRAY);

@@ -48,7 +48,7 @@ class UserService {
             return UtilResponse::errorResponse('password is error');
         } else {
             $userInfo = $this->userRepository->getUserInfo($phone);
-            $token = UtilJwt::encode(['usersId' => $userInfo->id]);
+            $token = UtilJwt::getInstance()->encode(['usersId' => $userInfo->id]);
             return UtilResponse::successResponse('success', $token);
         }
     }
@@ -57,16 +57,11 @@ class UserService {
         if (empty($id)){
             return UtilResponse::errorResponse("typeId error");
         }
-        $data = $this->userRepository->getUserInfoById($id);
-        return UtilResponse::successResponse("success", $data);
+        return UtilResponse::successResponse("success", $this->userRepository->getUserInfoById($id));
     }
 
     public function refreshToken(int $id): JsonResponse {
-        $userInfo = $this->userRepository->getUserInfoById($id);
-        if ($userInfo->id == 0){
-            return UtilResponse::errorResponse("id error");
-        }
-        $token = UtilJwt::encode(['usersId' => $userInfo->id]);
+        $token = UtilJwt::getInstance()->encode(['usersId' => $id]);
         return UtilResponse::successResponse("success", $token);
     }
 

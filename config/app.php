@@ -232,5 +232,6 @@ return [
 
     "accuNixLINEBotId" => env('ACCUNIX_LINE_BOT_ID', ''),
     "accuNixAuthToken" => env('ACCUNIX_AUTH_TOKEN', ''),
-    "lineBotBearToken" => env('LINE_BOT_BEAR_TOKEN', '')
+    "lineBotBearToken" => env('LINE_BOT_BEAR_TOKEN', ''),
+    "jwtSecret" => env('JWT_SECRET', 'secret'),
 ];
