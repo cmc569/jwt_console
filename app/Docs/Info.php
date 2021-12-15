@@ -10,7 +10,7 @@
  *      schema="DocsUsersLogin",
  *      title="",
  * 	    @OA\Property(
- * 		    property="email",
+ * 		    property="phone",
  * 		    type="string",
  *          default=""
  * 	    ),
@@ -24,7 +24,12 @@
  *      schema="DocsUsersRegister",
  *      title="",
  * 	    @OA\Property(
- * 		    property="email",
+ * 		    property="phone",
+ * 		    type="string",
+ *          default=""
+ * 	    ),
+ *     @OA\Property(
+ * 		    property="name",
  * 		    type="string",
  *          default=""
  * 	    ),

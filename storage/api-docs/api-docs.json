@@ -48,7 +48,7 @@
                 ],
                 "summary": "使用者註冊",
                 "description": "",
-                "operationId": "443fe5031579f75404200de0559783b0",
+                "operationId": "75ac4d6a6e8c8bdc865ea7806514679b",
                 "requestBody": {
                     "description": "Request Body Description",
                     "required": true,
@@ -94,29 +94,6 @@
                         "description": "{'data':{},'msg':'error msg'}"
                     }
                 }
-            }
-        },
-        "/auth/users/logout": {
-            "put": {
-                "tags": [
-                    "使用者相關"
-                ],
-                "summary": "使用者登出",
-                "description": "",
-                "operationId": "c9e3a58ee848695a5e762a4f2d8f849c",
-                "responses": {
-                    "200": {
-                        "description": "{'data':{},'msg':'succsess'}"
-                    },
-                    "400": {
-                        "description": "{'data':{},'msg':'error msg'}"
-                    }
-                },
-                "security": [
-                    {
-                        "apiAuth": []
-                    }
-                ]
             }
         },
         "/auth/users/refresh": {
@@ -171,7 +148,7 @@
             "DocsUsersLogin": {
                 "title": "",
                 "properties": {
-                    "email": {
+                    "phone": {
                         "type": "string",
                         "default": ""
                     },
@@ -185,7 +162,11 @@
             "DocsUsersRegister": {
                 "title": "",
                 "properties": {
-                    "email": {
+                    "phone": {
+                        "type": "string",
+                        "default": ""
+                    },
+                    "name": {
                         "type": "string",
                         "default": ""
                     },

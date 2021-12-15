@@ -10,6 +10,7 @@
 | 2021-10-26 | 新增vue frontend           | 開發完成 |
 | 2021-12-10 | 加入Swagger機制使用DarkaOnLine/L5-Swagger             | 開發完成 |
 | 2021-12-10 | 修正response參數            | 開發完成 |
+| 2021-12-15 | 移除套件Tymon\JWTAuth 改用自己寫的       | 開發完成 |
 
 <br>
 
@@ -57,6 +58,7 @@
 ### 產生 swagger文件
 #### 相關controller撰寫完執行以下指令會自動產生文件
 #### php artisan l5-swagger:generate
+#### 自動部署不會動態跑以上指令，git push 之前請手動執行以上指令，線上的文件才會更新
 
 <br>
 
@@ -93,9 +95,8 @@ UtilResponse::errorResponse('Token is Invalid');
 
 <br>
 
-### 如果專案需走JWT可以參考以下流程<br>
+### 機敏資料加密使用rsa<br>
 #### - 請參考[RSA key 生產流程]把 public_key.pem, private_key.pem 放置 ./app/Crypto/key<br>
-#### - 請參考[產生jwt:secret]並在.env 加入參數 JWT_SECRET
 
 <br>
 
@@ -106,8 +107,4 @@ UtilResponse::errorResponse('Token is Invalid');
 
 <br>
 
-### 產生 jwt:secret
-#### php artisan jwt:secret
-
-<br>
 

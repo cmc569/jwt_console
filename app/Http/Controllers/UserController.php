@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Crypto\Crypto;
 use App\Http\Services\UserService;
 use App\Util\UtilResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller {
@@ -37,10 +38,10 @@ class UserController extends Controller {
      *      )
      *     )
      */
-    public function login(Request $request) {
-        $email = $request->get("email") ?? "";
+    public function login(Request $request): JsonResponse {
+        $phone = $request->get("phone") ?? "";
         $password = $request->get("password")  ?? "";
-        return $this->userService->login($email, $password);
+        return $this->userService->login($phone, $password);
     }
 
     /**
@@ -66,11 +67,11 @@ class UserController extends Controller {
      *      )
      *     )
      */
-    public function Register(Request $request) {
-        $email = $request->get("email") ?? "";
+    public function register(Request $request): JsonResponse {
+        $phone = $request->get("phone") ?? "";
         $name = $request->get("name") ?? "";
         $password = $request->get("password");
-        return $this->userService->register($name, $email, $password);
+        return $this->userService->register($phone, $name, $password);
     }
 
     /**
@@ -95,31 +96,9 @@ class UserController extends Controller {
      *     )
      * )
      */
-    public function getUserTypeList(Request $request) {
+    public function getUserTypeList(Request $request): JsonResponse {
         $id = $request->query("typeId")  ?? 0;
         return $this->userService->getUserTypeList($id);
-    }
-
-    /**
-     * @OA\Put(
-     *     path="/auth/users/logout",
-     *     tags={"使用者相關"},
-     *     summary="使用者登出",
-     *     description="",
-     *     security={{"apiAuth":{}}},
-     *      @OA\Response(
-     *          response=200,
-     *          description="{'data':{},'msg':'succsess'}",
-     *       ),
-     *      @OA\Response(
-     *          response=400,
-     *          description="{'data':{},'msg':'error msg'}",
-     *      )
-     *     )
-     */
-    public function logout() {
-        auth()->logout();
-        return UtilResponse::successResponse("success");
     }
 
     /**
@@ -139,14 +118,9 @@ class UserController extends Controller {
      *      )
      *     )
      */
-    public function refresh() {
-        $data = [
-            'access_token' => auth()->refresh(),
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
-            'user' => auth()->user()
-        ];
-        return UtilResponse::successResponse("success", $data);
+    public function refresh(Request $request): JsonResponse {
+        $id = $request->get("usersId");
+        return $this->userService->refreshToken($id);
     }
 
 
@@ -167,8 +141,8 @@ class UserController extends Controller {
      *      )
      * )
      */
-    public function getUserInfo() {
-        $data = ["dataInfo" => auth()->user()];
-        return UtilResponse::successResponse("success", $data);
+    public function getUserInfo(Request $request): JsonResponse {
+        $id = $request->get("usersId");
+        return $this->userService->getUsersInfo($id);
     }
 }
