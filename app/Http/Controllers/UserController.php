@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Crypto\Crypto;
+use Exception;
 use App\Http\Services\UserService;
 use App\Util\UtilResponse;
+use App\Util\Validate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -40,8 +41,19 @@ class UserController extends Controller {
      */
     public function login(Request $request): JsonResponse {
         $phone = $request->get("phone") ?? "";
-        $password = $request->get("password")  ?? "";
-        return $this->userService->login($phone, $password);
+        $password = $request->get("password") ?? "";
+        if (!Validate::checkPhone($phone)) {
+            return UtilResponse::errorResponse('Phone error');
+        } else if (!Validate::checkPassword($password)) {
+            return UtilResponse::errorResponse('Password format is error');
+        } else {
+            try {
+                $token = $this->userService->login($phone, $password);
+                return UtilResponse::successResponse("success", $token);
+            } catch (Exception $e) {
+                return UtilResponse::errorResponse($e->getMessage());
+            }
+        }
     }
 
     /**
@@ -68,10 +80,23 @@ class UserController extends Controller {
      *     )
      */
     public function register(Request $request): JsonResponse {
-        $phone = $request->get("phone") ?? "";
         $name = $request->get("name") ?? "";
+        $phone = $request->get("phone") ?? "";
         $password = $request->get("password");
-        return $this->userService->register($phone, $name, $password);
+        if ($name == "") {
+            return UtilResponse::errorResponse('Name error');
+        } else if (!Validate::checkPhone($phone)) {
+            return UtilResponse::errorResponse('Phone error');
+        } else if (!Validate::checkPassword($password)) {
+            return UtilResponse::toJson(false, 'Password format error', []);
+        } else {
+            try {
+                $this->userService->register($phone, $name, $password);
+                return UtilResponse::successResponse("success");
+            } catch (Exception $e) {
+                return UtilResponse::errorResponse($e->getMessage());
+            }
+        }
     }
 
     /**
@@ -97,7 +122,7 @@ class UserController extends Controller {
      * )
      */
     public function getUserTypeList(Request $request): JsonResponse {
-        $id = $request->query("typeId")  ?? 0;
+        $id = $request->query("typeId") ?? 0;
         return $this->userService->getUserTypeList($id);
     }
 
@@ -120,9 +145,8 @@ class UserController extends Controller {
      */
     public function refresh(Request $request): JsonResponse {
         $id = $request->get("usersId");
-        return $this->userService->refreshToken($id);
+        return UtilResponse::successResponse("success", $this->userService->refreshToken($id));
     }
-
 
     /**
      * @OA\Get(
@@ -142,7 +166,12 @@ class UserController extends Controller {
      * )
      */
     public function getUserInfo(Request $request): JsonResponse {
-        $id = $request->get("usersId");
-        return $this->userService->getUsersInfo($id);
+        try {
+            $id = $request->get("usersId") ?? 0;
+            $dataInfo = $this->userService->getUsersInfo($id);
+            return UtilResponse::successResponse("success", $dataInfo);
+        } catch (\Exception $e) {
+            return UtilResponse::errorResponse($e->getMessage());
+        }
     }
 }

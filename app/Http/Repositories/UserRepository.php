@@ -5,27 +5,49 @@ namespace App\Http\Repositories;
 use App\Crypto\Crypto;
 use App\Http\Models\Users;
 use App\Util\UtilTime;
-use phpseclib3\Crypt\Hash;
+use Exception;
 
 class UserRepository extends BaseRepository {
 
+    /**
+     * @throws Exception
+     */
     public function createUser(string $name, string $password, string $phone): bool {
-        $id = Users::insertGetId([
-            'name' => $name,
-            'phone' => $phone,
-            'password' => Crypto::encode($password),
-            'created_at' => UtilTime::timeNow(),
-            'updated_at' => UtilTime::timeNow(),
-        ]);
-        return $id > 0;
+        try {
+            Users::created([
+                'name' => $name,
+                'phone' => $phone,
+                'password' => Crypto::encode($password),
+                'created_at' => UtilTime::timeNow(),
+                'updated_at' => UtilTime::timeNow(),
+            ]);
+        }catch (Exception $e){
+            throw new Exception($e->getMessage());
+        }
     }
 
+    /**
+     * @throws Exception
+     */
     public function getUserInfo(string $phone) {
-        return Users::where('phone', $phone)->find(1);
+        try {
+            $dataInfo = Users::where('phone', $phone)->firstOrFail();
+        }catch (Exception $e){
+            throw new Exception($e->getMessage());
+        }
+        return $dataInfo;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getUserInfoById(int $id) {
-        return Users::where('id', $id)->find(1);
+        try {
+            $dataInfo = Users::where('id', $id)->firstOrFail();
+        }catch (Exception $e){
+            throw new Exception($e->getMessage());
+        }
+        return $dataInfo;
     }
 
     public function isUserExist(string $phone): bool {
@@ -35,8 +57,16 @@ class UserRepository extends BaseRepository {
         return $count > 0;
     }
 
+    /**
+     * @throws Exception
+     */
     public function checkUsersAndPassword(string $phone, string $password): bool {
-        $userInfo = Users::where('phone', $phone)->find(1);
-        return Crypto::decode($userInfo->password) == $password;
+        try {
+            $userInfo = Users::where('phone', $phone)->firstOrFail();
+            if (Crypto::decode($userInfo->password) != $password) throw new Exception("password is error");
+        }catch (Exception $e){
+            throw new Exception($e->getMessage());
+        }
+        return true;
     }
 }

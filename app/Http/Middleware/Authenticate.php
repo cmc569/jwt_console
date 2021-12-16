@@ -25,6 +25,7 @@ class Authenticate {
     public function handle(Request $request, Closure $next) {
         try {
             $token = request()->bearerToken();
+            if (empty($token)) throw new Exception("token is error");
             $tokenDecode = UtilJwt::getInstance()->decode($token);
             $usersId = $tokenDecode["usersId"] ?? 0;
             if (empty($usersId)) throw new Exception("user is error");
