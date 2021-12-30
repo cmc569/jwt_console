@@ -9,7 +9,7 @@ class UtilResponse {
 
     public static function toJson(int $statusCode = 200, string $message = "", array $data = []): JsonResponse {
         $response = [
-            "message" => $message,
+            "msg" => $message,
             "data" => $data
         ];
         return response()->json($response, $statusCode);
