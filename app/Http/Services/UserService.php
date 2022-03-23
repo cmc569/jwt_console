@@ -52,7 +52,7 @@ class UserService {
     /**
      * @throws Exception
      */
-    public function getUsersInfo(int $id): JsonResponse {
+    public function getUsersInfo(int $id) {
         try {
             $dataInfo = $this->userRepository->getUserInfoById($id);
         } catch (Exception $e) {

@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get("/", function () {
+//     $from   = \Carbon\Carbon::now()->startOfMonth();
+//     $to     = \Carbon\Carbon::now()->endOfMonth();
+//     return "from = {$from}, to = {$to}";
+// });
+
 if (!config('app.debug')){
     Route::get('docs', function (){
         abort(404);
@@ -35,7 +41,7 @@ Route::group([
 
 /* path: /api/v1/auth */
 Route::group([
-    'middleware' => ['cors', 'auth'],
+    'middleware' => ['cors', 'auth', 'permissions'],
     'prefix' => 'v1/auth'
 ], function () {
     Route::group(["prefix"=> "users"], function (){
