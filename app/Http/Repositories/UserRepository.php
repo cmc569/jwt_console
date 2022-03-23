@@ -13,14 +13,17 @@ class UserRepository extends BaseRepository {
      * @throws Exception
      */
     public function createUser(string $name, string $password, string $phone): bool {
+        // dd($name, Crypto::encode($password), $phone);
         try {
-            Users::created([
+            $result = Users::create([
                 'name' => $name,
                 'phone' => $phone,
                 'password' => Crypto::encode($password),
                 'created_at' => UtilTime::timeNow(),
                 'updated_at' => UtilTime::timeNow(),
             ]);
+            
+            return empty($result) ? false : true;
         }catch (Exception $e){
             throw new Exception($e->getMessage());
         }

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 if (!config('app.debug')){
     Route::get('docs', function (){
         abort(404);
