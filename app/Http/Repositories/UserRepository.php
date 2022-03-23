@@ -4,6 +4,7 @@ namespace App\Http\Repositories;
 
 use App\Crypto\Crypto;
 use App\Http\Models\Users;
+use App\Http\Models\UserPermission;
 use App\Util\UtilTime;
 use Exception;
 
@@ -71,5 +72,12 @@ class UserRepository extends BaseRepository {
             throw new Exception($e->getMessage());
         }
         return true;
+    }
+
+    /**
+     * 
+     */
+    public function getUserPermissionById(int $id) {
+        $permissions = UserPermission::where('user_id', $id)->get();
     }
 }
