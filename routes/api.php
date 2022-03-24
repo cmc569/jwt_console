@@ -59,16 +59,21 @@ Route::group([
     });
 
     //客服
-    Route::group(['middleware' => ['permission.hq', 'permission.market', 'permission.service']], function() {
-        // Route::get('/user-info', [UserController::class, 'getUserInfo']);
+    Route::group(['middleware' => ['permission.service']], function() {
+        //會員管理
 
         //行銷
         Route::group(['middleware' => ['permission.market']], function() {
-            // Route::get('/user-info', [UserController::class, 'getUserInfo']);
+            //Dashboard
+            
+            //優惠卷管理
+
+            //其他設定
 
             //總部
             Route::group(['middleware' => ['permission.hq']], function() {
-                // Route::get('/user-info', [UserController::class, 'getUserInfo']);
+                //權限管理
+
             });
         });
     });
