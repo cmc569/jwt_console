@@ -6,7 +6,7 @@ use App\Http\Repositories\UserRepository;
 
 use Closure;
 
-class Rights
+class Permissions
 {
     private $userRepository;
 
