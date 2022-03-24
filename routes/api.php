@@ -42,6 +42,9 @@ Route::group([
         Route::post('/login', [UserController::class, 'login']);
         Route::post('/register', [UserController::class, 'register']);
         Route::get('/user-type-list', [UserController::class, 'getUserTypeList']);
+
+        //重設密碼
+        Route::post('/resend', [UserController::class, 'resend']);
     });
 });
 
@@ -53,6 +56,9 @@ Route::group([
     Route::group(["prefix"=> "users"], function (){
         Route::put('/refresh', [UserController::class, 'refresh']);
         Route::get('/user-info', [UserController::class, 'getUserInfo']);
+
+        //忘記密碼
+        Route::post('/resend', [UserController::class, 'resendPassword']);
     });
 
     //總部

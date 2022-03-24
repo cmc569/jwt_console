@@ -5,6 +5,7 @@ namespace App\Http\Repositories;
 use App\Crypto\Crypto;
 use App\Http\Models\Users;
 use App\Http\Models\UserPermission;
+use App\Http\Models\ResetPassword;
 use App\Util\UtilTime;
 use Exception;
 
@@ -79,10 +80,31 @@ class UserRepository extends BaseRepository {
         return true;
     }
 
+
+    /**
+     * @throws Exception
+     */
+    public function getUserInfoByAccount(string $account) {
+        try {
+            $dataInfo = Users::where('account', $account)->firstOrFail();
+        }catch (Exception $e){
+            throw new Exception($e->getMessage());
+        }
+        return $dataInfo;
+    }
+
     /**
      * 
      */
-    public function getUserPermissionById(int $id) {
-        $permissions = UserPermission::where('user_id', $id)->get();
+    public function resetPassword(String $email, String $code) {
+        try {
+            ResetPassword::create([
+                'code'  => $code,
+                'email' => $email,
+            ]);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
+
 }

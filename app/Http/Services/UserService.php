@@ -6,6 +6,7 @@ use App\Http\Repositories\UserRepository;
 use App\Util\UtilJwt;
 use App\Util\UtilResponse;
 use App\Util\Validate;
+use App\Util\UtilRandoms;
 use Illuminate\Http\JsonResponse;
 use Exception;
 
@@ -76,5 +77,23 @@ class UserService {
         return UtilResponse::successResponse("success", $data);
     }
 
+    public function resetPassword(string $account, string $email): Bool {
+        $user = $this->userRepository->getUserInfoByAccount($account);
+
+        if ($user->email == $email) {
+            $code = UtilRandoms::randomString();
+            \Log::info('password reset: '.$email.', '.$code);
+            
+            $this->userRepository->resetPassword($email, $code);
+            return $this->sendMail($email, $code) ? true : false;
+        } else {
+            return false;
+        }
+    }
+
+    private function sendMail(String $email, String $code): Bool {
+        // $sender = new Mail();
+        return true;
+    }
 
 }

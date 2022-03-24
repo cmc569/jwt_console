@@ -174,4 +174,36 @@ class UserController extends Controller {
             return UtilResponse::errorResponse($e->getMessage());
         }
     }
+
+
+    /**
+     * @OA\Get(
+     *     path="/users/user-info",
+     *     tags={"使用者相關"},
+     *     summary="要求重設密碼",
+     *     description="",
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Request Body Description",
+     *          @OA\JsonContent(
+     *          ref="#/components/schemas/DocsUsersResend"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="{'data':{},'msg':'succsess'}",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="{'data':{},'msg':'error msg'}",
+     *      )
+     * )
+     */
+    public function resend(Request $request): JsonResponse {
+        $account    = 'jason';
+        $email      = 'jason.chen@accuhit.net';
+
+        $user = $this->userService->resetPassword($account, $email);
+        dd($user);
+    }
 }
