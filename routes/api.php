@@ -56,9 +56,6 @@ Route::group([
     Route::group(["prefix"=> "users"], function (){
         Route::put('/refresh', [UserController::class, 'refresh']);
         Route::get('/user-info', [UserController::class, 'getUserInfo']);
-
-        //忘記密碼
-        Route::post('/resend', [UserController::class, 'resendPassword']);
     });
 
     //總部
