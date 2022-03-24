@@ -25,7 +25,7 @@ Route::get("/", function () {
     // $user = Users::with('role')->find(1);
     // $user = Users::with('permissions')->find(1);
     // dd($user);
-
+    // \Log::info('['.Route::currentRouteName().'] ');
 });
 
 if (!config('app.debug')){
@@ -57,7 +57,7 @@ Route::group([
 
     //總部
     Route::group(['middleware' => ['permission.hq']], function() {
-
+        Route::get('/user-info', [UserController::class, 'getUserInfo']);
     });
 
     //行銷

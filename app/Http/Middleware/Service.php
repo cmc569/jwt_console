@@ -16,9 +16,7 @@ class Service
      */
     public function handle($request, Closure $next)
     {
-        if ($request->get("userInfo")->where('role_id', 3)->isEmpty()) 
-            return UtilResponse::errorResponse("invalid access");
-
-        return $next($request);
+        if ($request->get("userInfo")->role_id == 3) return $next($request);
+        return UtilResponse::errorResponse("invalid access");
     }
 }
