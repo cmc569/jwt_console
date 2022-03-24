@@ -49,7 +49,8 @@ return [
 
         'daily' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/laravel.log'),
+            // 'path' => storage_path('logs/laravel.log'),
+            'path' => base_path().'/private/storage/'.env('APP_NAME').'/log/laravel.log',
             'level' => 'debug',
             'days' => 14,
         ],
