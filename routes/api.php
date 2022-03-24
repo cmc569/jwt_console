@@ -57,17 +57,17 @@ Route::group([
 
     //總部
     Route::group(['middleware' => ['permission.hq']], function() {
-        Route::get('/user-info', [UserController::class, 'getUserInfo']);
+        // Route::get('/user-info', [UserController::class, 'getUserInfo']);
     });
 
     //行銷
     Route::group(['middleware' => ['permission.market']], function() {
-
+        // Route::get('/user-info', [UserController::class, 'getUserInfo']);
     });
 
     //客服
     Route::group(['middleware' => ['permission.service']], function() {
-
+        // Route::get('/user-info', [UserController::class, 'getUserInfo']);
     });
 
 });

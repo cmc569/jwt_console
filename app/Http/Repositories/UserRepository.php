@@ -45,10 +45,14 @@ class UserRepository extends BaseRepository {
     /**
      * @throws Exception
      */
-    public function getUserInfoById(int $id) {
+    public function getUserInfoById(int $id, bool $permission=false) {
         try {
-            $dataInfo = Users::where('id', $id)->firstOrFail();
-            // $dataInfo = Users::with('permissions')->where('id', $id)->firstOrFail();
+            // $dataInfo = Users::where('id', $id)->firstOrFail();
+            $dataInfo = Users::where('id', $id);
+            if ($permission) {
+                $dataInfo = $dataInfo->with('permissions');
+            }
+            $dataInfo = $dataInfo->firstOrFail();
         }catch (Exception $e){
             throw new Exception($e->getMessage());
         }

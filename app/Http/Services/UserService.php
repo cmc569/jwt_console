@@ -54,7 +54,7 @@ class UserService {
      */
     public function getUsersInfo(int $id) {
         try {
-            $dataInfo = $this->userRepository->getUserInfoById($id);
+            $dataInfo = $this->userRepository->getUserInfoById($id, true);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

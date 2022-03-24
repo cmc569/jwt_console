@@ -16,7 +16,7 @@ class Marketing
      */
     public function handle($request, Closure $next)
     {
-        if ($request->get("userInfo")->role_id != 2) return $next($request);
+        if ($request->get("userInfo")->role_id == 2) return $next($request);
         return UtilResponse::errorResponse("invalid access");
     }
 }
