@@ -48,6 +48,11 @@ class Users extends Model {
         'password' => 'string',
     ];
 
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
+
     public function role()
     {
         return $this->hasOne(Roles::class, 'id', 'role_id');

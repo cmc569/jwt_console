@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Account\AccountController;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Models\Users;
@@ -73,7 +74,9 @@ Route::group([
             //總部
             Route::group(['middleware' => ['permission.hq']], function() {
                 //權限管理
-
+                Route::group(['prefix' => 'account'], function() {
+                    Route::get('/', [AccountController::class, 'index']);
+                });
             });
         });
     });
