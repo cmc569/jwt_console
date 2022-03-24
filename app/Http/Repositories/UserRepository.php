@@ -14,7 +14,6 @@ class UserRepository extends BaseRepository {
      * @throws Exception
      */
     public function createUser(string $name, string $password, string $phone): bool {
-        // dd($name, Crypto::encode($password), $phone);
         try {
             $result = Users::create([
                 'name' => $name,
@@ -36,6 +35,7 @@ class UserRepository extends BaseRepository {
     public function getUserInfo(string $phone) {
         try {
             $dataInfo = Users::where('phone', $phone)->firstOrFail();
+            // $dataInfo = Users::with('permissions')->where('phone', $phone)->firstOrFail();
         }catch (Exception $e){
             throw new Exception($e->getMessage());
         }
@@ -48,6 +48,7 @@ class UserRepository extends BaseRepository {
     public function getUserInfoById(int $id) {
         try {
             $dataInfo = Users::where('id', $id)->firstOrFail();
+            // $dataInfo = Users::with('permissions')->where('id', $id)->firstOrFail();
         }catch (Exception $e){
             throw new Exception($e->getMessage());
         }

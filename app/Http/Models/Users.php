@@ -15,8 +15,11 @@ class Users extends Model {
      */
     protected $fillable = [
         'name',
+        'account',
         'phone',
+        'email',
         'password',
+        'role_id',
     ];
 
     /**
@@ -36,10 +39,23 @@ class Users extends Model {
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',
+        'account' => 'string',
         'phone' => 'string',
+        'email' => 'string',
+        'role_id' => 'integer',
         'created_at' => 'string',
         'updated_at' => 'string',
         'password' => 'string',
     ];
+
+    public function role()
+    {
+        return $this->hasOne(Roles::class, 'id', 'role_id');
+    }
+
+    public function permissions()
+    {
+        return $this->hasManyThrough(Permissions::class, RoleHasPermission::class, 'role_id', 'id', 'role_id', 'permission_id');
+    }
 
 }

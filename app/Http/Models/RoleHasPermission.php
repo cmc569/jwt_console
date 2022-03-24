@@ -5,11 +5,11 @@ namespace App\Http\Models;
 use Illuminate\Database\Eloquent\Model;
 use DateTimeInterface;
 
-class UserPermission extends Model
+class RoleHasPermission extends Model
 {
-    protected $table = 'user_permission';
+    protected $table = 'role_has_permission';
     protected $fillable = [
-        'user_id',
+        'role_id',
         'permission_id',
     ];
 

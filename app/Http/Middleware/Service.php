@@ -2,18 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Repositories\UserRepository;
 use App\Util\UtilResponse;
 use Closure;
 
-class Permissions
+class Service
 {
-    private $userRepository;
-
-    function __construct(userRepository $userRepository) {
-        $this->userRepository = $userRepository;
-    }
-
     /**
      * Handle an incoming request.
      *
@@ -23,8 +16,7 @@ class Permissions
      */
     public function handle($request, Closure $next)
     {
-        dd($request->get("userPermission"));
-        if ($request->get("userPermission")->where('id', 1)->isEmpty()) 
+        if ($request->get("userInfo")->where('role_id', 3)->isEmpty()) 
             return UtilResponse::errorResponse("invalid access");
 
         return $next($request);

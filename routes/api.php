@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Route;
+// use App\Http\Models\Users;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +17,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get("/", function () {
-//     $from   = \Carbon\Carbon::now()->startOfMonth();
-//     $to     = \Carbon\Carbon::now()->endOfMonth();
-//     return "from = {$from}, to = {$to}";
-// });
+Route::get("/", function () {
+    // $from   = \Carbon\Carbon::now()->startOfMonth();
+    // $to     = \Carbon\Carbon::now()->endOfMonth();
+    // return "from = {$from}, to = {$to}";
+
+    // $user = Users::with('role')->find(1);
+    // $user = Users::with('permissions')->find(1);
+    // dd($user);
+
+});
 
 if (!config('app.debug')){
     Route::get('docs', function (){
@@ -41,11 +47,27 @@ Route::group([
 
 /* path: /api/v1/auth */
 Route::group([
-    'middleware' => ['cors', 'auth', 'permissions'],
+    'middleware' => ['cors', 'auth'],
     'prefix' => 'v1/auth'
 ], function () {
     Route::group(["prefix"=> "users"], function (){
         Route::put('/refresh', [UserController::class, 'refresh']);
         Route::get('/user-info', [UserController::class, 'getUserInfo']);
     });
+
+    //總部
+    Route::group(['middleware' => ['permission.hq']], function() {
+
+    });
+
+    //行銷
+    Route::group(['middleware' => ['permission.market']], function() {
+
+    });
+
+    //客服
+    Route::group(['middleware' => ['permission.service']], function() {
+
+    });
+
 });
