@@ -16,7 +16,7 @@ class HeadQuarter
      */
     public function handle($request, Closure $next)
     {
-        if ($request->get("userInfo")->role_id == 1) return $next($request);
+        if ($request->get("userInfo")->role_id <= 10) return $next($request);
         return UtilResponse::errorResponse("invalid access");
     }
 }
