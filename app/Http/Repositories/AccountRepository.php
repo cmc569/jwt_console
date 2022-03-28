@@ -12,12 +12,11 @@ class AccountRepository extends BaseRepository {
     /**
      * @throws Exception
      */
-    public function getAccounts() {
-        try {
-            return Users::with('role')->with('permissions')->get();
-        }catch (Exception $e){
-            throw new Exception($e->getMessage());
-        }
+    public function getAccounts(Int $id=null) {
+        $users = Users::with('role')->with('permissions');
+        if (is_null($id)) return $users->get();
+
+        return $users->find($id);
     }
 
 }

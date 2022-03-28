@@ -76,6 +76,7 @@ Route::group([
                 //權限管理
                 Route::group(['prefix' => 'account'], function() {
                     Route::get('/', [AccountController::class, 'index']);
+                    Route::get('/show', [AccountController::class, "show"]);
                 });
             });
         });
