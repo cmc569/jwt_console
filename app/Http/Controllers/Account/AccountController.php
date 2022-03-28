@@ -9,14 +9,16 @@ use App\Util\Validate;
 use App\Crypto\Crypto;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Exception;
-
 
 class AccountController extends Controller
 {
     private $accountRepository;
 
-    public function __construct(AccountRepository $accountRepository) {
+    public function __construct(AccountRepository $accountRepository)
+    {
         $this->accountRepository = $accountRepository;
     }
 
@@ -37,9 +39,9 @@ class AccountController extends Controller
     /**
      * 
      */
-    public function show(Request $request)
+    public function edit(Request $request)
     {
-        $validator = \Validator::make($request->input(), [
+        $validator = Validator::make($request->input(), [
             'code'  => 'required|string',
         ]);
  
@@ -55,5 +57,53 @@ class AccountController extends Controller
             unset($account->id, $account->deleted_at, $account->updated_at, $account->role_id);
         }
         return UtilResponse::successResponse("success", $account);
+    }
+
+    /**
+     * 
+     */
+    public function update(Request $request)
+    {
+        $validator = Validator::make($request->input(), [
+            'code'              => ['required', 'string'],
+            'name'              => ['required', 'string'],
+            'role'              => ['required', Rule::in(['總部', '行銷', '客服'])],
+            'old_password'      => ['required_with:password,password_confirm', 'string'],
+            'password'          => ['required_with:old_password,password_confirm', 'string'],
+            'password_confirm'  => ['required_with:password,old_password', 'string'],
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid paramaters");
+        }
+
+        $data = $request->input();
+
+        $id = Crypto::decode($data['code']);
+        $data['code'] = $id;
+        if (empty($id)) return UtilResponse::errorResponse("invalid access");
+
+        $account = $this->accountRepository->getAccounts($id);
+        if (empty($account)) return UtilResponse::errorResponse("invalid account");
+
+        if (!empty($data['old_password'])) {
+            $account->password = Crypto::decode($account->password);
+            if (empty($account->password) || ($account->password != $data['old_password'])) {
+                return UtilResponse::errorResponse("password incorrect");
+            }
+
+            if ($data['password'] != $data['password_confirm']) {
+                return UtilResponse::errorResponse("password mismatch");
+            }
+        }
+
+        $data['role'] = $this->accountRepository->getRoleByName($data['role']);
+        unset($data['old_password'], $data['password_confirm']);
+
+        if ($this->accountRepository->update($account, $data)) {
+            return UtilResponse::successResponse("success");
+        } else {
+            return UtilResponse::errorResponse("account update failed");
+        }
     }
 }

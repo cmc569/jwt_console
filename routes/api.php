@@ -75,8 +75,9 @@ Route::group([
             Route::group(['middleware' => ['permission.hq']], function() {
                 //權限管理
                 Route::group(['prefix' => 'account'], function() {
-                    Route::get('/', [AccountController::class, 'index']);
-                    Route::get('/show', [AccountController::class, "show"]);
+                    Route::get('/', [AccountController::class, 'index']);           //顯示所有帳號
+                    Route::get('edit', [AccountController::class, "edit"]);         //顯示特定帳號
+                    Route::put('update', [AccountController::class, "update"]);     //更新帳號資訊
                 });
             });
         });
