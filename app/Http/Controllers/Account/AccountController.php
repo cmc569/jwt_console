@@ -23,7 +23,11 @@ class AccountController extends Controller
     }
 
     /**
-     * 
+     * @OA\Get(
+     *     path="/api/v1/auth/account",
+     *     tags={"帳戶相關"},
+     *     summary="帳戶清單",
+     *     description="",
      */
     public function index()
     {
@@ -37,7 +41,7 @@ class AccountController extends Controller
     }
 
     /**
-     * 
+     *
      */
     public function edit(Request $request)
     {
