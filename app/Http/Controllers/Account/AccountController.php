@@ -77,8 +77,14 @@ class AccountController extends Controller
             return UtilResponse::errorResponse("email exists");
         }
 
-        if ($this->accountRepository->save($data)) {
-            return UtilResponse::successResponse("success");
+        if ($user = $this->accountRepository->save($data)) {
+            $data = $this->accountRepository->getAccounts($user->id);
+            if (!is_null($data)) {
+                $data->code = Crypto::encode($data->id);
+                unset($data->id, $data->deleted_at, $data->updated_at, $data->role_id);
+            }
+            
+            return UtilResponse::successResponse("success", $data);
         } else {
             return UtilResponse::errorResponse("account update failed");
         }
