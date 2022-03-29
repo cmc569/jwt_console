@@ -80,6 +80,7 @@ class AccountController extends Controller
             $account->code = Crypto::encode($account->id);
             unset($account->id, $account->deleted_at, $account->updated_at, $account->role_id);
         }
+
         return UtilResponse::successResponse("success", $account);
     }
 
@@ -128,6 +129,33 @@ class AccountController extends Controller
             return UtilResponse::successResponse("success");
         } else {
             return UtilResponse::errorResponse("account update failed");
+        }
+    }
+
+    /**
+     * 
+     */
+    public function delete(Request $request)
+    {
+        // dd($request->input());
+        $validator = Validator::make($request->input(), [
+            'code'  => 'required|string',
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid paramaters");
+        }
+
+        $id = Crypto::decode($request->input('code'));
+        $auth_id = $request->get('usersId');
+        if ($id == $auth_id) {
+            return UtilResponse::errorResponse("deletion invalid");
+        }
+
+        if ($this->accountRepository->delete($id)) {
+            return UtilResponse::successResponse("success");
+        } else {
+            return UtilResponse::errorResponse("account delete failed");
         }
     }
 }

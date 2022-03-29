@@ -23,7 +23,8 @@ class AccountRepository extends BaseRepository
     /**
      * @throws Exception
      */
-    public function getAccounts(Int $id=null) {
+    public function getAccounts(Int $id=null)
+    {
         $users = Users::with('role')->with('permissions');
         if (is_null($id)) return $users->get();
 
@@ -33,7 +34,7 @@ class AccountRepository extends BaseRepository
     /**
      * 
      */
-    public function update($account, $data)
+    public function update($account, $data): Bool
     {
         DB::beginTransaction();
 
@@ -51,6 +52,20 @@ class AccountRepository extends BaseRepository
             DB::rollback();
             return false;
         }
+    }
+
+    /**
+     * 
+     */
+    public function delete(Int $id): Bool
+    {
+        $account = Users::find($id);
+
+        if (!empty($account)) {
+            return $account->delete();
+        }
+
+        return false;
     }
 
 }
