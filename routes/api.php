@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/", function () {
+// Route::get("/", function () {
     // $from   = \Carbon\Carbon::now()->startOfMonth();
     // $to     = \Carbon\Carbon::now()->endOfMonth();
     // return "from = {$from}, to = {$to}";
@@ -27,7 +27,7 @@ Route::get("/", function () {
     // $user = Users::with('permissions')->find(1);
     // dd($user);
     // \Log::info('['.Route::currentRouteName().'] ');
-});
+// });
 
 if (!config('app.debug')){
     Route::get('docs', function (){

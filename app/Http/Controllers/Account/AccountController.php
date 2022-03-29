@@ -28,6 +28,14 @@ class AccountController extends Controller
      *     tags={"帳戶相關"},
      *     summary="帳戶清單",
      *     description="",
+     *     @OA\Response(
+     *         response=200,
+     *         description="{'data':{},'msg':'succsess'}",
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="{'data':{},'msg':'error msg'}",
+     *     )
      */
     public function index()
     {
@@ -41,7 +49,19 @@ class AccountController extends Controller
     }
 
     /**
-     *
+     * @OA\Get(
+     *     path="/api/v1/auth/edit",
+     *     tags={"帳戶相關"},
+     *     summary="特定帳戶資訊",
+     *     description="",
+     *     @OA\Response(
+     *         response=200,
+     *         description="{'data':{},'msg':'succsess'}",
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="{'data':{},'msg':'error msg'}",
+     *     )
      */
     public function edit(Request $request)
     {
