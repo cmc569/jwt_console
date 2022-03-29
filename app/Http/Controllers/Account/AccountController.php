@@ -49,6 +49,42 @@ class AccountController extends Controller
     }
 
     /**
+     * 
+     */
+    public function save(Request $request)
+    {
+        $validator = Validator::make($request->input(), [
+            'name'      => ['required', 'string'],
+            'email'     => ['required', 'email:rfc,dns'],
+            'account'   => ['required', 'string'],
+            'role'      => ['required', Rule::in(['總部', '行銷', '客服'])],
+            'password'  => ['required', 'confirmed', 'string'],
+        ]);
+ 
+        if ($validator->fails()) {
+            return $validator->errors();
+            return UtilResponse::errorResponse("invalid paramaters");
+        }
+
+        $data = $request->input();
+        $data['role'] = $this->accountRepository->getRoleByName($data['role']);
+
+        if ($this->isAccountNameExists($data['account'])) {
+            return UtilResponse::errorResponse("account name exists");
+        }
+
+        if ($this->isEmailExists($data['email'])) {
+            return UtilResponse::errorResponse("email exists");
+        }
+
+        if ($this->accountRepository->save($data)) {
+            return UtilResponse::successResponse("success");
+        } else {
+            return UtilResponse::errorResponse("account update failed");
+        }
+    }
+
+    /**
      * @OA\Get(
      *     path="/api/v1/auth/edit",
      *     tags={"帳戶相關"},
@@ -157,5 +193,21 @@ class AccountController extends Controller
         } else {
             return UtilResponse::errorResponse("account delete failed");
         }
+    }
+
+    /**
+     * 
+     */
+    private function isEmailExists(String $email)
+    {
+        return $this->accountRepository->isExists('email', $email);
+    }
+
+    /**
+     * 
+     */
+    private function isAccountNameExists(String $account)
+    {
+        return $this->accountRepository->isExists('account', $account);
     }
 }

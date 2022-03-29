@@ -21,6 +21,14 @@ class AccountRepository extends BaseRepository
     }
 
     /**
+     * 
+     */
+    public function isExists(String $key, String $val)
+    {
+        return Users::where($key, $val)->exists();
+    }
+
+    /**
      * @throws Exception
      */
     public function getAccounts(Int $id=null)
@@ -31,6 +39,20 @@ class AccountRepository extends BaseRepository
         return $users->find($id);
     }
 
+    /**
+     * 
+     */
+    public function save(Array $data)
+    {
+        return Users::create([
+            'name'      => $data['name'],
+            'account'   => $data['account'],
+            'email'     => $data['email'],
+            'password'  => Crypto::encode($data['password']),
+            'role_id'   => $data['role'],
+        ]);
+    }
+    
     /**
      * 
      */
