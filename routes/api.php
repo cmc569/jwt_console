@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Account\AccountController;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Route;
-// use App\Http\Models\Users;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +18,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get("/", function () {
+Route::get("/", function () {
     // \Log::info('['.Route::currentRouteName().'] ');
-// });
+    Mail::raw("您的需求已處理完成\n附件請查收", function($message) {
+        $message->from('info@accuhit.net', 'info');
+        $message->to('jason.chen@accuhit.net');
+        $message->subject('測試');
+
+        $fh = public_path('index.php');
+        $message->attach($fh);
+        
+    });
+});
 
 if (!config('app.debug')){
     Route::get('docs', function (){
