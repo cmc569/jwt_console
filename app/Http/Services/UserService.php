@@ -40,10 +40,10 @@ class UserService {
     /**
      * @throws Exception
      */
-    public function login(string $phone, string $password): string {
+    public function login(string $account, string $password): string {
         try {
-            $userInfo = $this->userRepository->getUserInfo($phone);
-            $this->userRepository->checkUsersAndPassword($phone, $password);
+            $userInfo = $this->userRepository->getUserInfo($account);
+            $this->userRepository->checkUsersAndPassword($account, $password);
             return UtilJwt::getInstance()->encode(['usersId' => $userInfo->id]);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

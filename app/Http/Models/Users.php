@@ -17,7 +17,6 @@ class Users extends Model {
     protected $fillable = [
         'name',
         'account',
-        'phone',
         'email',
         'password',
         'role_id',
@@ -41,7 +40,6 @@ class Users extends Model {
         'id' => 'integer',
         'name' => 'string',
         'account' => 'string',
-        'phone' => 'string',
         'email' => 'string',
         'role_id' => 'integer',
         'created_at' => 'string',

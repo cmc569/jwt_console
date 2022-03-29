@@ -40,20 +40,22 @@ class UserController extends Controller {
      *     )
      */
     public function login(Request $request): JsonResponse {
-        $phone = $request->get("phone") ?? "";
-        $password = $request->get("password") ?? "";
-        if (!Validate::checkPhone($phone)) {
-            return UtilResponse::errorResponse('Phone error');
-        } else if (!Validate::checkPassword($password)) {
-            return UtilResponse::errorResponse('Password format is error');
-        } else {
-            try {
-                $token = $this->userService->login($phone, $password);
-                return UtilResponse::successResponse("success", $token);
-            } catch (Exception $e) {
-                return UtilResponse::errorResponse($e->getMessage());
-            }
+        $validator = \Validator::make($request->input(), [
+            'account'   => ['required', 'string'],
+            'password'  => ['required', 'string'],
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid paramaters");
         }
+
+        try {
+            $token = $this->userService->login($request->input("account"), $request->input("password"));
+            return UtilResponse::successResponse("success", $token);
+        } catch (Exception $e) {
+            return UtilResponse::errorResponse($e->getMessage());
+        }
+
     }
 
     /**
@@ -80,23 +82,25 @@ class UserController extends Controller {
      *     )
      */
     public function register(Request $request): JsonResponse {
-        $name = $request->get("name") ?? "";
-        $phone = $request->get("phone") ?? "";
-        $password = $request->get("password");
-        if ($name == "") {
-            return UtilResponse::errorResponse('Name error');
-        } else if (!Validate::checkPhone($phone)) {
-            return UtilResponse::errorResponse('Phone error');
-        } else if (!Validate::checkPassword($password)) {
-            return UtilResponse::toJson(false, 'Password format error', []);
-        } else {
-            try {
-                $this->userService->register($phone, $name, $password);
-                return UtilResponse::successResponse("success");
-            } catch (Exception $e) {
-                return UtilResponse::errorResponse($e->getMessage());
-            }
+        $validator = \Validator::make($request->input(), [
+            'name'      => ['required', 'string'],
+            'email'     => ['required', 'email:rfc,dns'],
+            'account'   => ['required', 'string'],
+            'role'      => ['required', Rule::in(['總部', '行銷', '客服'])],
+            'password'  => ['required', 'string'],
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid paramaters");
         }
+
+        try {
+            $this->userService->register($request->input());
+            return UtilResponse::successResponse("success");
+        } catch (Exception $e) {
+            return UtilResponse::errorResponse($e->getMessage());
+        }
+
     }
 
     /**

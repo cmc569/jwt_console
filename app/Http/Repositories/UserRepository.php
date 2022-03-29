@@ -33,10 +33,9 @@ class UserRepository extends BaseRepository {
     /**
      * @throws Exception
      */
-    public function getUserInfo(string $phone) {
+    public function getUserInfo(string $account) {
         try {
-            $dataInfo = Users::where('phone', $phone)->firstOrFail();
-            // $dataInfo = Users::with('permissions')->where('phone', $phone)->firstOrFail();
+            $dataInfo = Users::where('account', $account)->firstOrFail();
         }catch (Exception $e){
             throw new Exception($e->getMessage());
         }
@@ -48,7 +47,6 @@ class UserRepository extends BaseRepository {
      */
     public function getUserInfoById(int $id, bool $permission=false) {
         try {
-            // $dataInfo = Users::where('id', $id)->firstOrFail();
             $dataInfo = Users::where('id', $id);
             if ($permission) {
                 $dataInfo = $dataInfo->with('permissions');
@@ -70,9 +68,9 @@ class UserRepository extends BaseRepository {
     /**
      * @throws Exception
      */
-    public function checkUsersAndPassword(string $phone, string $password): bool {
+    public function checkUsersAndPassword(string $account, string $password): bool {
         try {
-            $userInfo = Users::where('phone', $phone)->firstOrFail();
+            $userInfo = Users::where('account', $account)->firstOrFail();
             if (Crypto::decode($userInfo->password) != $password) throw new Exception("password is error");
         }catch (Exception $e){
             throw new Exception($e->getMessage());

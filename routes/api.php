@@ -19,13 +19,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::get("/", function () {
-    // $from   = \Carbon\Carbon::now()->startOfMonth();
-    // $to     = \Carbon\Carbon::now()->endOfMonth();
-    // return "from = {$from}, to = {$to}";
-
-    // $user = Users::with('role')->find(1);
-    // $user = Users::with('permissions')->find(1);
-    // dd($user);
     // \Log::info('['.Route::currentRouteName().'] ');
 // });
 
@@ -41,8 +34,9 @@ Route::group([
 ], function () {
     Route::group(["prefix"=> "users"], function (){
         Route::post('/login', [UserController::class, 'login']);
-        Route::post('/register', [UserController::class, 'register']);
-        Route::get('/user-type-list', [UserController::class, 'getUserTypeList']);
+        // Route::post('/register', [UserController::class, 'register']);
+        // Route::get('/user-type-list', [UserController::class, 'getUserTypeList']);
+        Route::post('/register', [AccountController::class, 'save']);
 
         //重設密碼
         Route::post('/resend', [UserController::class, 'resend']);
