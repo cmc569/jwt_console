@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Account\AccountController;
+use App\Http\Controllers\Posts\PostsController;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Route;
 use App\Http\Services\MailService;
@@ -37,7 +38,7 @@ Route::group([
         Route::post('/login', [UserController::class, 'login']);
         // Route::post('/register', [UserController::class, 'register']);
         // Route::get('/user-type-list', [UserController::class, 'getUserTypeList']);
-        Route::post('/register', [AccountController::class, 'save']);
+        // Route::post('/register', [AccountController::class, 'save']);
 
         //重設密碼
         Route::post('/resend', [UserController::class, 'resend']);
@@ -75,6 +76,13 @@ Route::group([
                     Route::get('edit', [AccountController::class, 'edit']);         //顯示特定帳號
                     Route::put('update', [AccountController::class, 'update']);     //更新帳號資訊
                     Route::delete('delete', [AccountController::class, 'delete']);  //刪除帳號
+                });
+
+                //其他設定
+                Route::group(['prefix' => 'others'], function() {
+                    Route::get('privacy', [PostsController::class, 'privacy']);   //顯示隱私權文案設定
+                    Route::get('points', [PostsController::class, 'points']);     //顯示紅利點數文案設定
+                    Route::get('values', [PostsController::class, 'values']);     //顯示儲值金文案設定
                 });
             });
         });
