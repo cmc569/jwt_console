@@ -71,18 +71,21 @@ Route::group([
             Route::group(['middleware' => ['permission.hq']], function() {
                 //權限管理
                 Route::group(['prefix' => 'account'], function() {
-                    Route::get('/', [AccountController::class, 'index']);           //顯示所有帳號
-                    Route::post('save', [AccountController::class, 'save']);        //儲存新帳號
-                    Route::get('edit', [AccountController::class, 'edit']);         //顯示特定帳號
-                    Route::put('update', [AccountController::class, 'update']);     //更新帳號資訊
-                    Route::delete('delete', [AccountController::class, 'delete']);  //刪除帳號
+                    Route::get('/',         [AccountController::class, 'index']);       //顯示所有帳號
+                    Route::post('save',     [AccountController::class, 'save']);        //儲存新帳號
+                    Route::get('edit',      [AccountController::class, 'edit']);        //顯示特定帳號
+                    Route::put('update',    [AccountController::class, 'update']);      //更新帳號資訊
+                    Route::delete('delete', [AccountController::class, 'delete']);      //刪除帳號
                 });
 
                 //其他設定
                 Route::group(['prefix' => 'others'], function() {
-                    Route::get('privacy', [PostsController::class, 'privacy']);   //顯示隱私權文案設定
-                    Route::get('points', [PostsController::class, 'points']);     //顯示紅利點數文案設定
-                    Route::get('values', [PostsController::class, 'values']);     //顯示儲值金文案設定
+                    Route::get('privacy',   [PostsController::class, 'privacy']);       //顯示隱私權文案設定
+                    Route::put('privacy',   [PostsController::class, 'privacyUpdate']); //更新隱私權文案
+                    Route::get('points',    [PostsController::class, 'points']);        //顯示紅利點數文案設定
+                    Route::put('points',    [PostsController::class, 'pointsUpdate']);  //更新紅利點數文案
+                    Route::get('values',    [PostsController::class, 'values']);        //顯示儲值金文案設定
+                    Route::put('values',    [PostsController::class, 'valuesUpdate']);  //更新儲值金文案
                 });
             });
         });

@@ -53,13 +53,45 @@ class PostsController extends Controller
             $post->created_at,
             $post->deleted_at,
             $post->last_modify,
-            $post->modifier->id,
-            $post->modifier->role_id,
-            $post->modifier->created_at,
-            $post->modifier->updated_at,
-            $post->modifier->deleted_at
+            $post->modified_by->id,
+            $post->modified_by->role_id,
+            $post->modified_by->created_at,
+            $post->modified_by->updated_at,
+            $post->modified_by->deleted_at
         );
 
         return $post;
+    }
+
+    public function privacyUpdate(Request $request)
+    {
+        return $this->postUpdate(1, $request->get('usersId'), $request->input('content'));
+    }
+
+    public function pointsUpdate(Request $request)
+    {
+        return $this->postUpdate(2, $request->get('usersId'), $request->input('content'));
+    }
+
+    public function valuesUpdate(Request $request)
+    {
+        return $this->postUpdate(3, $request->get('usersId'), $request->input('content'));
+    }
+
+    public function postUpdate(Int $content_type, Int $modified_by=null, String $content=null)
+    {
+        if (empty($modified_by)) {
+            return UtilResponse::errorResponse("unknown modifified by");
+        }
+
+        if (empty($content)) {
+            return UtilResponse::errorResponse("empty content data");
+        }
+
+        if ($post = $this->postsRepository->savePost($content_type, $modified_by, $content)) {
+            return UtilResponse::successResponse("success");
+        } else {
+            return UtilResponse::errorResponse("content update failed");
+        }
     }
 }

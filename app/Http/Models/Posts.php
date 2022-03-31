@@ -21,7 +21,7 @@ class Posts extends Model
         'last_modify',
     ];
 
-    public function modifier()
+    public function modified_by()
     {
         return $this->hasOne(Users::class, 'id', 'last_modify');
     }

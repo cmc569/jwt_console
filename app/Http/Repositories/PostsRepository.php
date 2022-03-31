@@ -9,10 +9,7 @@ class PostsRepository extends BaseRepository
 {
     public function getPosts(Int $type=null)
     {
-        // $posts = Posts::with(['modifier' => function($query) {
-        //     $query->select('name', 'account', 'email');
-        // }]);
-        $posts = Posts::with('modifier');
+        $posts = Posts::with('modified_by');
         if (is_null($type)) {
             return $posts->get();
         }
@@ -20,4 +17,11 @@ class PostsRepository extends BaseRepository
         return $posts->where('post_type', $type)->first();
     }
 
+    public function savePost(Int $content_type, Int $modified_by, String $content)
+    {
+        return Posts::updateOrCreate(
+            ['post_type' => $content_type],
+            ['last_modify' => $modified_by, 'content' => $content]
+        );
+    }
 }
