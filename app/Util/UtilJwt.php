@@ -24,13 +24,13 @@ class UtilJwt {
         return self::$instance;
     }
 
-    public static function encode(array $payload, string $alg = 'SHA256'): string {
+    public static function encode(array $payload, int $expired=21600, string $alg = 'SHA256'): string {
         $key = md5(self::$secret);
         $time = time();
         $arr = [
             'iss' => config('app.name', "accuProject"), //簽發者
             'iat' => $time, //簽發時間
-            'exp' => $time + 21600, //過期時間
+            'exp' => $time + $expired, //過期時間
             'nbf' => $time, //該時間之前不接收處理該Token
             'sub' => '', //面向用戶
             'jti' => md5(uniqid('JWT') . $time) //該token唯一認證

@@ -105,4 +105,14 @@ class UserRepository extends BaseRepository {
         }
     }
 
+    public function checkAuthCode($email, $code)
+    {
+        return ResetPassword::where('code', $code)->where('email', $email)->first();
+    }
+
+    public function deleteAuthCode($email, $code)
+    {
+        return ResetPassword::where('code', $code)->where('email', $email)->delete();
+    }
+
 }

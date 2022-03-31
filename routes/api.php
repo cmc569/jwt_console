@@ -6,7 +6,7 @@ use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Posts\PostsController;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Route;
-use App\Http\Services\MailService;
+// use App\Http\Services\MailService;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +20,7 @@ use App\Http\Services\MailService;
 */
 
 // Route::get("/", function () {
-//     // \Log::info('['.Route::currentRouteName().'] ');
-//     MailService::send("jason.chen@accuhit.net", "SSSS", "AAA\n\nBBB", public_path("index.php"));
+//     MailService::send("jiver@ms16.hinet.net", "SSSS", "AAA\n\nBBB", public_path("index.php"));
 // });
 
 if (!config('app.debug')){
@@ -35,7 +34,12 @@ Route::group([
     'prefix' => 'v1'
 ], function () {
     Route::group(["prefix"=> "users"], function (){
+        //登入
         Route::post('/login', [UserController::class, 'login']);
+        
+        //忘記密碼
+        Route::post('/resend', [UserController::class, 'resend']);
+        Route::post('/enterCode', [UserController::class, 'enterCode']);
     });
 });
 

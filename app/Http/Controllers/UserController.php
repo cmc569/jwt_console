@@ -8,6 +8,7 @@ use App\Util\UtilResponse;
 use App\Util\Validate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller {
     private $userService;
@@ -40,7 +41,7 @@ class UserController extends Controller {
      *     )
      */
     public function login(Request $request): JsonResponse {
-        $validator = \Validator::make($request->input(), [
+        $validator = Validator::make($request->input(), [
             'account'   => ['required', 'string'],
             'password'  => ['required', 'string'],
         ]);
@@ -82,7 +83,7 @@ class UserController extends Controller {
      *     )
      */
     public function register(Request $request): JsonResponse {
-        $validator = \Validator::make($request->input(), [
+        $validator = Validator::make($request->input(), [
             'name'      => ['required', 'string'],
             'email'     => ['required', 'email:rfc,dns'],
             'account'   => ['required', 'string'],
@@ -203,11 +204,47 @@ class UserController extends Controller {
      *      )
      * )
      */
-    public function resend(Request $request): JsonResponse {
-        $account    = 'jason';
-        $email      = 'jason.chen@accuhit.net';
+    public function resend(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->input(), [
+            'account'   => ['required', 'string'],
+            'email'     => ['required', 'email:rfc,dns'],
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid paramaters");
+        }
 
-        $user = $this->userService->resetPassword($account, $email);
-        dd($user);
+        if ($this->userService->resetPassword($request->input('account'), $request->input('email'))) {
+            return UtilResponse::successResponse("success");
+        } else {
+            return UtilResponse::errorResponse("mail send failed");
+        }
+    }
+
+    public function enterCode(Request $request)
+    {
+        // dd($request->input());
+        $validator = Validator::make($request->input(), [
+            'email'     => ['required', 'email:rfc,dns'],
+            'authCode'  => ['required', 'string'],
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid paramaters");
+        }
+
+        if ($data = $this->userService->checkAuthCode($request->input('email'), $request->input('authCode'))) {
+            if (is_null($data)) {
+                return UtilResponse::errorResponse("user not found");
+            } else if ($data == 'expired') {
+                return UtilResponse::errorResponse("auth code expired");
+            }
+
+            return UtilResponse::successResponse("success", $data);
+        } else {
+            return UtilResponse::errorResponse("invalid enter code");
+        }
+
     }
 }

@@ -7,6 +7,7 @@ use App\Util\UtilJwt;
 use App\Util\UtilResponse;
 use App\Util\Validate;
 use App\Util\UtilRandoms;
+use App\Http\Services\MailService;
 use Illuminate\Http\JsonResponse;
 use Exception;
 
@@ -77,7 +78,8 @@ class UserService {
         return UtilResponse::successResponse("success", $data);
     }
 
-    public function resetPassword(string $account, string $email): Bool {
+    public function resetPassword(string $account, string $email)
+    {
         $user = $this->userRepository->getUserInfoByAccount($account);
 
         if ($user->email == $email) {
@@ -91,9 +93,29 @@ class UserService {
         }
     }
 
-    private function sendMail(String $email, String $code): Bool {
-        // $sender = new Mail();
-        return true;
+    private function sendMail(String $email, String $code)
+    {
+        $content = '您的驗證碼為：'.$code."\n\n此為系統自動發送，請勿回覆";
+
+        \Log::info('Ask for reset password. ('.$email.', '.$content.')');
+        return MailService::send($email, '帳號驗證碼', $content);
     }
 
+    public function checkAuthCode(String $email, String $authCode)
+    {
+        $expired = 600;
+        $user = $this->userRepository->checkAuthCode($email, $authCode);
+        
+        if (is_null($user)) {
+            return null;
+        } else {
+            $created_at = strtotime($user->created_at);
+            if (($created_at + $expired) < time()) {
+                return 'expired';
+            } else {
+                $this->userRepository->deleteAuthCode($email, $authCode);
+                return UtilJwt::getInstance()->encode(['usersId' => $user->id], $expired);
+            }
+        }
+    }
 }
