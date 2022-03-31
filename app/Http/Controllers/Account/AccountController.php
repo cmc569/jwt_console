@@ -58,7 +58,7 @@ class AccountController extends Controller
             'email'     => ['required', 'email:rfc,dns'],
             'account'   => ['required', 'string'],
             'role'      => ['required', Rule::in(['總部', '行銷', '客服'])],
-            'password'  => ['required', 'confirmed', 'string'],
+            'password'  => ['required', 'confirmed', 'regex:/^(?=.*[a-zA-Z])(?=.*[0-9]).{6,12}$/'],
         ]);
  
         if ($validator->fails()) {
@@ -136,8 +136,8 @@ class AccountController extends Controller
             'name'              => ['required', 'string'],
             'role'              => ['required', Rule::in(['總部', '行銷', '客服'])],
             'old_password'      => ['required_with:password,password_confirm', 'string'],
-            'password'          => ['required_with:old_password,password_confirm', 'string'],
-            'password_confirm'  => ['required_with:password,old_password', 'string'],
+            'password'          => ['required_with:old_password,password_confirm', 'regex:/^(?=.*[a-zA-Z])(?=.*[0-9]).{6,12}$/'],
+            'password_confirm'  => ['required_with:password,old_password', 'regex:/^(?=.*[a-zA-Z])(?=.*[0-9]).{6,12}$/'],
         ]);
  
         if ($validator->fails()) {
