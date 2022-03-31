@@ -1,195 +1,611 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "API Document",
+  "swagger": "2.0",
+  "info": {
+    "title": "console",
+    "version": "last"
+  },
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "管理權限",
+      "description": ""
+    },
+    {
+      "name": "使用者相關",
+      "description": ""
+    },
+    {
+      "name": "其他設定",
+      "description": null
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/v1/auth/account/save": {
+      "post": {
+        "tags": [
+          "管理權限"
+        ],
+        "summary": "儲存新帳號",
         "description": "",
-        "version": "1.0.0"
-    },
-    "servers": [
-        {
-            "url": "http://127.0.0.1:8000/api/v1",
-            "description": "master"
-        }
-    ],
-    "paths": {
-        "/users/login": {
-            "post": {
-                "tags": [
-                    "使用者相關"
-                ],
-                "summary": "使用者登入",
-                "description": "",
-                "operationId": "2bed00028ae8e20c4e21a4f7b8c6c281",
-                "requestBody": {
-                    "description": "Request Body Description",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/DocsUsersLogin"
-                            }
-                        }
-                    }
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:)",
+            "required": false,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "顯示姓名"
                 },
-                "responses": {
-                    "200": {
-                        "description": "{'data':{},'msg':'succsess'}"
-                    },
-                    "400": {
-                        "description": "{'data':{},'msg':'error msg'}"
-                    }
+                "email": {
+                  "type": "string",
+                  "description": "email"
+                },
+                "account": {
+                  "type": "string",
+                  "description": "帳號名稱"
+                },
+                "role": {
+                  "type": "string",
+                  "description": "角色：總部、行銷、客服"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "密碼"
+                },
+                "password_confirmation": {
+                  "type": "string",
+                  "description": "重複密碼"
                 }
+              },
+              "required": [
+                "name",
+                "email",
+                "account",
+                "role",
+                "password",
+                "password_confirmation"
+              ]
             }
-        },
-        "/users/register": {
-            "post": {
-                "tags": [
-                    "使用者相關"
-                ],
-                "summary": "使用者註冊",
-                "description": "",
-                "operationId": "75ac4d6a6e8c8bdc865ea7806514679b",
-                "requestBody": {
-                    "description": "Request Body Description",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/DocsUsersRegister"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "{'data':{},'msg':'succsess'}"
-                    },
-                    "400": {
-                        "description": "{'data':{},'msg':'error msg'}"
-                    }
-                }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{'data':{},'msg':'succsess'}"
             }
-        },
-        "/users/user-type-list": {
-            "get": {
-                "tags": [
-                    "使用者相關"
-                ],
-                "summary": "取得使用者類型",
-                "description": "",
-                "operationId": "901f7adc085f0bfde6ec84377d728661",
-                "parameters": [
-                    {
-                        "name": "typeId",
-                        "in": "query",
-                        "description": "typeId",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{'data':{},'msg':'succsess'}"
-                    },
-                    "400": {
-                        "description": "{'data':{},'msg':'error msg'}"
-                    }
-                }
-            }
-        },
-        "/auth/users/refresh": {
-            "put": {
-                "tags": [
-                    "使用者相關"
-                ],
-                "summary": "使用者更新jwt",
-                "description": "",
-                "operationId": "34b7e0f83343e62aded931c06288f806",
-                "responses": {
-                    "200": {
-                        "description": "{'data':{},'msg':'succsess'}"
-                    },
-                    "400": {
-                        "description": "{'data':{},'msg':'error msg'}"
-                    }
-                },
-                "security": [
-                    {
-                        "apiAuth": []
-                    }
-                ]
-            }
-        },
-        "/auth/users/user-info": {
-            "get": {
-                "tags": [
-                    "使用者相關"
-                ],
-                "summary": "取得使用者資訊",
-                "description": "",
-                "operationId": "bad90efc1336461f31e7fce194954ab9",
-                "responses": {
-                    "200": {
-                        "description": "{'data':{},'msg':'succsess'}"
-                    },
-                    "400": {
-                        "description": "{'data':{},'msg':'error msg'}"
-                    }
-                },
-                "security": [
-                    {
-                        "apiAuth": []
-                    }
-                ]
-            }
+          }
         }
+      }
     },
-    "components": {
-        "schemas": {
-            "DocsUsersLogin": {
-                "title": "",
-                "properties": {
-                    "phone": {
-                        "type": "string",
-                        "default": ""
-                    },
-                    "password": {
-                        "type": "string",
-                        "default": ""
-                    }
-                },
-                "type": "object"
-            },
-            "DocsUsersRegister": {
-                "title": "",
-                "properties": {
-                    "phone": {
-                        "type": "string",
-                        "default": ""
-                    },
-                    "name": {
-                        "type": "string",
-                        "default": ""
-                    },
-                    "password": {
-                        "type": "string",
-                        "default": ""
-                    }
-                },
-                "type": "object"
+    "/api/v1/auth/account/delete": {
+      "delete": {
+        "tags": [
+          "管理權限"
+        ],
+        "summary": "刪除帳號",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:)",
+            "required": false,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "帳號代碼（可由帳號清單api中取得）"
+                }
+              },
+              "required": [
+                "code"
+              ]
             }
-        },
-        "securitySchemes": {
-            "apiAuth": {
-                "type": "http",
-                "description": "Login with email and password to get the authentication token",
-                "name": "Token based Based",
-                "in": "header",
-                "bearerFormat": "JWT",
-                "scheme": "bearer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{'msg':'succsess'}"
             }
+          }
         }
+      }
     },
-    "security": [
-        []
-    ]
+    "/api/v1/auth/account/update": {
+      "put": {
+        "tags": [
+          "管理權限"
+        ],
+        "summary": "更新帳號資訊",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:)",
+            "required": false,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "帳號代碼（可由帳號清單api中取得）"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "顯示姓名"
+                },
+                "role": {
+                  "type": "string",
+                  "description": "角色：總部、行銷、客服"
+                },
+                "old_password": {
+                  "type": "string",
+                  "description": "若要變更密碼時則需要"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "若要變更密碼時則需要"
+                },
+                "password_confirm": {
+                  "type": "string",
+                  "description": "若要變更密碼時則需要"
+                }
+              },
+              "required": [
+                "code",
+                "name",
+                "role"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{'data':{},'msg':'succsess'}"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/account/": {
+      "get": {
+        "tags": [
+          "管理權限"
+        ],
+        "summary": "顯示所有帳號",
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:)",
+            "required": false,
+            "type": "string",
+            "default": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{'data':{},'msg':'succsess'}"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/account/edit": {
+      "post": {
+        "tags": [
+          "管理權限"
+        ],
+        "summary": "顯示特定帳號",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:)",
+            "required": false,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "帳號代碼（可由帳號清單api中取得）"
+                }
+              },
+              "required": [
+                "code"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{'data':{},'msg':'succsess'}"
+            }
+          }
+        }
+      }
+    },
+    "/auth/users/refresh": {
+      "put": {
+        "tags": [
+          "使用者相關"
+        ],
+        "summary": "使用者更新jwt",
+        "description": "",
+        "consumes": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "raw",
+            "in": "body",
+            "description": "raw paramter",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{'data':{},'msg':'succsess'}"
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": [
+          "使用者相關"
+        ],
+        "summary": "使用者登入",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "title": "",
+              "properties": {
+                "phone": {
+                  "type": "string",
+                  "default": ""
+                },
+                "password": {
+                  "type": "string",
+                  "default": ""
+                }
+              },
+              "type": "object",
+              "$$ref": "#/components/schemas/DocsUsersLogin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{'data':{},'msg':'succsess'}"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/others/values": {
+      "put": {
+        "tags": [
+          "其他設定"
+        ],
+        "summary": "更新儲值金文案",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:)",
+            "required": false,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "description": "儲值金文案"
+                }
+              },
+              "required": [
+                "content"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"msg\":\"succsess\"}"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "其他設定"
+        ],
+        "summary": "顯示儲值金文案設定",
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:)",
+            "required": false,
+            "type": "string",
+            "default": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/others/points": {
+      "put": {
+        "tags": [
+          "其他設定"
+        ],
+        "summary": "更新紅利點數文案",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:)",
+            "required": false,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "description": "紅利點數文案"
+                }
+              },
+              "required": [
+                "content"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"msg\":\"succsess\"}"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "其他設定"
+        ],
+        "summary": "顯示紅利點數文案設定",
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:)",
+            "required": false,
+            "type": "string",
+            "default": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/others/privacy": {
+      "put": {
+        "tags": [
+          "其他設定"
+        ],
+        "summary": "更新隱私權文案",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:)",
+            "required": false,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "description": "隱私權文案"
+                }
+              },
+              "required": [
+                "content"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"msg\":\"succsess\"}"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "其他設定"
+        ],
+        "summary": "顯示隱私權文案設定",
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:)",
+            "required": false,
+            "type": "string",
+            "default": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
+            }
+          }
+        }
+      }
+    }
+  }
 }
