@@ -224,7 +224,6 @@ class UserController extends Controller {
 
     public function enterCode(Request $request)
     {
-        // dd($request->input());
         $validator = Validator::make($request->input(), [
             'email'     => ['required', 'email:rfc,dns'],
             'authCode'  => ['required', 'string'],
@@ -244,6 +243,24 @@ class UserController extends Controller {
             return UtilResponse::successResponse("success", $data);
         } else {
             return UtilResponse::errorResponse("invalid enter code");
+        }
+
+    }
+
+    public function reset()
+    {
+        $validator = Validator::make($request->input(), [
+            'password'  => ['required', 'confirmed', 'regex:/^(?=.*[a-zA-Z])(?=.*[0-9]).{6,12}$/'],
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid password");
+        }
+
+        if ($this->userService->updatePassword($request->get('usersId'), $request->input('password'))) {
+            return UtilResponse::successResponse("success");
+        } else {
+            return UtilResponse::errorResponse("failed");
         }
 
     }

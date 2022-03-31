@@ -50,6 +50,7 @@ Route::group([
 ], function () {
     Route::group(["prefix"=> "users"], function (){
         Route::put('/refresh', [UserController::class, 'refresh']);
+        Route::put('/reset', [UserController::class, 'reset']);
     });
 
     //客服

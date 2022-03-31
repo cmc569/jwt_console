@@ -118,4 +118,9 @@ class UserService {
             }
         }
     }
+
+    public function updatePassword(Int $userId, String $password)
+    {
+        return $this->userRepository->updatePassword($userId, $password);
+    }
 }
