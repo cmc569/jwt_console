@@ -7,7 +7,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class MailService {
 
-    public static function send(String $to, String $subject, String $content, String $attach=null, String $from='info@accuhit.net')
+    public static function send(String $to, String $subject, String $content, String $attach=null)
     {
         try {
             $mail = new PHPMailer(true);
@@ -19,8 +19,10 @@ class MailService {
             $mail->Username = 'project@accunix.com.tw';
             $mail->Password = 'Qop73620';
             $mail->From = "project@accunix.com.tw";
+            $mail->FromName = "漢堡王CMS信件發送系統";
             $mail->AddAddress($to);
             $mail->IsHTML (true);
+            $mail->CharSet = 'UTF-8';
             $mail->Subject = $subject;
             $mail->Body = nl2br($content);
             $mail->AltBody = "text/html";
@@ -29,10 +31,17 @@ class MailService {
                 $mail->addAttachment($attach); 
             }
 
-            // print_r($mail->Send());
-            echo "Message has been sent\n";
+            if ($mail->Send()) {
+                \Log::info("Message has been sent. ({$to}, {$content})");
+                return true;
+            } else {
+                \Log::error("Message sent failed. ({$to}, {$content})");
+                return false;
+            }
+            
         }catch (Exception $exception){
-            echo $exception->getMessage()."\n";
+            \Log::error("Message sent failed. ({$to}, {$content}, ".$exception->getMessage().")");
+            return false;
         }
     }
 }
