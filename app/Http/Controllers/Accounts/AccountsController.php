@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Account;
+namespace App\Http\Controllers\Accounts;
 
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\AccountRepository;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Exception;
 
-class AccountController extends Controller
+class AccountsController extends Controller
 {
     private $accountRepository;
 
