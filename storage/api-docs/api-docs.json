@@ -4,7 +4,7 @@
     "title": "console",
     "version": "last"
   },
-  "basePath": "/",
+  "basePath": "https://project-burgerking-web-app-api-prd-02.azurewebsites.net/",
   "tags": [
     {
       "name": "管理權限",
@@ -91,7 +91,7 @@
             "schema": {
               "type": "string",
               "format": "binary",
-              "default": "{'data':{},'msg':'succsess'}"
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
         }
@@ -140,7 +140,7 @@
             "schema": {
               "type": "string",
               "format": "binary",
-              "default": "{'msg':'succsess'}"
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
         }
@@ -211,7 +211,7 @@
             "schema": {
               "type": "string",
               "format": "binary",
-              "default": "{'data':{},'msg':'succsess'}"
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
         }
@@ -240,7 +240,7 @@
             "schema": {
               "type": "string",
               "format": "binary",
-              "default": "{'data':{},'msg':'succsess'}"
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
         }
@@ -289,13 +289,13 @@
             "schema": {
               "type": "string",
               "format": "binary",
-              "default": "{'data':{},'msg':'succsess'}"
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
         }
       }
     },
-    "/auth/users/refresh": {
+    "/api/v1/auth/users/refresh": {
       "put": {
         "tags": [
           "使用者相關"
@@ -330,13 +330,13 @@
             "schema": {
               "type": "string",
               "format": "binary",
-              "default": "{'data':{},'msg':'succsess'}"
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
         }
       }
     },
-    "/users/login": {
+    "/api/v1/users/login": {
       "post": {
         "tags": [
           "使用者相關"
@@ -353,17 +353,20 @@
             "schema": {
               "title": "",
               "properties": {
-                "phone": {
+                "account": {
                   "type": "string",
-                  "default": ""
+                  "default": "",
+                  "description": "帳號名稱"
                 },
                 "password": {
                   "type": "string",
-                  "default": ""
+                  "default": "",
+                  "description": "密碼"
                 }
               },
               "type": "object",
-              "$$ref": "#/components/schemas/DocsUsersLogin"
+              "$$ref": "#/components/schemas/DocsUsersLogin",
+              "required": []
             }
           }
         ],
@@ -373,7 +376,194 @@
             "schema": {
               "type": "string",
               "format": "binary",
-              "default": "{'data':{},'msg':'succsess'}"
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/users/user-info": {
+      "get": {
+        "tags": [
+          "使用者相關"
+        ],
+        "summary": "取得使用者資訊",
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/resend": {
+      "post": {
+        "tags": [
+          "使用者相關"
+        ],
+        "summary": "發送驗證碼",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "account": {
+                  "type": "string",
+                  "description": "帳號名稱"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "email"
+                }
+              },
+              "required": [
+                "account",
+                "email"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/enterCode": {
+      "post": {
+        "tags": [
+          "使用者相關"
+        ],
+        "summary": "確認驗證碼",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "email"
+                },
+                "authCode": {
+                  "type": "string",
+                  "description": "驗證碼"
+                }
+              },
+              "required": [
+                "email",
+                "authCode"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/users/reset": {
+      "patch": {
+        "tags": [
+          "使用者相關"
+        ],
+        "summary": "重置密碼",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "description": "密碼"
+                },
+                "password_confirmation": {
+                  "type": "string",
+                  "description": "再次輸入密碼"
+                }
+              },
+              "required": [
+                "password",
+                "password_confirmation"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
         }
