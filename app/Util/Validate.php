@@ -51,4 +51,13 @@ class Validate {
         $regex = '/^\d{4}$/';
         return preg_match($regex, $verifyCode);
     }
+    /**
+     * 驗證line user token格式
+     * @parameter $user_token
+     * @return bool
+     **/
+    public static function checkLineToken($user_token): bool {
+        $regex = '/^U\w{32}$/i';
+        return preg_match($regex, $user_token);
+    }
 }

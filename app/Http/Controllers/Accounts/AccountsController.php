@@ -62,7 +62,6 @@ class AccountsController extends Controller
         ]);
  
         if ($validator->fails()) {
-            return $validator->errors();
             return UtilResponse::errorResponse("invalid paramaters");
         }
 

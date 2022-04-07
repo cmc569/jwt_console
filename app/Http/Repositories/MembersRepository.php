@@ -2,7 +2,6 @@
 
 namespace App\Http\Repositories;
 
-use App\Crypto\Crypto;
 use App\Http\Models\Members;
 use App\Util\UtilTime;
 use Exception;
@@ -55,7 +54,7 @@ class MembersRepository extends BaseRepository
      */
     public static function getMemberById(Int $id)
     {
-        return Members::find($id);
+        return Members::with('lastModify')->find($id);
     }
 
     /**
@@ -63,7 +62,7 @@ class MembersRepository extends BaseRepository
      */
     public static function getMemberByMobile(String $mobile)
     {
-        return Members::where('mobile', $mobile)->first();
+        return Members::with('lastModify')->where('mobile', $mobile)->first();
     }
 
     /**
@@ -71,6 +70,6 @@ class MembersRepository extends BaseRepository
      */
     public static function getMemberByUserToken(String $user_token)
     {
-        return Members::where('user_token', $user_token)->first();
+        return Members::with('lastModify')->where('user_token', $user_token)->first();
     }
 }

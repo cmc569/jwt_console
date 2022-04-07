@@ -14,7 +14,15 @@ class AccountRepository extends BaseRepository
     /**
      * 
      */
-    public function getRoleByName(String $role)
+    public static function getRoleById(Int $role)
+    {
+        $roles = Roles::find($role);
+        return $roles->name ?? null;
+    }
+    /**
+     * 
+     */
+    public static function getRoleByName(String $role)
     {
         $roles = Roles::where('name', $role)->first('id');
         return $roles->id ?? null;

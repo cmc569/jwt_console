@@ -11,5 +11,9 @@ class Members extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
-    
+
+    public function lastModify()
+    {
+        return $this->hasOne(Users::class, 'id', 'last_modify');
+    }
 }

@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Repositories\AccountRepository;
 use App\Http\Repositories\MembersRepository;
 use App\Util\UtilResponse;
 use App\Util\Validate;
+use App\Crypto\Crypto;
 
 class MembersController extends Controller
 {
@@ -41,7 +43,6 @@ class MembersController extends Controller
         ]);
  
         if ($validator->fails()) {
-            return $validator->errors();
             return UtilResponse::errorResponse("invalid paramaters");
         }
 
@@ -56,11 +57,35 @@ class MembersController extends Controller
         $list = $this->members_repository->getMembers(null, $filter, $start_date, $end_date, $offset, $limit, $csv);
 
         $list = $list->map(function ($item, $key) {
+            $item->code = Crypto::encode($item->id);
+            $item->gender = ($item->gender == 'F') ? '女' : '男';
             unset($item->id, $item->pwd, $item->status, $item->updated_at);
+            
             return $item;
         })->filter();
 
         return UtilResponse::successResponse("success", $list);
+    }
+
+    //
+    public function member(Request $request)
+    {
+        $validator = Validator::make($request->input(), [
+            'member' => 'string',
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid member");
+        }
+        $data = $request->input();
+        $data['member'] = Crypto::decode($data['member']);
+        $member = $this->members_repository->getMemberById($data['member']);
+        $member->gender = ($member->gender == 'F') ? '女' : '男';
+        $member->modify_role = AccountRepository::getRoleById($member->lastModify->role_id);
+        $member->modify_name = $member->lastModify->name;
+        $member->modify_account = $member->lastModify->account;
+        unset($member->id, $member->pwd, $member->last_modify, $member->status, $member->lastModify);
+        return UtilResponse::successResponse("success", $member);
     }
 
     //

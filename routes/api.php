@@ -60,7 +60,9 @@ Route::group([
         //會員管理
         Route::group(['prefix' => 'member'], function() {
             Route::get('/',             [MembersController::class, 'index']);           //會員列表
-            Route::post('/getMembers',  [MembersController::class, 'getMembers']);      //取得會員資料
+            Route::post('/getMembers',  [MembersController::class, 'getMembers']);      //會員資料列表
+            Route::post('/member',      [MembersController::class, 'member']);          //會員資料
+            
         });
 
         //行銷
