@@ -4,7 +4,7 @@
     "title": "console",
     "version": "last"
   },
-  "basePath": "https://project-burgerking-web-app-api-prd-02.azurewebsites.net/",
+  "basePath": "/",
   "tags": [
     {
       "name": "管理權限",
@@ -16,6 +16,10 @@
     },
     {
       "name": "其他設定",
+      "description": null
+    },
+    {
+      "name": "會員管理",
       "description": null
     }
   ],
@@ -792,6 +796,47 @@
               "type": "string",
               "format": "binary",
               "default": "{\"data\":{},\"msg\":\"succsess\"}"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/member/getMembers": {
+      "post": {
+        "tags": [
+          "會員管理"
+        ],
+        "summary": "會員資料列表",
+        "description": "",
+        "consumes": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "raw",
+            "in": "body",
+            "description": "raw paramter",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{}}"
             }
           }
         }
