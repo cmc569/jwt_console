@@ -56,7 +56,7 @@ class MembersController extends Controller
         // 會員 user token, 過濾值, 加入的開始時間, 加入的結束時間, 取值開始位置, 每次顯示筆數, 是否 csv 下載
         $list = $this->members_repository->getMembers(null, $filter, $start_date, $end_date, $offset, $limit, $csv);
 
-        $list = $list->map(function ($item, $key) {
+        $list['records'] = $list['records']->map(function ($item, $key) {
             $item->code = Crypto::encode($item->id);
             $item->gender = ($item->gender == 'F') ? '女' : '男';
             unset($item->id, $item->pwd, $item->status, $item->updated_at);
@@ -65,6 +65,32 @@ class MembersController extends Controller
         })->filter();
 
         return UtilResponse::successResponse("success", $list);
+    }
+
+    //
+    public function csv(Request $request)
+    {
+        $validator = Validator::make($request->input(), [
+            'filter'        => 'nullable|string',
+            'start_date'    => 'nullable|date_format:Y-m-d',
+            'end_date'      => 'nullable|date_format:Y-m-d',
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid paramaters");
+        }
+
+        $data = [
+            'filter'        => $request->input('filter') ?? null,
+            'start_date'    => $request->input('start_date') ?? null,
+            'end_date'      => $request->input('end_date') ?? null,
+        ];
+
+        if ($this->members_repository->csvRegister($request->get('usersId'), json_encode($data))) {
+            return UtilResponse::successResponse("success");
+        }
+
+        return UtilResponse::errorResponse("csv download register failed");
     }
 
     //
@@ -77,13 +103,20 @@ class MembersController extends Controller
         if ($validator->fails()) {
             return UtilResponse::errorResponse("invalid member");
         }
+
         $data = $request->input();
         $data['member'] = Crypto::decode($data['member']);
         $member = $this->members_repository->getMemberById($data['member']);
         $member->gender = ($member->gender == 'F') ? '女' : '男';
-        $member->modify_role = AccountRepository::getRoleById($member->lastModify->role_id);
-        $member->modify_name = $member->lastModify->name;
-        $member->modify_account = $member->lastModify->account;
+
+        $member->modify_role = null;
+        $member->modify_name = null;
+        $member->modify_account = null;
+        if (!empty($member->lastModify->role_id)) {
+            $member->modify_role = AccountRepository::getRoleById($member->lastModify->role_id);
+            $member->modify_name = $member->lastModify->name;
+            $member->modify_account = $member->lastModify->account;
+        }
         unset($member->id, $member->pwd, $member->last_modify, $member->status, $member->lastModify);
         return UtilResponse::successResponse("success", $member);
     }
@@ -97,4 +130,29 @@ class MembersController extends Controller
         })->filter();
     }
 
+    //
+    public function memberBirthday(Request $request)
+    {
+        $validator = Validator::make($request->input(), [
+            'member'    => 'required|string',
+            'birthday'  => 'required|date_format:Y-m-d',
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid parameters");
+        }
+        $member     = $request->input('member');
+        $birthday   = $request->input('birthday');
+
+        $member = Crypto::decode($member);
+        if (empty($member)) {
+            return UtilResponse::errorResponse("invalid member");
+        }
+
+        if ($this->members_repository->memberUpdateBirthday($member, $birthday)) {
+            return UtilResponse::successResponse("success");
+        }
+
+        return UtilResponse::errorResponse("update failed");
+    }
 }

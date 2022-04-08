@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Http\Models\Members;
+use App\Http\Models\CsvOutput;
 use App\Util\UtilTime;
 use Exception;
 use DB;
@@ -37,16 +38,33 @@ class MembersRepository extends BaseRepository
                 $members = $members->where('created_at', '>=', $start)->where('created_at', '<=', $end);
             }
 
+            $total = $members->count();
             if (empty($csv)) {
                 $members = $members->offset($offset)->limit($limit);
             }
 
-            return $members->get();
+            $data = [
+                'total'     => $total,
+                'records'   => $members->get(),
+            ];
+
+            return $data;
 
         } else {
             return $this->getMemberByUserToken($user_token);
         }
 
+    }
+
+    /**
+     * 
+     */
+    public function csvRegister(Int $user_id, String $json)
+    {
+        return CsvOutput::create([
+            'user_id'   => $user_id,
+            'rules'     => $json,
+        ]);
     }
 
     /**
@@ -71,5 +89,13 @@ class MembersRepository extends BaseRepository
     public static function getMemberByUserToken(String $user_token)
     {
         return Members::with('lastModify')->where('user_token', $user_token)->first();
+    }
+
+    /**
+     * 
+     */
+    public function memberUpdateBirthday(Int $member, String $birthday)
+    {
+        return Members::where('id', $member)->update(['birthday' => $birthday.' 00:00:00']);
     }
 }
