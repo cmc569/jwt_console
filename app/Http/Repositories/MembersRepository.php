@@ -4,6 +4,8 @@ namespace App\Http\Repositories;
 
 use App\Http\Models\Members;
 use App\Http\Models\CsvOutput;
+use App\Http\Models\Orders;
+use App\Http\Models\OrderInvoices;
 use App\Util\UtilTime;
 use Exception;
 use DB;
@@ -97,5 +99,37 @@ class MembersRepository extends BaseRepository
     public function memberUpdateBirthday(Int $member, String $birthday)
     {
         return Members::where('id', $member)->update(['birthday' => $birthday.' 00:00:00']);
+    }
+
+    /**
+     * 
+     */
+    public function getOrders(Array $data)
+    {
+        // dd($data);
+        $orders = Orders::with('invoice')->where('mobile', $data['mobile'])->where('status', 'Y');
+
+        if (!empty($data['source'])) {
+            $orders = $orders->where('source_system', $data['source']);
+        }
+
+        if (!empty($data['start_date']) && !empty($data['end_date'])) {
+            $orders = $orders->where('created_at', '>=', $data['start_date'].' 00:00:00')->where('created_at', '<=', $data['end_date'].' 23:59:59');
+        }        
+
+        $orders = $orders->get();
+        if (!empty($data['invoice'])) {
+            // $orders = $orders->invoice->where('invoice_word', $data['invoice_word'])->where('invoice_no', $data['invoice_no']);
+            $orders = $orders->map(function($item) use($data) {
+                if (!is_null($item->invoice)) {
+                    return $item;
+                }
+            })->filter();
+        }
+
+        $total = $orders->count();
+        $orders = $orders->shift($data['offset'])->take($data['limit'])->get();
+
+        dd($orders->toArray());
     }
 }

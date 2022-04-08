@@ -34,8 +34,8 @@ class MembersController extends Controller
     public function getMembers(Request $request)
     {
         $validator = Validator::make($request->input(), [
-            'offset'        => 'integer',
-            'limit'         => 'integer',
+            'offset'        => 'nullable|integer',
+            'limit'         => 'nullable|integer',
             'filter'        => 'nullable|string',
             'start_date'    => 'nullable|date_format:Y-m-d',
             'end_date'      => 'nullable|date_format:Y-m-d',
@@ -122,15 +122,6 @@ class MembersController extends Controller
     }
 
     //
-    private function filterColumn($list)
-    {
-        return $list->map(function ($item, $key) {
-            unset($item->id, $item->pwd, $item->status, $item->updated_at);
-            return $item;
-        })->filter();
-    }
-
-    //
     public function memberBirthday(Request $request)
     {
         $validator = Validator::make($request->input(), [
@@ -141,6 +132,7 @@ class MembersController extends Controller
         if ($validator->fails()) {
             return UtilResponse::errorResponse("invalid parameters");
         }
+
         $member     = $request->input('member');
         $birthday   = $request->input('birthday');
 
@@ -154,5 +146,83 @@ class MembersController extends Controller
         }
 
         return UtilResponse::errorResponse("update failed");
+    }
+
+    //
+    public function orderDetail(Request $request)
+    {
+        $validator = Validator::make($request->input(), [
+            'member'        => 'required|string',
+            'source'        => ['nullable', Rule::in(['OOS', 'KIOSK', 'POS'])],
+            'invoice'       => 'nullable|regex:/^\w{2}(\-)?\w{8}$/',
+            'start_date'    => 'nullable|date_format:Y-m-d',
+            'end_date'      => 'nullable|date_format:Y-m-d',
+            'offset'        => 'nullable|integer',
+            'limit'         => 'nullable|integer',
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid parameters");
+        }
+
+        $data = $request->input();
+        $data['member'] = Crypto::decode($data['member']);
+        if (empty($data['member'])) {
+            return UtilResponse::errorResponse("invalid member");
+        }
+
+        $data['mobile'] = $this->members_repository->getMemberById($data['member'])->mobile;
+        if (empty($data['mobile'])) {
+            return UtilResponse::errorResponse("no member mobile found");
+        }
+
+        if (!empty($data['source'])) {
+            $data['source'] = $this->convertSource($data['source']);
+        }
+
+        if (!empty($data['invoice'])) {
+            // $data['invoice'] = $this->seperateInvoice($data['invoice']);
+            $data = array_merge($data, $this->seperateInvoice($data['invoice']));
+        }
+
+        $data['offset'] = $data['offset'] ?? 0;
+        $data['limit']  = $data['limit']  ?? 10;
+
+        $list = $this->members_repository->getOrders($data);
+    }
+
+
+
+    //
+    private function filterColumn($list)
+    {
+        return $list->map(function ($item, $key) {
+            unset($item->id, $item->pwd, $item->status, $item->updated_at);
+            return $item;
+        })->filter();
+    }
+
+    //
+    private function convertSource(String $source)
+    {
+        switch ($source) {
+            case 'OOS':
+                return 1;
+            case 'KIOSK':
+                return 2;
+            case 'POS':
+                return 3;
+        }
+    }
+
+    //
+    private function seperateInvoice(String $invoice)
+    {
+        $invoice = str_replace('-', '', strtoupper($invoice));
+
+        return [
+            'invoice_word'  => substr($invoice, 0, 2),
+            'invoice_no'    => substr($invoice, 2),
+        ];
     }
 }

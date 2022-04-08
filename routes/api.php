@@ -59,12 +59,13 @@ Route::group([
     Route::group(['middleware' => ['permission.service']], function() {
         //會員管理
         Route::group(['prefix' => 'member'], function() {
-            Route::get('/',                 [MembersController::class, 'index']);           //會員列表
+            // Route::get('/',                 [MembersController::class, 'index']);           //會員列表
             Route::post('/getMembers',      [MembersController::class, 'getMembers']);      //會員資料列表
             Route::post('/csv',             [MembersController::class, 'csv']);             //會員csv下載
             Route::post('/member',          [MembersController::class, 'member']);          //會員基本資料
             Route::patch('/memberBirthday', [MembersController::class, 'memberBirthday']);  //更新會員生日
             
+            Route::post('/orderDetail', [MembersController::class, 'orderDetail']);     //會員交易明細
         });
 
         //行銷
