@@ -244,7 +244,7 @@
             "schema": {
               "type": "string",
               "format": "binary",
-              "default": "{\"data\":{},\"msg\":\"succsess\"}"
+              "default": "{\"data\":[{}],\"msg\":\"succsess\"}"
             }
           }
         }
@@ -801,15 +801,15 @@
         }
       }
     },
-    "/api/v1/auth/member/getMembers": {
-      "post": {
+    "/api/v1/auth/member/memberBirthday": {
+      "patch": {
         "tags": [
           "會員管理"
         ],
-        "summary": "會員資料列表",
+        "summary": "更新會員生日",
         "description": "",
         "consumes": [
-          "text/plain"
+          "application/json"
         ],
         "parameters": [
           {
@@ -820,13 +820,25 @@
             "type": "string"
           },
           {
-            "name": "raw",
+            "name": "root",
             "in": "body",
-            "description": "raw paramter",
             "schema": {
-              "type": "string",
-              "format": "binary",
-              "default": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{}}"
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "member": {
+                  "type": "string",
+                  "description": "會員代碼"
+                },
+                "birthday": {
+                  "type": "string",
+                  "description": "生日(YYYY-mm-dd)"
+                }
+              },
+              "required": [
+                "member",
+                "birthday"
+              ]
             }
           }
         ],
@@ -836,7 +848,116 @@
             "schema": {
               "type": "string",
               "format": "binary",
-              "default": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{}}"
+              "default": "{\"msg\":\"succsess\"}"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/member/member": {
+      "post": {
+        "tags": [
+          "會員管理"
+        ],
+        "summary": "會員基本資料",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "member": {
+                  "type": "string",
+                  "description": "會員代碼(由列表頁取得 )"
+                }
+              },
+              "required": [
+                "member"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/member/getMembers": {
+      "post": {
+        "tags": [
+          "會員管理"
+        ],
+        "summary": "會員資料列表",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "offset": {
+                  "type": "integer",
+                  "description": "紀錄起始位置(未指定時預設為0)"
+                },
+                "limit": {
+                  "type": "integer",
+                  "description": "每頁顯示筆數(未指定時預設為10筆)"
+                },
+                "filter": {
+                  "type": "string",
+                  "description": "查詢值"
+                },
+                "start_date": {
+                  "type": "string",
+                  "description": "開始時間(YYYY-mm-dd)"
+                },
+                "end_date": {
+                  "type": "string",
+                  "description": "結束時間(YYYY-mm-dd)"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"data\":{\"total\": \"\", \"records\": []},\"msg\":\"succsess\"}"
             }
           }
         }
