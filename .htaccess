@@ -1,3 +1,9 @@
+php_flag  log_errors on
+php_value error_log  /home/Logfiles/PHP_errors.log
+php_value error_reporting 2037
+php_value session.gc_maxlifetime 86400
+php_value session.gc_divisor 1000
+
 <IfModule mod_rewrite.c>
     RewriteEngine on
     RewriteCond %{REQUEST_URI} ^(.*)
