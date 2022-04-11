@@ -34,11 +34,11 @@ class MembersController extends Controller
     public function getMembers(Request $request)
     {
         $validator = Validator::make($request->input(), [
-            'offset'        => 'nullable|integer',
-            'limit'         => 'nullable|integer',
+            'offset'        => 'nullable|required_with:limit|integer',
+            'limit'         => 'nullable|required_with:offset|integer',
             'filter'        => 'nullable|string',
-            'start_date'    => 'nullable|date_format:Y-m-d',
-            'end_date'      => 'nullable|date_format:Y-m-d',
+            'start_date'    => 'nullable|required_with:end_date|date_format:Y-m-d',
+            'end_date'      => 'nullable|required_with:start_date|date_format:Y-m-d',
             'csv'           => 'nullable|boolean',
         ]);
  
@@ -46,12 +46,12 @@ class MembersController extends Controller
             return UtilResponse::errorResponse("invalid paramaters");
         }
 
-        $filter = $request->input('filter') ?? null;
+        $filter     = $request->input('filter') ?? null;
         $start_date = $request->input('start_date') ?? null;
-        $end_date = $request->input('end_date') ?? null;
-        $offset = $request->input('offset') ?? 0;
-        $limit = $request->input('limit') ?? 10;
-        $csv = $request->input('csv') ?? null;
+        $end_date   = $request->input('end_date') ?? null;
+        $offset     = $request->input('offset') ?? 0;
+        $limit      = $request->input('limit') ?? 10;
+        $csv        = $request->input('csv') ?? null;
 
         // 會員 user token, 過濾值, 加入的開始時間, 加入的結束時間, 取值開始位置, 每次顯示筆數, 是否 csv 下載
         $list = $this->members_repository->getMembers(null, $filter, $start_date, $end_date, $offset, $limit, $csv);
@@ -72,8 +72,8 @@ class MembersController extends Controller
     {
         $validator = Validator::make($request->input(), [
             'filter'        => 'nullable|string',
-            'start_date'    => 'nullable|date_format:Y-m-d',
-            'end_date'      => 'nullable|date_format:Y-m-d',
+            'start_date'    => 'nullable|required_with:end_date|date_format:Y-m-d',
+            'end_date'      => 'nullable|required_with:start_date|date_format:Y-m-d',
         ]);
  
         if ($validator->fails()) {
@@ -155,10 +155,10 @@ class MembersController extends Controller
             'member'        => 'required|string',
             'source'        => ['nullable', Rule::in(['OOS', 'KIOSK', 'POS'])],
             'invoice'       => 'nullable|regex:/^\w{2}(\-)?\w{8}$/',
-            'start_date'    => 'nullable|date_format:Y-m-d',
-            'end_date'      => 'nullable|date_format:Y-m-d',
-            'offset'        => 'nullable|integer',
-            'limit'         => 'nullable|integer',
+            'start_date'    => 'nullable|required_with:end_date|date_format:Y-m-d',
+            'end_date'      => 'nullable|required_with:start_date|date_format:Y-m-d',
+            'offset'        => 'nullable|required_with:limit|integer',
+            'limit'         => 'nullable|required_with:offset|integer',
         ]);
  
         if ($validator->fails()) {

@@ -134,6 +134,6 @@ class MembersRepository extends BaseRepository
         $total = $orders->count();
         $orders = $orders->offset($data['offset'])->limit($data['limit'])->get();
 
-        return ['total' => $total, 'list' => $orders];
+        return ['total' => $total, 'records' => $orders];
     }
 }
