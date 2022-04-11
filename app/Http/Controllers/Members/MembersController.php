@@ -181,7 +181,6 @@ class MembersController extends Controller
         }
 
         if (!empty($data['invoice'])) {
-            // $data['invoice'] = $this->seperateInvoice($data['invoice']);
             $data = array_merge($data, $this->seperateInvoice($data['invoice']));
         }
 
@@ -189,6 +188,7 @@ class MembersController extends Controller
         $data['limit']  = $data['limit']  ?? 10;
 
         $list = $this->members_repository->getOrders($data);
+        return UtilResponse::successResponse("success", $list);
     }
 
 

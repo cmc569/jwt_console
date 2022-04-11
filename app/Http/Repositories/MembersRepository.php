@@ -106,30 +106,34 @@ class MembersRepository extends BaseRepository
      */
     public function getOrders(Array $data)
     {
-        // dd($data);
-        $orders = Orders::with('invoice')->where('mobile', $data['mobile'])->where('status', 'Y');
+        $orders = Orders::select(
+                    DB::raw('orders.id, orders.mobile, orders.order_id,
+                        orders.source_system,
+                        (CASE orders.source_system WHEN "1" THEN "OOS" WHEN "2" THEN "KIOSK" WHEN "3" THEN "POS" END) AS `source`,
+                        orders.checkout_time, order_invoice.shop_name, 
+                        order_invoice.invoice_word, order_invoice.invoice_no, 
+                    order_invoice.total_amount')
+                )
+                ->leftJoin('order_invoice', 'order_invoice.order_id', '=', 'orders.order_id')
+                ->where('orders.mobile', $data['mobile'])->where('orders.status', 'Y');
 
         if (!empty($data['source'])) {
-            $orders = $orders->where('source_system', $data['source']);
+            $orders = $orders->where('orders.source_system', $data['source']);
         }
 
         if (!empty($data['start_date']) && !empty($data['end_date'])) {
-            $orders = $orders->where('created_at', '>=', $data['start_date'].' 00:00:00')->where('created_at', '<=', $data['end_date'].' 23:59:59');
-        }        
+            $orders = $orders->where('orders.created_at', '>=', $data['start_date'].' 00:00:00')
+                    ->where('orders.created_at', '<=', $data['end_date'].' 23:59:59');
+        }
 
-        $orders = $orders->get();
         if (!empty($data['invoice'])) {
-            // $orders = $orders->invoice->where('invoice_word', $data['invoice_word'])->where('invoice_no', $data['invoice_no']);
-            $orders = $orders->map(function($item) use($data) {
-                if (!is_null($item->invoice)) {
-                    return $item;
-                }
-            })->filter();
+            $orders = $orders->where('order_invoice.invoice_word', $data['invoice_word'])
+                    ->where('order_invoice.invoice_no', $data['invoice_no']);
         }
 
         $total = $orders->count();
-        $orders = $orders->shift($data['offset'])->take($data['limit'])->get();
+        $orders = $orders->offset($data['offset'])->limit($data['limit'])->get();
 
-        dd($orders->toArray());
+        return ['total' => $total, 'list' => $orders];
     }
 }
