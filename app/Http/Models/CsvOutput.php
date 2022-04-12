@@ -20,6 +20,7 @@ class CsvOutput extends Model
         'user_id',
         'rules',
         'sent',
+        'process_status',
     ];
 
     public function user()
