@@ -127,10 +127,12 @@ class MembersRepository extends BaseRepository
                         orders.source_system,
                         (CASE orders.source_system WHEN "1" THEN "OOS" WHEN "2" THEN "KIOSK" WHEN "3" THEN "POS" END) AS `source`,
                         orders.checkout_time, order_invoice.shop_name, 
-                        order_invoice.invoice_word, order_invoice.invoice_no, 
-                    order_invoice.total_amount')
+                        CONCAT(order_invoice.invoice_word, order_invoice.invoice_no) as invoice, 
+                         order_invoice.total_amount,
+                    order_tender.tender_name')
                 )
                 ->leftJoin('order_invoice', 'order_invoice.order_id', '=', 'orders.order_id')
+                ->leftJoin('order_tender', 'order_tender.order_id', '=', 'orders.order_id')
                 ->where('orders.mobile', $data['mobile'])->where('orders.status', 'Y');
 
         if (!empty($data['source'])) {
@@ -151,5 +153,26 @@ class MembersRepository extends BaseRepository
         $orders = $orders->offset($data['offset'])->limit($data['limit'])->get();
 
         return ['total' => $total, 'records' => $orders];
+    }
+
+    /**
+     * 
+     */
+    public function getOrderById(String $id)
+    {
+        $orders = Orders::select(
+                    DB::raw('orders.checkout_time, order_invoice.shop_name, orders.order_id,
+                        CONCAT(order_invoice.invoice_word, order_invoice.invoice_no) as invoice, 
+                        order_invoice.total_amount, order_invoice.random_no, order_invoice.invoice_type,
+                        order_item.item_name, order_item.item_count, order_item.item_price,
+                        order_point.trans_point, order_tender.tender_name')
+                )
+                ->leftJoin('order_invoice', 'order_invoice.order_id', '=', 'orders.order_id')
+                ->leftJoin('order_item', 'order_item.order_id', '=', 'orders.order_id')
+                ->leftJoin('order_point', 'order_point.order_id', '=', 'orders.order_id')
+                ->leftJoin('order_tender', 'order_tender.order_id', '=', 'orders.order_id')
+                ->where('orders.order_id', $id)->where('orders.status', 'Y');
+
+        return $orders->first();
     }
 }

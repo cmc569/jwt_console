@@ -149,7 +149,7 @@ class MembersController extends Controller
     }
 
     //
-    public function orderDetail(Request $request)
+    public function orderList(Request $request)
     {
         $validator = Validator::make($request->input(), [
             'member'        => 'required|string',
@@ -191,7 +191,20 @@ class MembersController extends Controller
         return UtilResponse::successResponse("success", $list);
     }
 
-
+    //
+    public function orderDetail(Request $request)
+    {
+        $validator = Validator::make($request->input(), [
+            'order_id'        => 'required|string',
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid parameters");
+        }
+        
+        $list = $this->members_repository->getOrderById($request->input('order_id'));
+        return UtilResponse::successResponse("success", $list);
+    }
 
     //
     private function filterColumn($list)

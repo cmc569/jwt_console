@@ -65,6 +65,7 @@ Route::group([
             Route::post('/member',          [MembersController::class, 'member']);          //會員基本資料
             Route::patch('/memberBirthday', [MembersController::class, 'memberBirthday']);  //更新會員生日
             
+            Route::post('/orderList',   [MembersController::class, 'orderList']);       //會員交易明細
             Route::post('/orderDetail', [MembersController::class, 'orderDetail']);     //會員交易明細
         });
 
