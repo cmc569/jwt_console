@@ -31,7 +31,7 @@ if (!config('app.debug')){
 }
 /* path: /api/v1 */
 Route::group([
-    'middleware' => ['cors'],
+    // 'middleware' => ['cors'],
     'prefix' => 'v1'
 ], function () {
     Route::group(["prefix"=> "users"], function (){
