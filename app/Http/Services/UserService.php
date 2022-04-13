@@ -87,7 +87,7 @@ class UserService {
             \Log::info('password reset: '.$email.', '.$code);
             
             $this->userRepository->resetPassword($email, $code);
-            return $this->sendMail($email, $code) ? true : false;
+            return $this->sendMail($email, $code) ? $code : false;
         } else {
             return false;
         }

@@ -215,8 +215,8 @@ class UserController extends Controller {
             return UtilResponse::errorResponse("invalid paramaters");
         }
 
-        if ($this->userService->resetPassword($request->input('account'), $request->input('email'))) {
-            return UtilResponse::successResponse("success");
+        if ($code = $this->userService->resetPassword($request->input('account'), $request->input('email'))) {
+            return UtilResponse::successResponse("success", $code);
         } else {
             return UtilResponse::errorResponse("mail send failed");
         }
