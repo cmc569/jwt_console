@@ -24,11 +24,11 @@ use Illuminate\Support\Facades\Route;
 //     MailService::send("jiver@ms16.hinet.net", "SSSS", "AAA\n\nBBB", public_path("index.php"));
 // });
 
-if (!config('app.debug')){
-    Route::get('docs', function (){
-        abort(404);
-    });
-}
+// if (!config('app.debug')){
+//     Route::get('docs', function (){
+//         abort(404);
+//     });
+// }
 /* path: /api/v1 */
 Route::group([
     // 'middleware' => ['cors'],
