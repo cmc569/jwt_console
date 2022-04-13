@@ -222,12 +222,15 @@
       }
     },
     "/api/v1/auth/account/": {
-      "get": {
+      "post": {
         "tags": [
           "管理權限"
         ],
         "summary": "顯示所有帳號",
         "description": "",
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -236,6 +239,24 @@
             "required": false,
             "type": "string",
             "default": ""
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "filter": {
+                  "type": "string",
+                  "description": "過濾值"
+                },
+                "role": {
+                  "type": "string",
+                  "description": "總部, 行銷, 客服"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -244,7 +265,7 @@
             "schema": {
               "type": "string",
               "format": "binary",
-              "default": "{\"data\":[{}],\"msg\":\"succsess\"}"
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
         }
