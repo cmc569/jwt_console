@@ -70,6 +70,7 @@ class AccountsController extends Controller
                 }
             }
         })->filter();
+        $data = array_values($data->toArray());
         return UtilResponse::successResponse("success", $data);
     }
 
