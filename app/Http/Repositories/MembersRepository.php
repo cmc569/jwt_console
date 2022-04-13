@@ -27,7 +27,7 @@ class MembersRepository extends BaseRepository
     {
         if (is_null($user_token)) {
             $members = Members::where('status', 'Y');
-            if (!is_null($filter)) {
+            if (!empty($filter)) {
                 $members = $members->Where('name', 'LIKE', $filter)
                                 ->orWhere('user_token', 'LIKE', $filter)
                                 ->orWhere('email', 'LIKE', $filter)
@@ -67,6 +67,22 @@ class MembersRepository extends BaseRepository
             'user_id'   => $user_id,
             'rules'     => $json,
         ]);
+    }
+
+    /**
+     * 
+     */
+    public function getCsvJob(String $status='N')
+    {
+        return CsvOutput::with('user')->where('process_status', $status)->get();
+    }
+
+    /**
+     * 
+     */
+    public function updateCsvJob(Array $ids, String $status, String $fh=null, String $date=null)
+    {
+        return CsvOutput::whereIn('id', $ids)->update(['process_status' => $status, 'csv' => $fh, 'sent' => $date]);
     }
 
     /**

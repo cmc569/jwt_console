@@ -90,7 +90,7 @@ Route::group([
             Route::group(['middleware' => ['permission.hq']], function() {
                 //權限管理
                 Route::group(['prefix' => 'account'], function() {
-                    Route::get('/',         [AccountsController::class, 'index']);       //顯示所有帳號
+                    Route::post('/',        [AccountsController::class, 'index']);       //顯示所有帳號
                     Route::post('save',     [AccountsController::class, 'save']);        //儲存新帳號
                     Route::post('edit',     [AccountsController::class, 'edit']);        //顯示特定帳號
                     Route::put('update',    [AccountsController::class, 'update']);      //更新帳號資訊

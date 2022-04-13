@@ -39,10 +39,16 @@ class AccountRepository extends BaseRepository
     /**
      * @throws Exception
      */
-    public function getAccounts(Int $id=null)
+    public function getAccounts(Int $id=null, String $filter=null)
     {
         $users = Users::with('role')->with('permissions');
-        if (is_null($id)) return $users->get();
+        if (is_null($id)) {
+            if (!empty($filter)) {
+                $users = $users->where('name', $filter)->orWhere('account', $filter)->orWhere('email', $filter);
+            }
+
+            return $users->get();
+        }
 
         return $users->find($id);
     }

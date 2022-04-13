@@ -37,14 +37,39 @@ class AccountsController extends Controller
      *         description="{'data':{},'msg':'error msg'}",
      *     )
      */
-    public function index()
+    public function index(Request $request)
     {
-        $accounts = $this->accountRepository->getAccounts();
-        $data = $accounts->map(function($item) {
+        $validator = Validator::make($request->input(), [
+            'filter'    => ['nullable', 'string'],
+            'role'      => ['nullable', Rule::in(['總部', '行銷', '客服'])],
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid paramaters");
+        }
+        
+        $role   = $request->input('role') ?? null;
+        $filter = $request->input('filter') ?? null;
+
+        if (!empty($role)) {
+            $role = $this->accountRepository->getRoleByName($role);
+        }
+
+        $accounts = $this->accountRepository->getAccounts(null, $filter);
+        $data = $accounts->map(function($item) use($role) {
             $item->code = Crypto::encode($item->id);
-            unset($item->id, $item->deleted_at, $item->updated_at, $item->role_id);
-            return $item;
-        });
+            unset($item->id, $item->deleted_at, $item->updated_at);
+            if (empty($role)) {
+                return $item;
+            } else {
+                // dd($item);
+                // dd($role);
+                // dd($item->role->id);
+                if ($item->role_id == $role) {
+                    return $item;
+                }
+            }
+        })->filter();
         return UtilResponse::successResponse("success", $data);
     }
 
