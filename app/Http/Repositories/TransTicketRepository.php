@@ -27,8 +27,8 @@ class TransTicketRepository extends BaseRepository
         }
 
         if (!empty($filter)) {
-            $tickets = $tickets->where('project_burgerking_coupon_child_logs.data->transfer->origin_user', $filter)
-                ->orWhere('project_burgerking_coupon_child_logs.data->transfer->target_user', $filter);
+            $tickets = $tickets->where('project_burgerking_coupon_child_logs.data->transfer->origin_user', 'LIKE', "{$filter}%")
+                ->orWhere('project_burgerking_coupon_child_logs.data->transfer->target_user', 'LIKE', "{$filter}%");
         } else {
             $tickets = $tickets->whereNotNull('project_burgerking_coupon_child_logs.data->transfer');
         }

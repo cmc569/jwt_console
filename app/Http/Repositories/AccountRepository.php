@@ -44,7 +44,7 @@ class AccountRepository extends BaseRepository
         $users = Users::with('role')->with('permissions');
         if (is_null($id)) {
             if (!empty($filter)) {
-                $users = $users->where('name', $filter)->orWhere('account', $filter)->orWhere('email', $filter);
+                $users = $users->where('name', 'LIKE', "{$filter}%")->orWhere('account', 'LIKE', "{$filter}%")->orWhere('email', 'LIKE', "{$filter}%");
             }
 
             return $users->get();

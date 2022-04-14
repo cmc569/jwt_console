@@ -28,10 +28,10 @@ class MembersRepository extends BaseRepository
         if (is_null($user_token)) {
             $members = Members::where('status', 'Y');
             if (!empty($filter)) {
-                $members = $members->Where('name', 'LIKE', $filter)
-                                ->orWhere('user_token', 'LIKE', $filter)
-                                ->orWhere('email', 'LIKE', $filter)
-                                ->orWhere('mobile', 'LIKE', $filter);
+                $members = $members->Where('name', 'LIKE', "{$filter}%")
+                                ->orWhere('user_token', 'LIKE', "{$filter}%")
+                                ->orWhere('email', 'LIKE', "{$filter}%")
+                                ->orWhere('mobile', 'LIKE', "{$filter}%");
             }
 
             if (preg_match("/^\d{4}\-\d{2}\-\d{2} \d{2}\:\d{2}\:\d{2}$/", $start) &&
