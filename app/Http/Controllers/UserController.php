@@ -247,7 +247,7 @@ class UserController extends Controller {
 
     }
 
-    public function reset()
+    public function reset(Request $request)
     {
         $validator = Validator::make($request->input(), [
             'password'  => ['required', 'confirmed', 'regex:/^(?=.*[a-zA-Z])(?=.*[0-9]).{6,12}$/'],
