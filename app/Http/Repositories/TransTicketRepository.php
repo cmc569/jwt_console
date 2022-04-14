@@ -15,7 +15,7 @@ class TransTicketRepository extends BaseRepository
     
     public function getTickets(Int $offset, Int $limit, String $filter=null, String $start_date=null, String $end_date=null)
     {
-        $tickets = AccunixCouponChildLogs::select('project_burgerking_coupon_child_logs.*', 
+        $tickets = AccunixCouponChildLogs::select('project_burgerking_coupon_child_logs.created_at',
                     'project_burgerking_coupon_child_logs.data->transfer->origin_user as origin_user',
                     'project_burgerking_coupon_child_logs.data->transfer->target_user as target_user',
                     'project_burgerking_coupons.title',
@@ -31,6 +31,7 @@ class TransTicketRepository extends BaseRepository
                 ->orWhere('project_burgerking_coupon_child_logs.data->transfer->target_user', 'LIKE', "{$filter}%");
         } else {
             $tickets = $tickets->whereNotNull('project_burgerking_coupon_child_logs.data->transfer');
+            // $tickets = $tickets->whereNotNull('project_burgerking_coupon_child_logs.data');
         }
 
         $total   = $tickets->count();
