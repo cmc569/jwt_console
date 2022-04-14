@@ -28,7 +28,7 @@ class UserRepository extends BaseRepository {
         }catch (Exception $e){
             // throw new Exception($e->getMessage());
             $time = time();
-            \Log::error('DB error('.$time.'):'.$e->getMessage());
+            \Log::error('Operation error. DB error('.$time.'):'.$e->getMessage());
             throw new Exception('Operation error('.$time.')');
         }
     }
@@ -42,7 +42,7 @@ class UserRepository extends BaseRepository {
         }catch (Exception $e){
             // throw new Exception($e->getMessage());
             $time = time();
-            \Log::error('DB error('.$time.'):'.$e->getMessage());
+            \Log::error('Get User info Failed. DB error('.$time.'):'.$e->getMessage());
             throw new Exception('Get User info Failed('.$time.')');
         }
         return $dataInfo;
@@ -61,7 +61,7 @@ class UserRepository extends BaseRepository {
         }catch (Exception $e){
             // throw new Exception($e->getMessage());
             $time = time();
-            \Log::error('DB error('.$time.'):'.$e->getMessage());
+            \Log::error('Get User data Failed. DB error('.$time.'):'.$e->getMessage());
             throw new Exception('Get User data Failed('.$time.')');
         }
         return $dataInfo;
@@ -84,7 +84,7 @@ class UserRepository extends BaseRepository {
         }catch (Exception $e){
             // throw new Exception($e->getMessage());
             $time = time();
-            \Log::error('DB error('.$time.'):'.$e->getMessage());
+            \Log::error('Login Failed. DB error('.$time.'):'.$e->getMessage());
             throw new Exception('Login Failed');
         }
         return true;
@@ -100,7 +100,7 @@ class UserRepository extends BaseRepository {
         }catch (Exception $e){
             // throw new Exception($e->getMessage());
             $time = time();
-            \Log::error('DB error('.$time.'):'.$e->getMessage());
+            \Log::error('Get Account info Failed. DB error('.$time.'):'.$e->getMessage());
             throw new Exception('Get Account info Failed('.$time.')');
         }
         return $dataInfo;
@@ -119,7 +119,7 @@ class UserRepository extends BaseRepository {
         } catch (Exception $e) {
             // throw new Exception($e->getMessage());
             $time = time();
-            \Log::error('DB error('.$time.'):'.$e->getMessage());
+            \Log::error('Reset password failed. DB error('.$time.'):'.$e->getMessage());
             throw new Exception('Reset password failed('.$time.')');
         }
     }
