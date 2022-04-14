@@ -63,24 +63,15 @@ return [
             ]) : [],
         ],
 
-        'accunix' => [
+        'accunix_db' => [
             'driver' => 'mysql',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST_ACCUNIX', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE_ACCUNIX', 'forge'),
-            'username' => env('DB_USERNAME_ACCUNIX', 'forge'),
-            'password' => env('DB_PASSWORD_ACCUNIX', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
+            'host' => env('DB_HOST_ACCUNIX'),
+            'port' => env('DB_PORT'),
+            'database' => env('DB_DATABASE_ACCUNIX'),
+            'username' => env('DB_USERNAME_ACCUNIX'),
+            'password' => env('DB_PASSWORD_ACCUNIX'),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'strict' => true,
-            'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
         ],
 
         'pgsql' => [
