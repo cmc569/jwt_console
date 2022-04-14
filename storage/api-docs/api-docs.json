@@ -808,6 +808,112 @@
         }
       }
     },
+    "/api/v1/auth/member/memberEmail": {
+      "patch": {
+        "tags": [
+          "會員管理"
+        ],
+        "summary": "更新會員Email",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "member": {
+                  "type": "string",
+                  "description": "會員代碼"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "會員電子郵件"
+                }
+              },
+              "required": [
+                "member",
+                "email"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"msg\":\"succsess\"}"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/member/memberName": {
+      "patch": {
+        "tags": [
+          "會員管理"
+        ],
+        "summary": "更新會員姓名",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "member": {
+                  "type": "string",
+                  "description": "會員代碼"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "會員姓名"
+                }
+              },
+              "required": [
+                "member",
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"msg\":\"succsess\"}"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/auth/member/memberBirthday": {
       "patch": {
         "tags": [
