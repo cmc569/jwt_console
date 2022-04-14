@@ -94,11 +94,12 @@ class UserRepository extends BaseRepository {
     /**
      * 
      */
-    public function resetPassword(String $email, String $code) {
+    public function resetPassword(Int $user_id, String $email, String $code) {
         try {
             ResetPassword::create([
-                'code'  => $code,
-                'email' => $email,
+                'user_id'   => $user_id,
+                'code'      => $code,
+                'email'     => $email,
             ]);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

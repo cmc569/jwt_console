@@ -11,6 +11,7 @@ class ResetPassword extends Model
     
     protected $table = 'reset_password';
     protected $fillable = [
+        'user_id',
         'code',
         'email',
     ];

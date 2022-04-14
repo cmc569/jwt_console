@@ -86,7 +86,7 @@ class UserService {
             $code = UtilRandoms::randomString();
             \Log::info('password reset: '.$email.', '.$code);
             
-            $this->userRepository->resetPassword($email, $code);
+            $this->userRepository->resetPassword($user->id, $email, $code);
             return $this->sendMail($email, $code) ? $code : false;
         } else {
             return false;
@@ -114,7 +114,7 @@ class UserService {
                 return 'expired';
             } else {
                 $this->userRepository->deleteAuthCode($email, $authCode);
-                return UtilJwt::getInstance()->encode(['usersId' => $user->id], $expired);
+                return UtilJwt::getInstance()->encode(['usersId' => $user->user_id], $expired);
             }
         }
     }

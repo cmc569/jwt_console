@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Accounts\AccountsController;
 use App\Http\Controllers\Posts\PostsController;
 use App\Http\Controllers\Members\MembersController;
+use App\Http\Controllers\Members\TransTicketController;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Services\MailService;
@@ -67,6 +68,8 @@ Route::group([
             
             Route::post('/orderList',   [MembersController::class, 'orderList']);       //會員交易明細
             Route::post('/orderDetail', [MembersController::class, 'orderDetail']);     //會員交易明細
+
+            Route::post('/transTicket', [TransTicketController::class, 'list']);    //查看轉贈票券
         });
 
         //行銷
