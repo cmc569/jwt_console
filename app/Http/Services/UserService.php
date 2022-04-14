@@ -45,7 +45,8 @@ class UserService {
         try {
             $userInfo = $this->userRepository->getUserInfo($account);
             $this->userRepository->checkUsersAndPassword($account, $password);
-            return UtilJwt::getInstance()->encode(['usersId' => $userInfo->id]);
+            // return UtilJwt::getInstance()->encode(['usersId' => $userInfo->id]);
+            return UtilJwt::getInstance()->encode(['usersId' => $userInfo->code]);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -86,7 +87,7 @@ class UserService {
             $code = UtilRandoms::randomString();
             \Log::info('password reset: '.$email.', '.$code);
             
-            $this->userRepository->resetPassword($user->id, $email, $code);
+            $this->userRepository->resetPassword($user->code, $email, $code);
             return $this->sendMail($email, $code) ? $code : false;
         } else {
             return false;
@@ -114,6 +115,7 @@ class UserService {
                 return 'expired';
             } else {
                 $this->userRepository->deleteAuthCode($email, $authCode);
+                // return UtilJwt::getInstance()->encode(['usersId' => $user->user_id], $expired);
                 return UtilJwt::getInstance()->encode(['usersId' => $user->user_id], $expired);
             }
         }

@@ -67,6 +67,22 @@ class UserRepository extends BaseRepository {
         return $dataInfo;
     }
 
+    public function getUserInfoByCode(String $code, bool $permission=false) {
+        try {
+            $dataInfo = Users::where('code', $code);
+            if ($permission) {
+                $dataInfo = $dataInfo->with('permissions');
+            }
+            $dataInfo = $dataInfo->firstOrFail();
+        }catch (Exception $e){
+            // throw new Exception($e->getMessage());
+            $time = time();
+            \Log::error('Get User data by code Failed. DB error('.$time.'):'.$e->getMessage());
+            throw new Exception('Get User data by code Failed('.$time.')');
+        }
+        return $dataInfo;
+    }
+
     public function isUserExist(string $phone): bool {
         $count = Users::where('phone', $phone)
             ->orderBy('id')
@@ -109,7 +125,7 @@ class UserRepository extends BaseRepository {
     /**
      * 
      */
-    public function resetPassword(Int $user_id, String $email, String $code) {
+    public function resetPassword(String $user_id, String $email, String $code) {
         try {
             ResetPassword::create([
                 'user_id'   => $user_id,

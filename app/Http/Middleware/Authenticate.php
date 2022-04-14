@@ -30,13 +30,15 @@ class Authenticate {
             $tokenDecode = UtilJwt::getInstance()->decode($token);
             if ($tokenDecode['exp'] < time()) return UtilResponse::errorResponse("token expired");
 
-            $usersId = $tokenDecode["usersId"] ?? 0;
+            $usersId = $tokenDecode["usersId"] ?? null;
             if (empty($usersId)) return UtilResponse::errorResponse("user is error");
 
-            $userInfo = $this->userRepository->getUserInfoById($usersId);
+            // $userInfo = $this->userRepository->getUserInfoById($usersId);
+            $userInfo = $this->userRepository->getUserInfoByCode($usersId);
             if ($userInfo->id == 0) return UtilResponse::errorResponse("user is error");
 
-            $request->attributes->set('usersId', $usersId);
+            // $request->attributes->set('usersId', $usersId);
+            $request->attributes->set('usersId', $userInfo->id);
             $request->attributes->set('userInfo', $userInfo);
             // $request->attributes->set('userPermission', $userInfo->permissions);
             return $next($request);

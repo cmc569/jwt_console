@@ -59,6 +59,7 @@ class AccountRepository extends BaseRepository
     public function save(Array $data)
     {
         return Users::create([
+            'code'      => md5($data['account']),
             'name'      => $data['name'],
             'account'   => $data['account'],
             'email'     => $data['email'],

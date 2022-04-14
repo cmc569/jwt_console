@@ -15,6 +15,7 @@ class Users extends Model {
      * @var array
      */
     protected $fillable = [
+        'code',
         'name',
         'account',
         'email',
@@ -38,6 +39,7 @@ class Users extends Model {
      */
     protected $casts = [
         'id' => 'integer',
+        'code' => 'string',
         'name' => 'string',
         'account' => 'string',
         'email' => 'string',
