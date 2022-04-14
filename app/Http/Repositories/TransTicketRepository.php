@@ -26,13 +26,16 @@ class TransTicketRepository extends BaseRepository
             $tickets = $tickets->whereBetween('project_burgerking_coupon_child_logs.created_at', [$start_date, $end_date]);
         }
 
-        if (empty($filter)) {
-            $tickets = $tickets->whereNotNull('project_burgerking_coupon_child_logs.data');
-        } else {
+        if (!empty($filter)) {
             $tickets = $tickets->where('project_burgerking_coupon_child_logs.data->transfer->origin_user', $filter)
-                    ->orWhere('project_burgerking_coupon_child_logs.data->transfer->target_user', $filter);
+                ->orWhere('project_burgerking_coupon_child_logs.data->transfer->target_user', $filter);
+        } else {
+            $tickets = $tickets->whereNotNull('project_burgerking_coupon_child_logs.data->transfer');
         }
 
-        return $tickets->offset($offset)->limit($limit)->get();
+        $total   = $tickets->count();
+        $records = $tickets->offset($offset)->limit($limit)->get();
+
+        return collect(compact('total', 'records'));
     }
 }

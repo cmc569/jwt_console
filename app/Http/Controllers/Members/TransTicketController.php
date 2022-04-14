@@ -32,7 +32,6 @@ class TransTicketController extends Controller
             return UtilResponse::errorResponse("invalid parameters");
         }
         
-        // dd($request->input());
         $filter     = $request->input('filter') ?? null;
         $start_date = $request->input('start_date') ?? null;
         $end_date   = $request->input('end_date') ?? null;
@@ -40,6 +39,7 @@ class TransTicketController extends Controller
         $limit      = $request->input('limit') ?? 10;
 
         $data = $this->trans_ticket_repository->getTickets($offset, $limit, $filter, $start_date, $end_date);
-        dd($data->toArray());
+        
+        return UtilResponse::successResponse("success", $data);
     }
 }
