@@ -26,7 +26,10 @@ class UserRepository extends BaseRepository {
             
             return empty($result) ? false : true;
         }catch (Exception $e){
-            throw new Exception($e->getMessage());
+            // throw new Exception($e->getMessage());
+            $time = time();
+            \Info::error('DB error('.$time.'):'.$e->getMessage());
+            throw new Exception('Operation error('.$time.')');
         }
     }
 
@@ -37,7 +40,10 @@ class UserRepository extends BaseRepository {
         try {
             $dataInfo = Users::where('account', $account)->firstOrFail();
         }catch (Exception $e){
-            throw new Exception($e->getMessage());
+            // throw new Exception($e->getMessage());
+            $time = time();
+            \Info::error('DB error('.$time.'):'.$e->getMessage());
+            throw new Exception('Operation error('.$time.')');
         }
         return $dataInfo;
     }
@@ -53,7 +59,10 @@ class UserRepository extends BaseRepository {
             }
             $dataInfo = $dataInfo->firstOrFail();
         }catch (Exception $e){
-            throw new Exception($e->getMessage());
+            // throw new Exception($e->getMessage());
+            $time = time();
+            \Info::error('DB error('.$time.'):'.$e->getMessage());
+            throw new Exception('Operation error('.$time.')');
         }
         return $dataInfo;
     }
@@ -73,7 +82,10 @@ class UserRepository extends BaseRepository {
             $userInfo = Users::where('account', $account)->firstOrFail();
             if (Crypto::decode($userInfo->password) != $password) throw new Exception("password is error");
         }catch (Exception $e){
-            throw new Exception($e->getMessage());
+            // throw new Exception($e->getMessage());
+            $time = time();
+            \Info::error('DB error('.$time.'):'.$e->getMessage());
+            throw new Exception('Operation error('.$time.')');
         }
         return true;
     }
@@ -86,7 +98,10 @@ class UserRepository extends BaseRepository {
         try {
             $dataInfo = Users::where('account', $account)->firstOrFail();
         }catch (Exception $e){
-            throw new Exception($e->getMessage());
+            // throw new Exception($e->getMessage());
+            $time = time();
+            \Info::error('DB error('.$time.'):'.$e->getMessage());
+            throw new Exception('Operation error('.$time.')');
         }
         return $dataInfo;
     }
@@ -102,7 +117,10 @@ class UserRepository extends BaseRepository {
                 'email'     => $email,
             ]);
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            // throw new Exception($e->getMessage());
+            $time = time();
+            \Info::error('DB error('.$time.'):'.$e->getMessage());
+            throw new Exception('Operation error('.$time.')');
         }
     }
 
