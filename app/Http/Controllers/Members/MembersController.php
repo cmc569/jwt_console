@@ -134,14 +134,65 @@ class MembersController extends Controller
         }
 
         $member     = $request->input('member');
-        $birthday   = $request->input('birthday');
+        $birthday   = $request->input('birthday').' 00:00:00';
 
         $member = Crypto::decode($member);
         if (empty($member)) {
             return UtilResponse::errorResponse("invalid member");
         }
 
-        if ($this->members_repository->memberUpdateBirthday($member, $birthday)) {
+        if ($this->members_repository->memberUpdateDetail($member, 'birthday', $birthday)) {
+            return UtilResponse::successResponse("success");
+        }
+
+        return UtilResponse::errorResponse("update failed");
+    }
+    public function memberName(Request $request)
+    {
+        $validator = Validator::make($request->input(), [
+            'member'    => 'required|string',
+            'name'      => 'required|string',
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid parameters");
+        }
+
+        $member     = $request->input('member');
+        $name       = $request->input('name');
+
+        $member = Crypto::decode($member);
+        if (empty($member)) {
+            return UtilResponse::errorResponse("invalid member");
+        }
+
+        if ($this->members_repository->memberUpdateDetail($member, 'name', $name)) {
+            return UtilResponse::successResponse("success");
+        }
+
+        return UtilResponse::errorResponse("update failed");
+    }
+
+    public function memberEmail(Request $request)
+    {
+        $validator = Validator::make($request->input(), [
+            'member'    => 'required|string',
+            'email'     => 'required|email:rfc,dns',
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid parameters");
+        }
+
+        $member     = $request->input('member');
+        $email      = $request->input('email');
+
+        $member = Crypto::decode($member);
+        if (empty($member)) {
+            return UtilResponse::errorResponse("invalid member");
+        }
+
+        if ($this->members_repository->memberUpdateDetail($member, 'email', $email)) {
             return UtilResponse::successResponse("success");
         }
 

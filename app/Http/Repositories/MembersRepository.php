@@ -112,9 +112,11 @@ class MembersRepository extends BaseRepository
     /**
      * 
      */
-    public function memberUpdateBirthday(Int $member, String $birthday)
+    public function memberUpdateDetail(Int $member, String $key, String $value)
     {
-        return Members::where('id', $member)->update(['birthday' => $birthday.' 00:00:00']);
+        return Members::where('id', $member)->update([
+            $key  => $value,
+        ]);
     }
 
     /**
