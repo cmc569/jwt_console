@@ -49,7 +49,7 @@ class csvOutput extends Command
             return;
         }
 
-        // $members_repository->updateCsvJob($job_ids, 'P');
+        $members_repository->updateCsvJob($job_ids, 'P');
 
         $jobs->map(function($item) use ($members_repository) {
             $fname = 'csv_'.$item->id.uniqid().'.csv';
@@ -75,8 +75,11 @@ class csvOutput extends Command
 
             $email = $item->user->email;
             $content = '此為系統自動發送，請勿回覆';
+
             \Log::info('Ask for member download. ('.$email.', '.$content.')');
-            MailService::send($email, '會員列表', $content, $fh);
+            if (MailService::send($email, '會員列表', $content, $fh)) {
+                $members_repository->updateCsvJob([$item->id], 'Y', $fname, date("Y-m-d H:i:s"));
+            }
         });
     }
 }
