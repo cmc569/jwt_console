@@ -21,7 +21,7 @@ class csvOutput extends Command
      *
      * @var string
      */
-    protected $description = 'csv output and mail';
+    protected $description = 'csv output and send mail';
 
     /**
      * Create a new command instance.
