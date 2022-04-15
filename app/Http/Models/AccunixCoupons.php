@@ -7,7 +7,7 @@ use DateTimeInterface;
 
 class AccunixCoupons extends Model
 {
-    protected $connection = 'accunix';
+    protected $connection = 'accunix_db';
     protected $table = 'project_burgerking_coupons';
     
     protected function serializeDate(DateTimeInterface $date)
