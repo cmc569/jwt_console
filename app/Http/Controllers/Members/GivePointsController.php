@@ -20,6 +20,7 @@ class GivePointsController extends Controller
 
     public function index()
     {
+        $data = $this->give_point_repository->getMassUploadRecords();
         return UtilResponse::successResponse("success", $data);
     }
 

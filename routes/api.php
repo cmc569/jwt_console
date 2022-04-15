@@ -6,6 +6,7 @@ use App\Http\Controllers\Accounts\AccountsController;
 use App\Http\Controllers\Posts\PostsController;
 use App\Http\Controllers\Members\MembersController;
 use App\Http\Controllers\Members\TransTicketController;
+use App\Http\Controllers\Members\GivePointsController;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Services\MailService;
@@ -68,13 +69,13 @@ Route::group([
             Route::patch('/memberEmail',    [MembersController::class, 'memberEmail']);     //更新會員email
             Route::patch('/memberBirthday', [MembersController::class, 'memberBirthday']);  //更新會員生日
             
-            Route::post('/orderList',   [MembersController::class, 'orderList']);       //會員交易明細
+            Route::post('/orderList',   [MembersController::class, 'orderList']);       //會員交易清單
             Route::post('/orderDetail', [MembersController::class, 'orderDetail']);     //會員交易明細
 
             Route::post('/transTicket', [TransTicketController::class, 'list']);        //查看轉贈票券
 
-            Route::get('/givePointUpload',  [GivePointsController::class, 'index']);        //點數發送中心列表
-            Route::post('/givePointUpload', [GivePointsController::class, 'messUploads']);  //點數發送中心上傳檔案
+            Route::get('/givePointUploadList',  [GivePointsController::class, 'index']);        //點數發送中心列表
+            Route::post('/givePointUpload',     [GivePointsController::class, 'messUploads']);  //點數發送中心上傳檔案
             
         });
 

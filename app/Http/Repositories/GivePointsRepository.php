@@ -2,10 +2,8 @@
 
 namespace App\Http\Repositories;
 
-use App\Http\Models\Members;
-use App\Http\Models\CsvOutput;
-use App\Http\Models\Orders;
-use App\Http\Models\OrderInvoices;
+use App\Http\Models\GivePoints;
+use App\Http\Models\MassGivePointUploads;
 use App\Util\UtilTime;
 use Exception;
 use DB;
@@ -13,4 +11,8 @@ use DB;
 class GivePointsRepository extends BaseRepository
 {
    
+    public function getMassUploadRecords()
+    {
+        return MassGivePointUploads::all();
+    }
 }
