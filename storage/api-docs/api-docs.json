@@ -24,7 +24,8 @@
     }
   ],
   "schemes": [
-    "https"
+    "https",
+    "http"
   ],
   "paths": {
     "/api/v1/auth/account/save": {
