@@ -968,12 +968,12 @@
         }
       }
     },
-    "/api/v1/auth/member/orderDetail": {
+    "/api/v1/auth/member/orderList": {
       "post": {
         "tags": [
           "會員管理"
         ],
-        "summary": "會員交易明細清單",
+        "summary": "會員交易清單",
         "description": "",
         "consumes": [
           "application/json"
@@ -1034,7 +1034,7 @@
             "schema": {
               "type": "string",
               "format": "binary",
-              "default": "{\"data\":{\"total\": \"\", \"records\": []},\"msg\":\"succsess\"}"
+              "default": "{\n  \"data\": {\n    \"total\": \"\",\n    \"records\": []\n  },\n  \"msg\": \"succsess\"\n}"
             }
           }
         }
