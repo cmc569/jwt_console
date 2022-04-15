@@ -71,7 +71,10 @@ Route::group([
             Route::post('/orderList',   [MembersController::class, 'orderList']);       //會員交易明細
             Route::post('/orderDetail', [MembersController::class, 'orderDetail']);     //會員交易明細
 
-            Route::post('/transTicket', [TransTicketController::class, 'list']);    //查看轉贈票券
+            Route::post('/transTicket', [TransTicketController::class, 'list']);        //查看轉贈票券
+
+            Route::get('/givePointUpload',  [GivePointsController::class, 'index']);        //點數發送中心列表
+            Route::post('/givePointUpload', [GivePointsController::class, 'messUploads']);  //點數發送中心上傳檔案
             
         });
 
