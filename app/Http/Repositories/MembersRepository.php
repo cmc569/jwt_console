@@ -30,6 +30,7 @@ class MembersRepository extends BaseRepository
             if (!empty($filter)) {
                 $members = $members->Where('name', 'LIKE', "{$filter}%")
                                 ->orWhere('user_token', 'LIKE', "{$filter}%")
+                                ->orWhere('stored_card_no', 'LIKE', "{$filter}%")
                                 ->orWhere('email', 'LIKE', "{$filter}%")
                                 ->orWhere('mobile', 'LIKE', "{$filter}%");
             }
