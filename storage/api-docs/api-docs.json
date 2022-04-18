@@ -1193,6 +1193,59 @@
         ]
       }
     },
+    "/api/v1/auth/member/memberAccount": {
+      "post": {
+        "tags": [
+          "會員管理"
+        ],
+        "summary": "會員總覽",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "member": {
+                  "type": "string",
+                  "description": "會員代碼(由列表頁取得 )"
+                }
+              },
+              "required": [
+                "member"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"data\":{},\"msg\":\"succsess\"}"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
     "/api/v1/auth/member/getMembers": {
       "post": {
         "tags": [
@@ -1228,7 +1281,7 @@
                 },
                 "filter": {
                   "type": "string",
-                  "description": "查詢值"
+                  "description": "查詢值(姓名,user_token,卡號,Email,手機)"
                 },
                 "start_date": {
                   "type": "string",
@@ -1248,7 +1301,7 @@
             "schema": {
               "type": "string",
               "format": "binary",
-              "default": "{\"data\":{\"total\": \"\", \"records\": []},\"msg\":\"succsess\"}"
+              "default": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{}}"
             }
           }
         },
