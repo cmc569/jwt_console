@@ -24,8 +24,8 @@
     }
   ],
   "schemes": [
-    "https",
-    "http"
+    "http",
+    "https"
   ],
   "paths": {
     "/api/v1/auth/account/save": {
@@ -99,7 +99,12 @@
               "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/auth/account/delete": {
@@ -148,7 +153,12 @@
               "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/auth/account/update": {
@@ -219,7 +229,12 @@
               "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/auth/account/": {
@@ -269,7 +284,12 @@
               "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/auth/account/edit": {
@@ -318,7 +338,12 @@
               "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/auth/users/refresh": {
@@ -359,7 +384,12 @@
               "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/users/login": {
@@ -433,7 +463,12 @@
               "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/users/resend": {
@@ -479,7 +514,12 @@
               "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/users/enterCode": {
@@ -525,7 +565,12 @@
               "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/auth/users/reset": {
@@ -578,7 +623,12 @@
               "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/auth/others/values": {
@@ -627,7 +677,12 @@
               "default": "{\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -654,7 +709,12 @@
               "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/auth/others/points": {
@@ -703,7 +763,12 @@
               "default": "{\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -730,7 +795,12 @@
               "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/auth/others/privacy": {
@@ -779,7 +849,12 @@
               "default": "{\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -806,7 +881,12 @@
               "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/auth/member/memberEmail": {
@@ -859,7 +939,12 @@
               "default": "{\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/auth/member/memberName": {
@@ -912,7 +997,12 @@
               "default": "{\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/auth/member/memberBirthday": {
@@ -965,7 +1055,12 @@
               "default": "{\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/auth/member/orderList": {
@@ -1037,7 +1132,12 @@
               "default": "{\n  \"data\": {\n    \"total\": \"\",\n    \"records\": []\n  },\n  \"msg\": \"succsess\"\n}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/auth/member/member": {
@@ -1085,7 +1185,12 @@
               "default": "{\"data\":{},\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/api/v1/auth/member/getMembers": {
@@ -1146,8 +1251,20 @@
               "default": "{\"data\":{\"total\": \"\", \"records\": []},\"msg\":\"succsess\"}"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
     }
   }
 }
