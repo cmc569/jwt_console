@@ -74,6 +74,7 @@ Route::group([
             Route::patch('/memberName',     [MembersController::class, 'memberName']);      //更新會員姓名
             Route::patch('/memberEmail',    [MembersController::class, 'memberEmail']);     //更新會員email
             Route::patch('/memberBirthday', [MembersController::class, 'memberBirthday']);  //更新會員生日
+            Route::post('/memberAccount',   [MembersController::class, 'memberAccount']);   //會員帳戶總覽
             
             Route::post('/orderList',   [MembersController::class, 'orderList']);       //會員交易清單
             Route::post('/orderDetail', [MembersController::class, 'orderDetail']);     //會員交易明細

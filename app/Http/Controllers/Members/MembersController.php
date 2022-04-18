@@ -11,6 +11,8 @@ use App\Http\Repositories\MembersRepository;
 use App\Util\UtilResponse;
 use App\Util\Validate;
 use App\Crypto\Crypto;
+use App\Util\SystexApi;
+use App\Util\AccunixCouponApi;
 
 class MembersController extends Controller
 {
@@ -197,6 +199,81 @@ class MembersController extends Controller
         }
 
         return UtilResponse::errorResponse("update failed");
+    }
+
+    public function memberAccount(Request $request)
+    {
+        $validator = Validator::make($request->input(), [
+            'member' => 'string',
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid member");
+        }
+
+        $data = $request->input();
+        $data['member'] = Crypto::decode($data['member']);
+        $member = $this->members_repository->getMemberById(11);
+
+        $sys = new SystexApi;
+        $resBonus = $sys->QueryBonus($member->stored_card_no);
+        if ($resBonus['ReturnCode'] != 0) {
+            return UtilResponse::errorResponse("systex error");
+        }
+        
+        $point = 0;
+        $storeValue = 0;
+        foreach ($resBonus['BonusTotalList'] as $Bonus) {
+            if(preg_match("/^32/", $Bonus['BonusID'])) {
+                $point = $Bonus['Quantity']; 
+            }
+
+            if(preg_match("/^31/", $Bonus['BonusID'])) {
+                $storeValue = $Bonus['Quantity'];
+            }
+        }
+
+        $datePoint = 0;
+        $nowYear = date('Y');
+        foreach ($resBonus['BonusList'] as $Bonus) {
+
+            if(preg_match("/^32/", $Bonus['BonusVO']['BonusID']) && preg_match("/^$nowYear\d{2}\d{2}$/", $Bonus['BonusVO']['EndDate'])) {
+                $datePoint += $Bonus['BonusVO']['Quantity'];
+            }
+        }
+
+        $accunix = new AccunixCouponApi;
+        $accunix->setAccessToken(env('ACCUNIX_API_TOKEN'));
+        
+        $availableCoupons = 0;
+        if (!empty($member->user_token)) {
+            $resCoupon = $accunix->couponChildrenList($member->user_token);
+
+            $today = date("Y/m/d H:i:s");
+            if(!empty($resCoupon['data'])) {
+                foreach ($resCoupon['data'] as  $campaign) {
+                    foreach ($campaign['coupons'] as $coupon) {
+
+                        if (
+                            $coupon['verified_at'] == null &&
+                            strtotime($today) >= strtotime($campaign['startAt']) &&
+                            strtotime($today) <= strtotime($coupon['endAt'])
+                        ) {
+                            $availableCoupons++;
+                        }
+                    }
+                }
+            }
+        }
+
+        $resault = [
+            'point'            => $point,           //紅利
+            'storeValue'       => $storeValue,      //儲值金
+            'datePoint'        => $datePoint,       //當年到期點數
+            'availableCoupons' => $availableCoupons //可使優惠卷數量
+        ];
+
+        return UtilResponse::successResponse("success", $resault);
     }
 
     //
