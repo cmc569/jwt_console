@@ -31,6 +31,12 @@ use Illuminate\Support\Facades\Route;
 //         abort(404);
 //     });
 // }
+
+Route::get('/test',function(){
+    //拖曳yapi產生的swaggerApi.json 產生Authorizationc跟https選項
+    return view('index');
+});
+
 /* path: /api/v1 */
 Route::group([
     'middleware' => ['cors'],
