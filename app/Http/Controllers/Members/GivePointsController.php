@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use App\Util\UtilResponse;
 use App\Http\Repositories\GivePointsRepository;
+use App\Crypto\Crypto;
 
 class GivePointsController extends Controller
 {
@@ -21,6 +22,10 @@ class GivePointsController extends Controller
     public function index()
     {
         $data = $this->give_point_repository->getMassUploadRecords();
+        $data = $data->map(function($item) {
+            $item->code = Crypto::encode($item->code);
+            return $item;
+        })->filter();
         return UtilResponse::successResponse("success", $data);
     }
 
@@ -37,6 +42,14 @@ class GivePointsController extends Controller
 
         if (empty($request->file('csv')->isValid())) {
             return UtilResponse::errorResponse("no csv file uploaded");
+        }
+
+        $date = $request->input('date');
+        $time = $request->input('time');
+
+        //檢查發送時間區間
+        if (($time < '23:00:00') && ($time > '07:00:00')) {
+            return UtilResponse::errorResponse("invalid time spacific");
         }
 
         //取得csv檔案
@@ -69,10 +82,10 @@ class GivePointsController extends Controller
         });
         
         //
-        if ($this->give_point_repository->massPointRegister($name, $url, $send_at, $data->toArray())) {
+        if ($this->give_point_repository->massPointRegister($file_name, $url, $send_at, $data->toArray())) {
             return UtilResponse::successResponse("success");
         } else {
-            return UtilResponse::errorResponse("mass point request failed.");
+            return UtilResponse::errorResponse("mass point request failed");
         }
     }
 
@@ -119,4 +132,34 @@ class GivePointsController extends Controller
         return $data;
     }
 
+    public function messDelete(Request $request)
+    {
+        $validator = Validator::make($request->input(), [
+            'code'  => 'required|string',
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid parameter");
+        }
+
+        $id = Crypto::decode($request->input('code'));
+        if (empty($id)) {
+            return UtilResponse::errorResponse("invalid record id");
+        }
+
+        $data = $this->give_point_repository->getMassPointRecord($id);
+        if (empty($data)) {
+            return UtilResponse::errorResponse("invalid record");
+        }
+
+        if (strtotime($data->send_at) < (time() - 1800)) {
+            return UtilResponse::errorResponse("exceed time limit to delete");
+        }
+
+        if ($this->give_point_repository->massPointDelete($id)) {
+            return UtilResponse::successResponse("success");
+        } else {
+            return UtilResponse::errorResponse("record delete failed");
+        }
+    }
 }

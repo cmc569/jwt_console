@@ -14,7 +14,16 @@ class GivePointsRepository extends BaseRepository
    
     public function getMassUploadRecords()
     {
-        return MassGivePointUploads::select('filename', 'url', 'send_at', 'total', 'process_status', 'result', 'created_at')->get();
+        return MassGivePointUploads::select(
+            'id as code', 
+            'filename', 
+            'url', 
+            'send_at', 
+            'total', 
+            'process_status', 
+            'result', 
+            'created_at'
+        )->get();
     }
 
     public function mobileToCardNo(Array $mobile)
@@ -51,10 +60,35 @@ class GivePointsRepository extends BaseRepository
             DB::commit();
             return true;
         } catch (\Exception $e) {
+            Log::error('DB error('.$e->getMessage().')');
+
             DB::rollback();
             return false;
         }
         
+    }
+
+    public function getMassPointRecord(Int $id)
+    {
+        return MassGivePointUploads::find($id);
+    }
+
+    public function massPointDelete(Int $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            GivePoints::where('upload_id', $id)->delete();
+            MassGivePointUploads::find($id)->delete();
+            
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            Log::error('DB error('.$e->getMessage().')');
+
+            DB::rollback();
+            return false;
+        }
     }
 
 }

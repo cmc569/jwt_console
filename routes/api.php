@@ -83,6 +83,7 @@ Route::group([
 
             Route::get('/givePointUploadList',  [GivePointsController::class, 'index']);        //點數發送中心列表
             Route::post('/givePointUpload',     [GivePointsController::class, 'messUploads']);  //點數發送中心上傳檔案
+            Route::delete('/givePointUpload',   [GivePointsController::class, 'messDelete']);   //點數發送中心上傳檔案
             
         });
 
