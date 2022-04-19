@@ -26,6 +26,97 @@ class GivePointsController extends Controller
 
     public function messUploads(Request $request)
     {
-        dd($request->input());
+        $validator = Validator::make($request->input(), [
+            'date'  => 'required|date_format:Y-m-d',
+            'time'  => 'required|regex:/^\d{2}\:\d{2}\:\d{2}$/',
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid parameters");
+        }
+
+        if (empty($request->file('csv')->isValid())) {
+            return UtilResponse::errorResponse("no csv file uploaded");
+        }
+
+        //取得csv檔案
+        $csv = $request->file('csv');
+
+        //檔案資訊
+        $ext       = $csv->getClientOriginalExtension();
+        $file_name = $csv->getClientOriginalName();
+        $content   = $csv->getContent();
+
+        //重置檔案名稱與存放路徑
+        $send_at   = $request->input('date').' '.$request->input('time');
+        $uuid      = md5($request->get('usersId').time());
+        $name      = $uuid.'.'.$ext;
+        $url       = "/uploads/mass_upload/{$name}";
+        $csv->move(public_path('uploads/mass_upload'), $name);
+
+        //解析與紀錄點數發放資訊
+        $data = $this->parseCsv($content);
+        $data = $this->filterData($data);
+        
+        $mobile = $data->pluck(0)->toArray();
+        $mobile = $this->give_point_repository->mobileToCardNo($mobile);
+        $mobile = $this->mobileMappingToCardNo($mobile);
+
+        $data = $data->map(function($item) use($mobile) {
+            $item[3] = $mobile[$item[0]];
+            $item[2] = str_replace('/', '-', preg_replace("/\r/", '', $item[2])).' 23:59:59';
+            return $item;
+        });
+        
+        //
+        if ($this->give_point_repository->massPointRegister($name, $url, $send_at, $data->toArray())) {
+            return UtilResponse::successResponse("success");
+        } else {
+            return UtilResponse::errorResponse("mass point request failed.");
+        }
     }
+
+    public function parseCsv(String $content)
+    {
+        if (empty($content)) {
+            return [];
+        }
+
+        $data = explode("\n", $content);
+        if (empty($data)) {
+            return [];
+        }
+
+        $csv = [];
+        foreach ($data as $line) {
+            if (!empty($line)) {
+                $fields = explode(',', $line);
+                $csv[] = $fields;
+            }
+        }
+
+        return $csv;
+    }
+
+    private function filterData(Array $csv)
+    {
+        $csv = collect($csv)->map(function($item) {
+            if (preg_match("/^09[0-9]{8}$/", $item[0])) {
+                return $item;
+            }
+        })->filter();
+
+        return $csv;
+    }
+
+    private function mobileMappingToCardNo(Array $mobile)
+    {
+        $data = [];
+        foreach ($mobile as $v) {
+            $data[$v['mobile']] = $v['stored_card_no'];
+        }
+
+        return $data;
+    }
+
 }
