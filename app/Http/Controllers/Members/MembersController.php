@@ -213,7 +213,7 @@ class MembersController extends Controller
 
         $data = $request->input();
         $data['member'] = Crypto::decode($data['member']);
-        $member = $this->members_repository->getMemberById(11);
+        $member = $this->members_repository->getMemberById($data['member']);
 
         $sys = new SystexApi;
         $resBonus = $sys->QueryBonus($member->stored_card_no);
