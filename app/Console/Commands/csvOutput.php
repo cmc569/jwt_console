@@ -56,7 +56,8 @@ class csvOutput extends Command
             $rules = json_decode($item->rules);
             $csv = $members_repository->getMembers(null, $rules->filter, $rules->start_date, $rules->end_date, null, null, true);
             
-            $fh = base_path().'/private/storage/csv';
+            // $fh = base_path().'/private/storage/csv';
+            $fh = base_path().'/private/csv';
             if (!File::isDirectory($fh)) {
                 File::makeDirectory($fh, 0777, true); //mkdir 0777
             }

@@ -19,8 +19,10 @@ class MassGivePointUploads extends Model
 
     protected $fillable = [
         'filename',
+        'url',
         'send_at',
-        'process_starus',
+        'total',
+        'process_status',
         'result',
     ];
 }
