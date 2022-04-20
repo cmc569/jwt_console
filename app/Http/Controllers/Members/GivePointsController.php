@@ -77,7 +77,7 @@ class GivePointsController extends Controller
 
         $data = $data->map(function($item) use($mobile) {
             $item[3] = $mobile[$item[0]];
-            $item[2] = trim(str_replace('-', '', str_replace('/', '', preg_replace("/\r/", '', $item[2]))));
+            $item[2] = trim(str_replace('/', '-', preg_replace("/\r/", '', $item[2])));
             return $item;
         });
         
