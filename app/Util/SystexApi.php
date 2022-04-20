@@ -141,8 +141,10 @@ class SystexApi
         return $this->send($header,$body);
     }
 
-    public function AdjustPointMinus(string $OrderId, string $storedCardNo, string $amount)
+    public function AdjustPointMinus(string $bonusId, string $storedCardNo, string $amount)
     {
+        $orderId = $this->createOrderId();
+
         $data =[
             "Host" => "SVC",
             "EndPoint" => "AdjustPointMinus",  
@@ -150,12 +152,12 @@ class SystexApi
             "DateTime" => date('ymdHis'),
             "Mid" => "233091780000997",
             "Tid" => "00099701",
-            "OrderId" => $OrderId,
-            //"MerchOrderNo" => $merchOrderNo,
+            "OrderId" => $orderId,
+            "MerchOrderNo" => $orderId,
             "SvcCardNo" => $storedCardNo,
             "CouponList" =>[         
                 [
-                    "BonusId" => "",
+                    "BonusId" => $bonusId,
                     "Amount" => $amount
                 ]
             ]
@@ -168,8 +170,10 @@ class SystexApi
         return $this->send($header,$body);
     }
 
-    public function AdjustPointPlus(string $OrderId, string $storedCardNo, string $merchOrderNo, string $amount)
+    public function AdjustPointPlus(string $bonusId, string $endDate,string $storedCardNo, string $amount)
     {
+        $orderId = $this->createOrderId();
+
         $data =[
             "Host" => "SVC",
             "EndPoint" => "AdjustPointPlus",  
@@ -177,15 +181,15 @@ class SystexApi
             "DateTime" => date('ymdHis'),
             "Mid" => "233091780000997",
             "Tid" => "00099701",
-            "OrderId" => $OrderId,
-            //"MerchOrderNo" => $merchOrderNo,
+            "OrderId" => $orderId,
+            "MerchOrderNo" => $orderId,
             "SvcCardNo" => $storedCardNo,
             "CouponList" =>[         
                 [
-                    "BonusId" => "",
+                    "BonusId" => $bonusId,
                     "Amount" => $amount,
                     "StartDate" => "00010101",
-                    "EndDate" => "20221231"
+                    "EndDate" => $endDate
                 ]
             ]
         ];
@@ -195,6 +199,12 @@ class SystexApi
 
         return $this->send($header,$body);
     }
+
+    //產生長度22 orderId   
+    private function createOrderId() {
+        return substr(md5(uniqid(rand(), true)),0,22);
+    }
+    ##
 
     //資訊紀錄
     protected function Logs($response, $filename) {
