@@ -310,6 +310,20 @@ class AccunixLineApi extends AccunixApiCore
     }
     ##
 
+    //發送票券券庫 api
+    public function couponGift(String $user_token, String $coupon_guid)
+    {
+        $this->url = "{$this->baseUrl_v2}/{$this->BotId}/coupon/gift";
+        
+        $post_data = [
+            'userToken'  => $user_token,
+            'couponGuid' => $coupon_guid,
+        ];
+
+        return $this->send($post_data);
+    }
+    ##
+
 }
     
 ?>
