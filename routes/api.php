@@ -7,6 +7,7 @@ use App\Http\Controllers\Posts\PostsController;
 use App\Http\Controllers\Members\MembersController;
 use App\Http\Controllers\Members\TransTicketController;
 use App\Http\Controllers\Members\GivePointsController;
+use App\Http\Controllers\Members\StoreValueController;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Services\MailService;
@@ -25,15 +26,15 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get("/", function () {
     // MailService::send("jiver@ms16.hinet.net", "SSSS", "AAA\n\nBBB", public_path("index.php"));
-    
-    
+
+
     // $accunix = new AccunixLineApi(env('ACCUNIX_LINE_BOT_ID'));
     // $accunix->setAccessToken(env('ACCUNIX_API_TOKEN'));
     // dd($accunix->couponGift('U6670ce431ab50a1655549921f88407ad', '180410df6f754Y'));
     // dd($accunix->couponGift('U45aa5267979d6d018f407b4b2112e372', '180410df6f754Y'));
 
     // dd($accunix->couponGift('U6670ce431ab50a1655549921f88407ad', '180410f63das4y'));
-    
+
 // });
 
 // if (!config('app.debug')){
@@ -55,7 +56,7 @@ Route::group([
     Route::group(["prefix"=> "users"], function (){
         //登入
         Route::post('/login', [UserController::class, 'login']);
-        
+
         //忘記密碼
         Route::post('/resend', [UserController::class, 'resend']);
         Route::post('/enterCode', [UserController::class, 'enterCode']);
@@ -85,7 +86,7 @@ Route::group([
             Route::patch('/memberEmail',    [MembersController::class, 'memberEmail']);     //更新會員email
             Route::patch('/memberBirthday', [MembersController::class, 'memberBirthday']);  //更新會員生日
             Route::post('/memberAccount',   [MembersController::class, 'memberAccount']);   //會員帳戶總覽
-            
+
             Route::post('/orderList',   [MembersController::class, 'orderList']);       //會員交易清單
             Route::post('/orderDetail', [MembersController::class, 'orderDetail']);     //會員交易明細
 
@@ -94,13 +95,16 @@ Route::group([
             Route::get('/givePointUploadList',  [GivePointsController::class, 'index']);        //點數發送中心列表
             Route::post('/givePointUpload',     [GivePointsController::class, 'messUploads']);  //點數發送中心上傳檔案
             Route::delete('/givePointUpload',   [GivePointsController::class, 'messDelete']);   //點數發送中心刪除
-            
+
+            Route::post('/storedValuePlus', [StoreValueController::class, 'plus']);
+            Route::post('/cancelValuePlus', [StoreValueController::class, 'minus']);
+            Route::post('/getOrderList', [StoreValueController::class, 'orderList']);
         });
 
         //行銷
         Route::group(['middleware' => ['permission.market']], function() {
             //Dashboard
-            
+
 
             //優惠卷管理
 
