@@ -10,6 +10,7 @@ use App\Http\Controllers\Members\GivePointsController;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Services\MailService;
+// use App\Util\AccunixLineApi;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::get("/", function () {
-//     MailService::send("jiver@ms16.hinet.net", "SSSS", "AAA\n\nBBB", public_path("index.php"));
+    // MailService::send("jiver@ms16.hinet.net", "SSSS", "AAA\n\nBBB", public_path("index.php"));
+    
+    
+    // $accunix = new AccunixLineApi(env('ACCUNIX_LINE_BOT_ID'));
+    // $accunix->setAccessToken(env('ACCUNIX_API_TOKEN'));
+    // dd($accunix->couponGift('U6670ce431ab50a1655549921f88407ad', '180410df6f754Y'));
+    // dd($accunix->couponGift('U45aa5267979d6d018f407b4b2112e372', '180410df6f754Y'));
+
+    // dd($accunix->couponGift('U6670ce431ab50a1655549921f88407ad', '180410f63das4y'));
+    
 // });
 
 // if (!config('app.debug')){

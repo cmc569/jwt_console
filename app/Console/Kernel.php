@@ -14,7 +14,10 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\checkMessGivePoint::class,
+        Commands\csvOutput::class,
+        Commands\sendGivePoints::class,
+        Commands\syncAccunixCoupon::class,
     ];
 
     /**
@@ -25,17 +28,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function () {
-            print "start call\n";
-            $usersToken = ["U47cebfa7c2cb22ab6962735c91485531"];
-            $messages = [
-                ["type"=> "text", "text"=> "test message"],
-                ["type"=> "text", "text"=> "test2 message"],
-            ];
-            $re = (new \App\Util\LineWebhook\PushMessage)->multicast($usersToken, $messages);
-            print_r($re);
-            print "end call\n";
-        })->everyMinute();
+        $schedule->command('sendGivePoints')->everyMinute();
+        $schedule->command('checkMessGivePoint')->everyTenMinutes();
+
+        $schedule->command('csvOutput')->everyFiveMinutes();
+        $schedule->command('syncAccunixCoupon')->everySixHours();
     }
 
     /**
@@ -45,8 +42,8 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        // $this->load(__DIR__.'/Commands');
 
-        require base_path('routes/console.php');
+        // require base_path('routes/console.php');
     }
 }
