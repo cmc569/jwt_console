@@ -94,6 +94,8 @@ Route::group([
             Route::get('/givePointUploadList',  [GivePointsController::class, 'index']);        //點數發送中心列表
             Route::post('/givePointUpload',     [GivePointsController::class, 'messUploads']);  //點數發送中心上傳檔案
             Route::delete('/givePointUpload',   [GivePointsController::class, 'messDelete']);   //點數發送中心刪除
+
+            Route::post('/givePoint',     [GivePointsController::class, 'givePoint']);      //手動調動紅利點數
             
         });
 
