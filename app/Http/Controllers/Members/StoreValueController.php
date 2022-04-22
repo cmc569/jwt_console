@@ -28,7 +28,7 @@ class StoreValueController extends Controller
             'mobile'         => 'required|string',
             'price'          => 'required|numeric',
             'edited_account' => 'required|string',
-            'expired_at'     => 'required|date_format:Ymd',
+            'expired_at'     => 'required|date_format:Y-m-d',
             'remark'         => 'max:50'
         ]);
 
@@ -44,7 +44,9 @@ class StoreValueController extends Controller
 
         $systexApi = new SystexApi();
 
-        $res = $systexApi->AdjustPointPlus(env('SYSTEX_VALUE_BONUSID'), $request->expired_at, $member->stored_card_no, $request->price);
+        $expiredAt = date_create($request->expired_at);
+        $expiredAt = date_format($expiredAt,"Ymd");
+        $res = $systexApi->AdjustPointPlus(env('SYSTEX_VALUE_BONUSID'), $expiredAt, $member->stored_card_no, $request->price);
 
         if($res['ReturnCode'] != "0") {
             return UtilResponse::errorResponse($res['ReturnMessage']);
