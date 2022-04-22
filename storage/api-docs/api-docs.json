@@ -889,6 +889,77 @@
         ]
       }
     },
+    "/api/v1/auth/member/givePoint": {
+      "post": {
+        "tags": [
+          "會員管理"
+        ],
+        "summary": "手動調動紅利點數",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "member": {
+                  "type": "string",
+                  "description": "會員代碼"
+                },
+                "method": {
+                  "type": "string",
+                  "description": "給點：ADD、扣點：SUB"
+                },
+                "point": {
+                  "type": "integer",
+                  "description": "點數"
+                },
+                "end_at": {
+                  "type": "string",
+                  "description": "點數到期日，給點(ADD)時為必填(YYYY-mm-dd)"
+                },
+                "remark": {
+                  "type": "string",
+                  "description": "備註"
+                }
+              },
+              "required": [
+                "member",
+                "method",
+                "point"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\n  \"msg\": \"succsess\"\n}"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
     "/api/v1/auth/member/memberEmail": {
       "patch": {
         "tags": [
@@ -1235,7 +1306,7 @@
             "schema": {
               "type": "string",
               "format": "binary",
-              "default": "{\"data\":{},\"msg\":\"succsess\"}"
+              "default": "{\"data\":[],\"msg\":\"succsess\"}"
             }
           }
         },
@@ -1302,6 +1373,147 @@
               "type": "string",
               "format": "binary",
               "default": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{}}"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/member/givePointUpload": {
+      "post": {
+        "tags": [
+          "會員管理"
+        ],
+        "summary": "點數發送中心上傳檔案",
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "date",
+            "in": "formData",
+            "required": false,
+            "description": "預約發送日期 (YYYY-mm-dd)",
+            "type": "string"
+          },
+          {
+            "name": "time",
+            "in": "formData",
+            "required": false,
+            "description": "預約發送時間 (HH:ii:ss)",
+            "type": "string"
+          },
+          {
+            "name": "csv",
+            "in": "formData",
+            "required": false,
+            "description": "匯入點數csv檔案",
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"msg\":\"succsess\"}"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "會員管理"
+        ],
+        "summary": "點數發送中心刪除紀錄",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "欲刪除紀錄代碼"
+                }
+              },
+              "required": [
+                "code"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"msg\":\"succsess\"}"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/v1/member/givePointUploadList": {
+      "get": {
+        "tags": [
+          "會員管理"
+        ],
+        "summary": "點數發送中心列表",
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\"data\":[],\"msg\":\"succsess\"}"
             }
           }
         },
