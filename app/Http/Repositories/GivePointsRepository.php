@@ -31,6 +31,20 @@ class GivePointsRepository extends BaseRepository
         return  Members::select('mobile', 'stored_card_no')->whereIn('mobile', $mobile)->get()->toArray();
     }
 
+    public function givePointRegister(Array $data)
+    {
+        return GivePoints::create([
+            'mobile'    => $data['mobile'],
+            'card_no'   => $data['card_no'] ?? null,
+            'operation' => $data['method'],
+            'point'     => $data['point'] ?? 0,
+            'send_at'   => date("Y-m-d H:i:s"),
+            'end_at'    => $data['end_at'] ?? null,
+            'upload_id' => null,
+            'remark'    => $data['remark'] ?? null,
+        ]);
+    }
+
     public function massPointRegister(String $name, String $url, String $send_at, Array $data)
     {
         DB::beginTransaction();

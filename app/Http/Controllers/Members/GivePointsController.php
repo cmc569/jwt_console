@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use App\Util\UtilResponse;
 use App\Http\Repositories\GivePointsRepository;
+use App\Http\Repositories\MembersRepository;
 use App\Crypto\Crypto;
 
 class GivePointsController extends Controller
@@ -161,5 +162,43 @@ class GivePointsController extends Controller
         } else {
             return UtilResponse::errorResponse("record delete failed");
         }
+    }
+
+    public function givePoint(Request $request)
+    {
+        // dd($request->input());
+        $validator = Validator::make($request->input(), [
+            'member' => 'required|string',
+            'method' => ['required', Rule::in(['ADD', 'SUB'])],
+            'point'  => 'required|integer',
+            'remark' => 'nullable|string',
+        ]);
+ 
+        if ($validator->fails()) {
+            return UtilResponse::errorResponse("invalid parameters");
+        }
+
+        $data = $request->input();
+        if ($data['method'] == 'ADD') {
+            if (empty($data['end_at']) || !preg_match("/^\d{4}\-\d{2}\-\d{2}$/", $data['end_at'])) {
+                return UtilResponse::errorResponse("invalid parameters(D)");
+            }
+        }
+        
+        $data['member'] = Crypto::decode($data['member']);
+        $members_repository = new MembersRepository;
+        $member = $members_repository->getMemberById($data['member']);
+        $data['mobile'] = $member->mobile ?? null;
+        $data['card_no'] = $member->stored_card_no ?? null;
+        
+        if (empty($data['mobile'])) {
+            return UtilResponse::errorResponse("invalid member data");
+        }
+
+        if ($this->give_point_repository->givePointRegister($data)) {
+            return UtilResponse::successResponse("success");
+        }
+
+        return UtilResponse::errorResponse("register failed");
     }
 }

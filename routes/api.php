@@ -96,6 +96,8 @@ Route::group([
             Route::post('/givePointUpload',     [GivePointsController::class, 'messUploads']);  //點數發送中心上傳檔案
             Route::delete('/givePointUpload',   [GivePointsController::class, 'messDelete']);   //點數發送中心刪除
 
+            Route::post('/givePoint',     [GivePointsController::class, 'givePoint']);      //手動調動紅利點數
+            
             Route::post('/storedValuePlus', [StoreValueController::class, 'plus']);
             Route::post('/cancelValuePlus', [StoreValueController::class, 'minus']);
             Route::post('/getOrderList', [StoreValueController::class, 'orderList']);
