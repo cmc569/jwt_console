@@ -104,7 +104,8 @@ class sendGivePoints extends Command
             
             //
             $response = $this->pointHandler($systex, $method, $card_no, $point, $end_at);
-            $status = ($response['ReturnCode'] == '0') ? 'Y' : 'F';
+            print_r($response);exit;
+            $status = (!empty($response['ReturnCode']) && ($response['ReturnCode'] == '0')) ? 'Y' : 'F';
             Log::info('呼叫精誠加扣點api(id: '.$v['id'].') '.print_r($response, true));
 
             if (empty($this->setRecords([$v['id']], $status, json_encode($response, JSON_UNESCAPED_UNICODE)))) {
