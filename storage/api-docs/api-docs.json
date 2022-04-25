@@ -889,6 +889,59 @@
         ]
       }
     },
+    "/api/v1/auth/member/orderDetail": {
+      "post": {
+        "tags": [
+          "會員管理"
+        ],
+        "summary": "交易明細",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "order_id": {
+                  "type": "string",
+                  "description": "訂單ID"
+                }
+              },
+              "required": [
+                "order_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\n  \"data\": {},\n  \"msg\": \"succsess\"\n}"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
     "/api/v1/auth/member/givePoint": {
       "post": {
         "tags": [
