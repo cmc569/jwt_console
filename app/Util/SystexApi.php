@@ -4,7 +4,7 @@ namespace App\Util;
 class SystexApi
 {
     protected $log;
-    protected $orderId;
+    public $orderId;
 
     public function __construct()
     {
