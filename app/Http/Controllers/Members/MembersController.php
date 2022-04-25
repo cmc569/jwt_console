@@ -331,6 +331,9 @@ class MembersController extends Controller
         }
         
         $list = $this->members_repository->getOrderById($request->input('order_id'));
+        $list['pointDetail'] = $this->members_repository->getOrderPointById($request->input('order_id'));
+        $list['Item'] = $this->members_repository->getOrderItemById($request->input('order_id'));
+
         return UtilResponse::successResponse("success", $list);
     }
 

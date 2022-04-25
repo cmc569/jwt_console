@@ -6,6 +6,8 @@ use App\Http\Models\Members;
 use App\Http\Models\CsvOutput;
 use App\Http\Models\Orders;
 use App\Http\Models\OrderInvoices;
+use App\Http\Models\OrderItem;
+use App\Http\Models\OrderPoint;
 use App\Util\UtilTime;
 use Exception;
 use DB;
@@ -164,18 +166,30 @@ class MembersRepository extends BaseRepository
     public function getOrderById(String $id)
     {
         $orders = Orders::select(
-                    DB::raw('orders.checkout_time, order_invoice.shop_name, orders.order_id,
+                    DB::raw('orders.checkout_time, order_invoice.shop_name, order_invoice.shop_no, orders.order_id, orders.order_price,
                         CONCAT(order_invoice.invoice_word, order_invoice.invoice_no) as invoice, 
                         order_invoice.total_amount, order_invoice.random_no, order_invoice.invoice_type,
-                        order_item.item_name, order_item.item_count, order_item.item_price,
-                        order_point.trans_point, order_tender.tender_name')
+                        order_tender.tender_name')
                 )
                 ->leftJoin('order_invoice', 'order_invoice.order_id', '=', 'orders.order_id')
-                ->leftJoin('order_item', 'order_item.order_id', '=', 'orders.order_id')
-                ->leftJoin('order_point', 'order_point.order_id', '=', 'orders.order_id')
                 ->leftJoin('order_tender', 'order_tender.order_id', '=', 'orders.order_id')
                 ->where('orders.order_id', $id)->where('orders.status', 'Y');
 
-        return $orders->first();
+        return $orders->first()->toArray();
     }
+
+    public function getOrderItemById(String $id)
+    {
+        $orderItem = OrderItem::select('item_name', 'item_price')->where('order_id', $id)->get()->toArray();
+
+        return $orderItem ;
+    }
+
+    public function getOrderPointById(String $id)
+    {
+        $orderPoint = OrderPoint::select('p_item_name', 'trans_point')->where('order_id', $id)->get()->toArray();
+
+        return $orderPoint;
+    }
+
 }
