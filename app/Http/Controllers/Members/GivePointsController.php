@@ -25,6 +25,7 @@ class GivePointsController extends Controller
         $data = $this->give_point_repository->getMassUploadRecords();
         $data = $data->map(function($item) {
             $item->code = Crypto::encode($item->code);
+            $item->url = config('app.url').$item->url;
             return $item;
         })->filter();
         return UtilResponse::successResponse("success", $data);
