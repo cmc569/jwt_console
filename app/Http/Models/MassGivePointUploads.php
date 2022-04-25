@@ -24,6 +24,7 @@ class MassGivePointUploads extends Model
         'total',
         'ok_count',
         'ng_count',
+        'ng_file_url',
         'process_status',
         'result',
     ];
