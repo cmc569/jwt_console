@@ -40,16 +40,20 @@ class sendGivePoints extends Command
      */
     public function handle()
     {
-        // $systex = new SystexApi;
+        $systex = new SystexApi;
 
-        // $data = $systex->AdjustPointPlus(env('SYSTEX_POINT_BONUSID'), '20221010', '8233091780000195', 50);
+        // $data = $systex->AdjustPointPlus(env('SYSTEX_POINT_BONUSID'), '20221010', '8233091780000195', 30);
+        // echo $systex->orderId."\n\n";
         // print_r($data);exit;
 
         // $data = $systex->AdjustPointMinus(env('SYSTEX_POINT_BONUSID'), '8233091780000245', 10);
+        // echo $systex->orderId."\n\n";
         // print_r($data);exit;
         // $data = $systex->AdjustPointMinus(env('SYSTEX_POINT_BONUSID'), '8233091780000195', 30);
+        // echo $systex->orderId."\n\n";
         // print_r($data);exit;
 
+        // $data = $systex->QueryTxn('8233091780000245');
         // $data = $systex->QueryTxn('8233091780000195');
         // print_r($data);exit;
 
@@ -103,7 +107,7 @@ class sendGivePoints extends Command
             $status = ($response['ReturnCode'] == '0') ? 'Y' : 'F';
             Log::info('呼叫精誠加扣點api(id: '.$v['id'].') '.print_r($response, true));
 
-            if (empty($this->setRecords([$v['id']], $status))) {
+            if (empty($this->setRecords([$v['id']], $status, json_encode($response, JSON_UNESCAPED_UNICODE)))) {
                 Log::error('DB發點紀錄失敗(id: '.$v['id'].')');
 
                 //精誠點數已發、需補正
@@ -126,9 +130,9 @@ class sendGivePoints extends Command
         return givePoints::where('process_status', $process_status)->where('send_at', '<=', date("Y-m-d H:i:s"))->get();
     }
 
-    private function setRecords(Array $ids, String $process_status)
+    private function setRecords(Array $ids, String $process_status, String $response=null)
     {
-        return givePoints::whereIn('id', $ids)->update(['process_status' => $process_status]);
+        return givePoints::whereIn('id', $ids)->update(['process_status' => $process_status, ]);
     }
 
     private function pointHandler(SystexApi $systex, String $method, String $card_no, Int $point, String $end_at=null)
@@ -144,6 +148,9 @@ class sendGivePoints extends Command
                 break;
         }
 
-        return $response;
+        return [
+            'order_id'  => $systex->orderId,
+            'response'  => $response,
+        ];
     }
 }
