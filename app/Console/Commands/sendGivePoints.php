@@ -66,7 +66,7 @@ class sendGivePoints extends Command
 
         $records = $this->getRecords();
         
-        if (empty($records)) {
+        if ($records->isEmpty()) {
             return;
         }
 
