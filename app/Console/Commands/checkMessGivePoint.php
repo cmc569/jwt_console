@@ -50,6 +50,7 @@ class checkMessGivePoint extends Command
                 $ok = $this->countGivePoints($item->id, 'Y');
                 $ng = $this->countGivePoints($item->id, 'F');
                 
+                $csv = null;
                 if ($ng > 0) {
                     $csv = $this->createNgCsvFile($item->id);
                 }
@@ -115,7 +116,7 @@ class checkMessGivePoint extends Command
             }
 
             if (is_file($fh)) {
-                return config('app.url').'/'.$path.'/'.$fname;
+                return $path.'/'.$fname;
             }
 
             return false;
