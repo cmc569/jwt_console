@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('sendGivePoints')->everyMinute();
-        $schedule->command('checkMessGivePoint')->everyTenMinutes();
+        $schedule->command('checkMessGivePoint')->everyThreeMinutes();
 
         $schedule->command('csvOutput')->everyFiveMinutes();
         $schedule->command('syncAccunixCoupon')->everySixHours();
