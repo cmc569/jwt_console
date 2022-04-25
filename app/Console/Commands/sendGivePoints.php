@@ -126,7 +126,7 @@ class sendGivePoints extends Command
                     // Log::info('精誠點數補(扣)回(id: '.$v['id'].') '.print_r($response, true));
                 }
             } else {
-                Log::error('DB發點紀錄完成(id: '.$v['id'].')');
+                Log::info('DB發點紀錄完成(id: '.$v['id'].')');
             }
         }
 
