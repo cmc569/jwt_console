@@ -103,7 +103,7 @@ class sendGivePoints extends Command
             }
             
             //
-            $response = $this->pointHandler($systex, $method, $card_no, $point, $end_at);print_r($response);
+            $response = $this->pointHandler($systex, $method, $card_no, $point, $end_at);
             $status = ($response['ReturnCode'] == '0') ? 'Y' : 'F';
             Log::info('呼叫精誠加扣點api(id: '.$v['id'].') '.print_r($response, true));
 
@@ -130,9 +130,17 @@ class sendGivePoints extends Command
         return givePoints::where('process_status', $process_status)->where('send_at', '<=', date("Y-m-d H:i:s"))->get();
     }
 
-    private function setRecords(Array $ids, String $process_status, String $response=null)
+    private function setRecords(Array $ids, String $process_status, String $json=null)
     {
-        return givePoints::whereIn('id', $ids)->update(['process_status' => $process_status, ]);
+        $response = null;
+        if (!is_null($json)) {
+            $response = json_decode($json);
+        }
+        return givePoints::whereIn('id', $ids)->update([
+            'process_status' => $process_status, 
+            'response'       => $json, 
+            'order_id'       => $response->order_id ?? null,
+        ]);
     }
 
     private function pointHandler(SystexApi $systex, String $method, String $card_no, Int $point, String $end_at=null)
