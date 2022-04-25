@@ -8,6 +8,7 @@ use App\Http\Models\MassGivePointUploads;
 use App\Util\UtilTime;
 use Exception;
 use DB;
+use Log;
 
 class GivePointsRepository extends BaseRepository
 {
