@@ -12,6 +12,7 @@ use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Services\MailService;
 // use App\Util\AccunixLineApi;
+use App\Http\Controllers\Members\CouponController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,10 +98,16 @@ Route::group([
             Route::delete('/givePointUpload',   [GivePointsController::class, 'messDelete']);   //點數發送中心刪除
 
             Route::post('/givePoint',     [GivePointsController::class, 'givePoint']);      //手動調動紅利點數
-            
+
             Route::post('/storedValuePlus', [StoreValueController::class, 'plus']);
             Route::post('/cancelValuePlus', [StoreValueController::class, 'minus']);
             Route::post('/getOrderList', [StoreValueController::class, 'orderList']);
+
+            Route::post('/getCampaignList', [CouponController::class, 'campaignList']);
+            Route::post('/getCouponList', [CouponController::class, 'couponList']);
+            Route::post('/sendCoupon', [CouponController::class, 'couponGift']);
+            Route::post('/couponVerify', [CouponController::class, 'couponVerify']);
+            Route::post('/couponUnverify', [CouponController::class, 'unverify']);
         });
 
         //行銷
