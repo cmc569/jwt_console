@@ -14,7 +14,7 @@ class AccunixLineApi extends AccunixApiCore
         return parent::__construct($bot_id, $log);
     }
     ##
-    
+
     //解構
     public function __destruct()
     {
@@ -48,7 +48,7 @@ class AccunixLineApi extends AccunixApiCore
         $post_data = [
             'userToken'    => $user_token,
         ];
-        
+
         if (empty($data) && empty($messageId)) {
             $res = [
                 'status'    => 400,
@@ -57,7 +57,7 @@ class AccunixLineApi extends AccunixApiCore
 
             $this->throwException($res);
         }
-        
+
         if (!empty($messageId)) {
             $post_data['messageId'] = $messageId;
         } else if (!empty($data)) {
@@ -74,7 +74,7 @@ class AccunixLineApi extends AccunixApiCore
         return $this->send($post_data);
     }
     ##
-    
+
     //取得User分享好友加入人數
     public function getUserShareInfo(String $user_token)
     {
@@ -97,7 +97,7 @@ class AccunixLineApi extends AccunixApiCore
     public function getShareLink(String $user_token)
     {
         $this->url = "{$this->baseUrl}/{$this->BotId}/users/getShareLink";
-        
+
         $post_data = [
             'sharer_token'  => $user_token,
         ];
@@ -128,11 +128,11 @@ class AccunixLineApi extends AccunixApiCore
     public function setUserData(String $user_token, Array $data)
     {
         $this->url = "{$this->baseUrl_v2}/{$this->BotId}/users/data";
-        
+
         $post_data = [
             'userToken'    => $user_token,
         ];
-        
+
         if (!empty($data)) {
             $post_data['data'] = $data;
         }
@@ -145,9 +145,9 @@ class AccunixLineApi extends AccunixApiCore
     public function createTags(String $tag, Int $days=NULL)
     {
         $days = $days ?? '-1';
-        
+
         $this->url = "{$this->baseUrl_v2}/{$this->BotId}/tag/create";
-        
+
         $post_data = [
             'name'  => $tag,
             'days'  => $days,
@@ -161,7 +161,7 @@ class AccunixLineApi extends AccunixApiCore
     public function addUsersTag($user_token, $data)
     {
         $this->url = "{$this->baseUrl_v2}/{$this->BotId}/tag/add";
-        
+
         if (!is_array($user_token)) {
             $user_token = [$user_token];
         }
@@ -198,7 +198,7 @@ class AccunixLineApi extends AccunixApiCore
     public function removeUsersTag($user_token, $data)
     {
         $this->url = "{$this->baseUrl_v2}/{$this->BotId}/tag/remove";
-        
+
         if (!is_array($user_token)) {
             $user_token = [$user_token];
         }
@@ -243,7 +243,7 @@ class AccunixLineApi extends AccunixApiCore
 
             $this->throwException($res);
         }
-        
+
         foreach ($data as $tag) {
             $res = $this->createTags($tag, $days);
             switch ($res['status']) {
@@ -258,14 +258,14 @@ class AccunixLineApi extends AccunixApiCore
                             'status'    => 400,
                             'message'   => '標簽建立失敗',
                         ];
-                        
+
                         $this->throwException($res);
-                        
+
                         break;
             }
             unset($res);
         }
-        
+
         return $this->addUsersTag($user_token, $data);
     }
     ##
@@ -275,19 +275,19 @@ class AccunixLineApi extends AccunixApiCore
         if (empty($response['data']['response']['user']['authentications'])) {
             return false;
         }
-        
+
         foreach ($response['data']['response']['user']['authentications'] as $index => $value) {
             if (empty($value['roles'])) {
                 continue;
             }
-            
+
             foreach ($value['roles'] as $index2 => $value2) {
                 if ($role == $value2['id']) {
                     return true;
                 }
             }
         }
-        
+
         return false;
     }
     ##
@@ -297,7 +297,7 @@ class AccunixLineApi extends AccunixApiCore
         if (empty($response['data']['response']['user']['tags'])) {
             return false;
         }
-        
+
         foreach ($response['data']['response']['user']['tags'] as $index => $value) {
             if (preg_match("/^\d+$/", $tag) && ($value['id'] == $tag)) {
                 return true;
@@ -305,7 +305,7 @@ class AccunixLineApi extends AccunixApiCore
                 return true;
             }
         }
-        
+
         return false;
     }
     ##
@@ -314,7 +314,7 @@ class AccunixLineApi extends AccunixApiCore
     public function couponGift(String $user_token, String $coupon_guid)
     {
         $this->url = "{$this->baseUrl_v2}/{$this->BotId}/coupon/gift";
-        
+
         $post_data = [
             'userToken'  => $user_token,
             'couponGuid' => $coupon_guid,
@@ -324,6 +324,19 @@ class AccunixLineApi extends AccunixApiCore
     }
     ##
 
+    //優惠卷核銷
+    public function couponVerify(String $code)
+    {
+        $this->url = "{$this->baseUrl_v2}/coupon-child/verify";
+
+        $post_data = [
+            "couponCode"     =>$code,
+            "linebotGuid"    =>$this->BotId
+        ];
+
+        return $this->send($post_data);
+    }
+    ##
 }
-    
+
 ?>

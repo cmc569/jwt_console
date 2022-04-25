@@ -12,7 +12,7 @@ class AccunixCouponApi
     public function __construct()
     {
         $this->log = base_path().'/private/storage/'.env('APP_NAME').'/log/accunix_api/coupon';
-        
+
         if (!is_dir($this->log)) {
             mkdir($this->log, 0777, true);
         }
@@ -50,6 +50,18 @@ class AccunixCouponApi
         $this->url = "{$this->baseUrl}/coupon-children-list?".http_build_query($post_data);
 
         return $this->send($post_data, 'GET');
+    }
+
+    //取消核銷
+    public function unverify(String $code = NULL)
+    {
+        $this->url = "{$this->baseUrl}/unverify";
+
+        if (!empty($code)) {
+            $post_data['code'] = $code;
+        }
+
+        return $this->send($post_data);
     }
 
     public function check(String $code=NULL)

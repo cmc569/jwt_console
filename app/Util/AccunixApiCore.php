@@ -30,7 +30,7 @@ class AccunixApiCore
         $this->exists_bot_id();
     }
     ##
-    
+
     //解構
     public function __destruct()
     {
@@ -71,15 +71,15 @@ class AccunixApiCore
 
         if ($method == 'PATCH') {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
-        } 
+        }
 
         if (!empty($this->headers)) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
         }
-        
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        
+
         try {
             $json = curl_exec($ch);
             $response = json_decode($json, true);
@@ -116,7 +116,7 @@ class AccunixApiCore
                 $return['data'] = $response;
             }
         }
-        
+
         return $return;
     }
     ##
@@ -140,7 +140,7 @@ class AccunixApiCore
                 'status'    => 400,
                 'message'   => '未輸入bot_id'
             ];
-            
+
             $this->throwException($res);
         }
     }
@@ -153,7 +153,7 @@ class AccunixApiCore
                 'status'    => 400,
                 'message'   => '未指定 end-point url'
             ];
-            
+
             $this->throwException($res);
         }
     }
@@ -180,7 +180,7 @@ class AccunixApiCore
                 'status'    => 400,
                 'message'   => '未指定 header 資訊'
             ];
-            
+
             $this->throwException($res);
         }
     }
@@ -190,7 +190,7 @@ class AccunixApiCore
     private function throwException(Array $res)
     {
         $this->Logs($res, 'error');
-        throw new Exception(json_encode($res, JSON_UNESCAPED_UNICODE)); //丟出例外
+        throw new \Exception(json_encode($res, JSON_UNESCAPED_UNICODE)); //丟出例外
     }
     ##
 
@@ -224,5 +224,5 @@ class AccunixApiCore
     }
     ##
 }
-    
+
 ?>
