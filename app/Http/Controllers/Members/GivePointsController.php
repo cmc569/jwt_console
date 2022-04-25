@@ -36,13 +36,15 @@ class GivePointsController extends Controller
         $validator = Validator::make($request->input(), [
             'date'  => 'required|date_format:Y-m-d',
             'time'  => 'required|regex:/^\d{2}\:\d{2}\:\d{2}$/',
+            'csv'   => 'file',
         ]);
  
         if ($validator->fails()) {
-            return UtilResponse::errorResponse("invalid parameters");
+            return $validator->errors()->all();
+            // return UtilResponse::errorResponse("invalid parameters");
         }
 
-        if (empty($request->file('csv')->isValid())) {
+        if (empty($request->file('csv'))) {
             return UtilResponse::errorResponse("no csv file uploaded");
         }
 
