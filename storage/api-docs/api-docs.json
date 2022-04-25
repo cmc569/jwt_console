@@ -1513,7 +1513,21 @@
             "schema": {
               "type": "string",
               "format": "binary",
-              "default": "{\"data\":[],\"msg\":\"succsess\"}"
+              "default": {
+                "msg": "success",
+                "data": [
+                  {
+                    "code": "代碼",
+                    "filename": "檔案名稱",
+                    "url": "下載路徑",
+                    "send_at": "發送時間",
+                    "total": "點數",
+                    "process_status": "處理狀態（處理狀態：Y=已完成、Ｎ＝待發送、F＝失敗、Ｐ＝處理中）",
+                    "result": "api回應結果",
+                    "created_at": "檔案上傳時間"
+                  }
+                ]
+              }
             }
           }
         },

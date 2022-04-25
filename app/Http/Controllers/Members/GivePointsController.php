@@ -25,6 +25,7 @@ class GivePointsController extends Controller
         $data = $this->give_point_repository->getMassUploadRecords();
         $data = $data->map(function($item) {
             $item->code = Crypto::encode($item->code);
+            $item->url = config('app.url').$item->url;
             return $item;
         })->filter();
         return UtilResponse::successResponse("success", $data);
@@ -35,13 +36,15 @@ class GivePointsController extends Controller
         $validator = Validator::make($request->input(), [
             'date'  => 'required|date_format:Y-m-d',
             'time'  => 'required|regex:/^\d{2}\:\d{2}\:\d{2}$/',
+            'csv'   => 'file',
         ]);
  
         if ($validator->fails()) {
-            return UtilResponse::errorResponse("invalid parameters");
+            return $validator->errors()->all();
+            // return UtilResponse::errorResponse("invalid parameters");
         }
 
-        if (empty($request->file('csv')->isValid())) {
+        if (empty($request->file('csv'))) {
             return UtilResponse::errorResponse("no csv file uploaded");
         }
 
@@ -77,7 +80,7 @@ class GivePointsController extends Controller
         $mobile = $this->mobileMappingToCardNo($mobile);
 
         $data = $data->map(function($item) use($mobile) {
-            $item[3] = $mobile[$item[0]];
+            $item[3] = $mobile[$item[0]] ?? null ;
             $item[2] = trim(str_replace('/', '-', preg_replace("/\r/", '', $item[2])));
             return $item;
         });

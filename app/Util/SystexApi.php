@@ -4,6 +4,7 @@ namespace App\Util;
 class SystexApi
 {
     protected $log;
+    public $orderId;
 
     public function __construct()
     {
@@ -143,7 +144,7 @@ class SystexApi
 
     public function AdjustPointMinus(string $bonusId, string $storedCardNo, string $amount)
     {
-        $orderId = $this->createOrderId();
+        $this->orderId = $this->createOrderId();
 
         $data =[
             "Host" => "SVC",
@@ -152,8 +153,8 @@ class SystexApi
             "DateTime" => date('ymdHis'),
             "Mid" => "233091780000997",
             "Tid" => "00099701",
-            "OrderId" => $orderId,
-            "MerchOrderNo" => $orderId,
+            "OrderId" => $this->orderId,
+            "MerchOrderNo" => $this->orderId,
             "SvcCardNo" => $storedCardNo,
             "CouponList" =>[         
                 [
@@ -172,7 +173,7 @@ class SystexApi
 
     public function AdjustPointPlus(string $bonusId, string $endDate,string $storedCardNo, string $amount)
     {
-        $orderId = $this->createOrderId();
+        $this->orderId = $this->createOrderId();
 
         $data =[
             "Host" => "SVC",
@@ -181,8 +182,8 @@ class SystexApi
             "DateTime" => date('ymdHis'),
             "Mid" => "233091780000997",
             "Tid" => "00099701",
-            "OrderId" => $orderId,
-            "MerchOrderNo" => $orderId,
+            "OrderId" => $this->orderId,
+            "MerchOrderNo" => $this->orderId,
             "SvcCardNo" => $storedCardNo,
             "CouponList" =>[         
                 [

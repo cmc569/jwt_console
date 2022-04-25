@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Http\Models\MassGivePointUploads;
 use App\Http\Models\GivePoints;
 use Log;
+use File;
 
 class checkMessGivePoint extends Command
 {
@@ -48,18 +49,25 @@ class checkMessGivePoint extends Command
             } else if (empty($this->isGivePointStatus($item->id, 'N'))) {
                 $ok = $this->countGivePoints($item->id, 'Y');
                 $ng = $this->countGivePoints($item->id, 'F');
-                $this->setMassRecord($item->id, 'Y', $ok, $ng);
+                
+                $csv = null;
+                if ($ng > 0) {
+                    $csv = $this->createNgCsvFile($item->id);
+                }
+
+                $this->setMassRecord($item->id, 'Y', $ok, $ng, $csv);
             }
         });
         
     }
 
-    private function setMassRecord(Int $id, String $process_status, Int $ok=null, Int $ng=null)
+    private function setMassRecord(Int $id, String $process_status, Int $ok=null, Int $ng=null, String $csv=null)
     {
         return MassGivePointUploads::find($id)->update([
             'process_status' => $process_status, 
             'ok_count'       => $ok, 
-            'ng_count'       => $ng
+            'ng_count'       => $ng,
+            'ng_file_url'    => $csv,
         ]);
     }
 
@@ -76,5 +84,42 @@ class checkMessGivePoint extends Command
     private function countGivePoints(Int $id, String $status)
     {
         return GivePoints::where('upload_id', $id)->where('process_status', $status)->count();
+    }
+
+    private function createNgCsvFile(Int $id)
+    {
+        $records = GivePoints::where('upload_id', $id)->where('process_status', 'F')->get();
+        // print_r($records->toArray());exit;
+        return $this->buildCsvFile($id, $records);
+    }
+
+    private function buildCsvFile($id, $records)
+    {
+        $fname = 'ng_'.$id.time().'.csv';
+        $path = '/uploads/mass_upload/ng_csv';
+        $fh = public_path($path);
+        if (!File::isDirectory($fh)) {
+            File::makeDirectory($fh, 0777, true); //mkdir 0777
+        }
+        $fh .= '/'.$fname;
+        
+        $header = '手機號碼,點數,到期日,發送時間,上傳時間'."\n";
+        file_put_contents($fh, chr(0xEF).chr(0xBB).chr(0xBF), FILE_APPEND);
+        file_put_contents($fh, $header, FILE_APPEND);
+        if (empty($records)) {
+            return false;
+        } else {
+            foreach ($records as $record) {
+                $record['end_at'] = substr($record['end_at'], 0, 10);
+                $body = "{$record['mobile']},{$record['point']},{$record['end_at']},{$record['send_at']},{$record['created_at']}\n";
+                file_put_contents($fh, $body, FILE_APPEND);
+            }
+
+            if (is_file($fh)) {
+                return $path.'/'.$fname;
+            }
+
+            return false;
+        }
     }
 }

@@ -25,6 +25,7 @@ class GivePoints extends Model
         'send_at',
         'end_at',
         'remark',
+        'order_id',
         'response',
         'upload_id',
         'process_status',

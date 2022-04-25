@@ -40,16 +40,20 @@ class sendGivePoints extends Command
      */
     public function handle()
     {
-        // $systex = new SystexApi;
+        $systex = new SystexApi;
 
-        // $data = $systex->AdjustPointPlus(env('SYSTEX_POINT_BONUSID'), '20221010', '8233091780000195', 50);
+        // $data = $systex->AdjustPointPlus(env('SYSTEX_POINT_BONUSID'), '20221010', '8233091780000195', 30);
+        // echo $systex->orderId."\n\n";
         // print_r($data);exit;
 
         // $data = $systex->AdjustPointMinus(env('SYSTEX_POINT_BONUSID'), '8233091780000245', 10);
+        // echo $systex->orderId."\n\n";
         // print_r($data);exit;
         // $data = $systex->AdjustPointMinus(env('SYSTEX_POINT_BONUSID'), '8233091780000195', 30);
+        // echo $systex->orderId."\n\n";
         // print_r($data);exit;
 
+        // $data = $systex->QueryTxn('8233091780000245');
         // $data = $systex->QueryTxn('8233091780000195');
         // print_r($data);exit;
 
@@ -62,7 +66,7 @@ class sendGivePoints extends Command
 
         $records = $this->getRecords();
         
-        if (empty($records)) {
+        if ($records->isEmpty()) {
             return;
         }
 
@@ -99,11 +103,18 @@ class sendGivePoints extends Command
             }
             
             //
-            $response = $this->pointHandler($systex, $method, $card_no, $point, $end_at);print_r($response);
-            $status = ($response['ReturnCode'] == '0') ? 'Y' : 'F';
+            $response = $this->pointHandler($systex, $method, $card_no, $point, $end_at);
+            $return = $response['response'];
+
+            // $status = (!empty($return['ReturnCode']) && ($return['ReturnCode'] == '0')) ? 'Y' : 'F';
+            if ($return['ReturnCode'] == '0') {
+                $status = 'Y';
+            } else {
+                $status = 'F';
+            }
             Log::info('呼叫精誠加扣點api(id: '.$v['id'].') '.print_r($response, true));
 
-            if (empty($this->setRecords([$v['id']], $status))) {
+            if (empty($this->setRecords([$v['id']], $status, json_encode($response, JSON_UNESCAPED_UNICODE)))) {
                 Log::error('DB發點紀錄失敗(id: '.$v['id'].')');
 
                 //精誠點數已發、需補正
@@ -115,7 +126,7 @@ class sendGivePoints extends Command
                     // Log::info('精誠點數補(扣)回(id: '.$v['id'].') '.print_r($response, true));
                 }
             } else {
-                Log::error('DB發點紀錄完成(id: '.$v['id'].')');
+                Log::info('DB發點紀錄完成(id: '.$v['id'].')');
             }
         }
 
@@ -126,9 +137,17 @@ class sendGivePoints extends Command
         return givePoints::where('process_status', $process_status)->where('send_at', '<=', date("Y-m-d H:i:s"))->get();
     }
 
-    private function setRecords(Array $ids, String $process_status)
+    private function setRecords(Array $ids, String $process_status, String $json=null)
     {
-        return givePoints::whereIn('id', $ids)->update(['process_status' => $process_status]);
+        $response = null;
+        if (!is_null($json)) {
+            $response = json_decode($json);
+        }
+        return givePoints::whereIn('id', $ids)->update([
+            'process_status' => $process_status, 
+            'response'       => $json, 
+            'order_id'       => $response->order_id ?? null,
+        ]);
     }
 
     private function pointHandler(SystexApi $systex, String $method, String $card_no, Int $point, String $end_at=null)
@@ -144,6 +163,9 @@ class sendGivePoints extends Command
                 break;
         }
 
-        return $response;
+        return [
+            'order_id'  => $systex->orderId,
+            'response'  => $response,
+        ];
     }
 }
