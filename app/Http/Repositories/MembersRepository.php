@@ -167,9 +167,9 @@ class MembersRepository extends BaseRepository
     {
         $orders = Orders::select(
                     DB::raw('orders.checkout_time, order_invoice.shop_name, order_invoice.shop_no, orders.order_id, orders.order_price,
-                        CONCAT(order_invoice.invoice_word, order_invoice.invoice_no) as invoice, 
-                        order_invoice.total_amount, order_invoice.random_no, order_invoice.invoice_type,
-                        order_tender.tender_name')
+                        CONCAT(order_invoice.invoice_word, order_invoice.invoice_no) as invoice,
+                        order_invoice.random_no, order_invoice.invoice_type,
+                        order_tender.tender_name, order_tender.pay_amount')
                 )
                 ->leftJoin('order_invoice', 'order_invoice.order_id', '=', 'orders.order_id')
                 ->leftJoin('order_tender', 'order_tender.order_id', '=', 'orders.order_id')
