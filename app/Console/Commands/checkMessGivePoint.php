@@ -115,6 +115,22 @@ class checkMessGivePoint extends Command
                 file_put_contents($fh, $body, FILE_APPEND);
             }
 
+            $client = new \GuzzleHttp\Client();
+            $url = 'https://project-burgerking-web-app-cms-dev-02.azurewebsites.net/api/upload/test';
+            $res = $client->post($url, [
+                'multipart' => [
+                    [
+                        'name'     => 'csv_file',
+                        'contents' => fopen($fh, 'r'),
+                        'filename' => '' //預設抓原始檔名
+                    ],
+                    [
+                        'name'     => 'path',
+                        'contents' => $fh //選擇儲存位置
+                    ]
+                ]
+            ]);
+
             if (is_file($fh)) {
                 return $path.'/'.$fname;
             }

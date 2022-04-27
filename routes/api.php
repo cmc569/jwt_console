@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 // use App\Http\Services\MailService;
 // use App\Util\AccunixLineApi;
 use App\Http\Controllers\Members\CouponController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,15 @@ use App\Http\Controllers\Members\CouponController;
 Route::get('/test',function(){
     //拖曳yapi產生的swaggerApi.json 產生Authorizationc跟https選項
     return view('index');
+});
+
+Route::post('/upload/test',function(Request $request){
+
+    if ($request->hasFile('csv_file')) {
+        $fileName = $request->file('csv_file')->getClientOriginalName();
+        $path = $request->path;
+        $request->file('csv_file')->move($path, $fileName);
+    }
 });
 
 /* path: /api/v1 */
