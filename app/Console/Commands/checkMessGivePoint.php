@@ -116,7 +116,7 @@ class checkMessGivePoint extends Command
             }
 
             $client = new \GuzzleHttp\Client();
-            $url = 'https://project-burgerking-web-app-cms-dev-02.azurewebsites.net/api/upload/test';
+            $url = 'https://project-burgerking-web-app-cms-dev-02.azurewebsites.net/api/webhook/csvDownload';
             $res = $client->post($url, [
                 'multipart' => [
                     [

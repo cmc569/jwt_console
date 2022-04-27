@@ -52,15 +52,8 @@ Route::get('/test',function(){
     return view('index');
 });
 
-Route::post('/upload/test',function(Request $request){
-
-    if ($request->hasFile('csv_file')) {
-        
-        $fileName = $request->file('csv_file')->getClientOriginalName();
-        $path = public_path($request->path);
-        $request->file('csv_file')->move($path, $fileName);
-    }
-});
+//接收vm 失敗名單csv
+Route::post('/webhook/csvDownload', [GivePointsController::class, 'csvDownload']);
 
 /* path: /api/v1 */
 Route::group([
