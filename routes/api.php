@@ -56,6 +56,8 @@ Route::post('/upload/test',function(Request $request){
         $fileName = $request->file('csv_file')->getClientOriginalName();
         $path = $request->path;
         $request->file('csv_file')->move($path, $fileName);
+
+        echo "OK";
     }
 });
 
