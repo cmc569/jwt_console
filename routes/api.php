@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 // use App\Http\Services\MailService;
 // use App\Util\AccunixLineApi;
 use App\Http\Controllers\Members\CouponController;
+use App\Http\Controllers\Members\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,13 +102,18 @@ Route::group([
 
             Route::post('/storedValuePlus', [StoreValueController::class, 'plus']);
             Route::post('/cancelValuePlus', [StoreValueController::class, 'minus']);
-            Route::post('/getOrderList', [StoreValueController::class, 'orderList']);
+            Route::post('/storeValueOrderList', [StoreValueController::class, 'orderList']);
 
             Route::post('/getCampaignList', [CouponController::class, 'campaignList']);
             Route::post('/getCouponList', [CouponController::class, 'couponList']);
             Route::post('/sendCoupon', [CouponController::class, 'couponGift']);
             Route::post('/couponVerify', [CouponController::class, 'couponVerify']);
             Route::post('/couponUnverify', [CouponController::class, 'unverify']);
+
+            Route::post('/productOrderList', [ProductController::class, 'orderList']);
+            Route::post('/productCouponList', [ProductController::class, 'couponList']);
+            Route::post('/productVoidCoupon', [ProductController::class, 'voidCoupon']);
+
         });
 
         //行銷
