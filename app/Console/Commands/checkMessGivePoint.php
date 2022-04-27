@@ -130,8 +130,6 @@ class checkMessGivePoint extends Command
                     ]
                 ]
             ]);
-
-            print_r($res->getBody()->getContents());
             
             if (is_file($fh)) {
                 return $path.'/'.$fname;

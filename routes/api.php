@@ -51,11 +51,7 @@ Route::get('/test',function(){
 });
 
 Route::post('/upload/test',function(Request $request){
-    $path = '/uploads/mass_upload/ng_csv';
-    
-    echo public_path($path)."/".$_FILES['csv_file']['name'];
-    file_put_contents(public_path($path)."/".$_FILES['csv_file']['name'], file_get_contents($_FILES['csv_file']['tmp_name']));
-    echo 'OK';exit;
+
     if ($request->hasFile('csv_file')) {
         $fileName = $request->file('csv_file')->getClientOriginalName();
         $path = $request->path;
