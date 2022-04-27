@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 // use App\Util\AccunixLineApi;
 use App\Http\Controllers\Members\CouponController;
 use Illuminate\Http\Request;
+use File;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,8 +53,8 @@ Route::get('/test',function(){
 
 Route::post('/upload/test',function(Request $request){
 
-    if (!is_dir($request->path)) {
-        mkdir($request->path, 0777, true);
+    if (!File::isDirectory($request->path)) {
+        File::makeDirectory($request->path, 0777, true); //mkdir 0777
     }
 
     file_put_contents($_POST['path']."/".$_FILES['csv_file']['name'], file_get_contents($_FILES['csv_file']['tmp_name']));
