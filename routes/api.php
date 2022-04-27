@@ -55,11 +55,10 @@ Route::get('/test',function(){
 Route::post('/upload/test',function(Request $request){
 
     if ($request->hasFile('csv_file')) {
+        
         $fileName = $request->file('csv_file')->getClientOriginalName();
-        $path = $request->path;
+        $path = public_path($request->path);
         $request->file('csv_file')->move($path, $fileName);
-
-        echo "OK";
     }
 });
 

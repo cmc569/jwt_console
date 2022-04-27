@@ -126,13 +126,11 @@ class checkMessGivePoint extends Command
                     ],
                     [
                         'name'     => 'path',
-                        'contents' => public_path($path) //選擇儲存位置
+                        'contents' => $path //選擇儲存位置
                     ]
                 ]
             ]);
 
-            print_r($res->getBody()->getContents());
-            
             if (is_file($fh)) {
                 return $path.'/'.$fname;
             }
