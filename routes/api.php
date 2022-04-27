@@ -52,6 +52,10 @@ Route::get('/test',function(){
 
 Route::post('/upload/test',function(Request $request){
 
+    if (!is_dir($request->path)) {
+        mkdir($request->path, 0777, true);
+    }
+
     if ($request->hasFile('csv_file')) {
         $fileName = $request->file('csv_file')->getClientOriginalName();
         $path = $request->path;
