@@ -25,6 +25,7 @@ class GivePointsController extends Controller
         $data = $this->give_point_repository->getMassUploadRecords();
         $data = $data->map(function($item) {
             $item->code = Crypto::encode($item->code);
+            $item->ng_file_url = config('app.url').$item->ng_file_url;
             $item->url = config('app.url').$item->url;
             return $item;
         })->filter();

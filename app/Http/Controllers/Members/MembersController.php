@@ -334,6 +334,17 @@ class MembersController extends Controller
         $list['pointDetail'] = $this->members_repository->getOrderPointById($request->input('order_id'));
         $list['Item'] = $this->members_repository->getOrderItemById($request->input('order_id'));
 
+        $pointProduct = [];
+        foreach ($list['pointDetail'] as $v) {
+            if (preg_match("/^-/", $v['trans_point'])) {
+                $pointProduct[] = [
+                    "name" => str_replace('-', '', $v['trans_point']) . '點-' . $v['p_item_name']
+                ];
+            }
+        }
+
+        $list['pointProduct'] = $pointProduct;
+
         return UtilResponse::successResponse("success", $list);
     }
 

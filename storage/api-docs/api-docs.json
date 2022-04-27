@@ -1632,7 +1632,7 @@
             "schema": {
               "type": "string",
               "format": "binary",
-              "default": "{\n    \"msg\": \"success\",\n    \"data\": [\n        {\n            \"code\": \"代碼\",\n            \"filename\": \"檔案名稱\",\n            \"url\": \"下載路徑\",\n            \"send_at\": \"發送時間\",\n            \"total\": 點數,\n            \"process_status\": \"處理狀態\",\n            \"result\": “api回應結果”,\n            \"created_at\": \"檔案上傳時間\"\n        }\n    ]\n}"
+              "default": "{\n    \"msg\": \"success\",\n    \"data\": [\n        {\n            \"code\": \"代碼\",\n            \"filename\": \"檔案名稱\",\n            \"url\": \"下載路徑\",\n            \"send_at\": \"發送時間\",\n            \"total\": 筆數,\n            \"ok_count\": 成功筆數,\n            \"ng_count\": 失敗筆數,\n            \"ng_file_url\": 失敗檔案下載網址,\n            \"process_status\": \"處理狀態\",\n            \"result\": “api回應結果”,\n            \"created_at\": \"檔案上傳時間\"\n        }\n    ]\n}"
             }
           }
         },

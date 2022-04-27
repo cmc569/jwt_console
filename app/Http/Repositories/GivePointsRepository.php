@@ -20,7 +20,10 @@ class GivePointsRepository extends BaseRepository
             'filename', 
             'url', 
             'send_at', 
-            'total', 
+            'total',
+            'ok_count',
+            'ng_count',
+            'ng_file_url',
             'process_status', 
             'result', 
             'created_at'
