@@ -126,7 +126,7 @@ class checkMessGivePoint extends Command
                     ],
                     [
                         'name'     => 'path',
-                        'contents' => $fh //選擇儲存位置
+                        'contents' => public_path($path) //選擇儲存位置
                     ]
                 ]
             ]);
