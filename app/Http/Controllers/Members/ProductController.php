@@ -47,11 +47,7 @@ class ProductController extends Controller
         }
         $list = $this->ordersRepository->orderList($request->mobile);
 
-        if($list) {
-            return $list;
-        } else {
-            return UtilResponse::errorResponse('error');
-        }
+        return UtilResponse::successResponse("success", $list);
     }
 
     public function couponList(Request $request)
@@ -66,11 +62,7 @@ class ProductController extends Controller
 
         $list = $this->ticketsRepository->couponList($request->mobile, $request->order_id);
 
-        if($list) {
-            return $list;
-        } else {
-            return UtilResponse::errorResponse('error');
-        }
+        return UtilResponse::successResponse("success", $list);
     }
 
     public function voidCoupon(Request $request)
