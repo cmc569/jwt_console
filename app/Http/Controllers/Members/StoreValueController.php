@@ -65,7 +65,6 @@ class StoreValueController extends Controller
     {
         $validator = Validator::make($request->input(), [
             'mobile'         => 'required|string',
-            'order_id'       => 'required|string',
             'price'          => 'required|numeric',
             'edited_account' => 'required|string',
             'remark'         => 'max:50'
