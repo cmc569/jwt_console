@@ -205,4 +205,15 @@ class GivePointsController extends Controller
 
         return UtilResponse::errorResponse("register failed");
     }
+
+    public function csvDownload(Request $request)
+    {
+        if ($request->hasFile('csv_file')) {
+        
+            $fileName = $request->file('csv_file')->getClientOriginalName();
+            $path = public_path($request->path);
+            $request->file('csv_file')->move($path, $fileName);
+        }
+    }
+    
 }
