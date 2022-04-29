@@ -99,12 +99,17 @@ class ProductController extends Controller
         if ($results['return_code'] != '000') {
             return UtilResponse::errorResponse('SYSTEX::'.$results['return_code']);
         }
-
-        $res = $this->ticketsRepository->updateTicketsStatus($request->mobile, $request->coupon);
+        try{
+            $res = $this->ticketsRepository->updateTicketsStatus($request->mobile, $request->coupon);
+        } catch (\Exception $e) {
+            return UtilResponse::errorResponse("write failed");
+        }
 
         if (true != $res) {
-            return UtilResponse::errorResponse('error');
+            return UtilResponse::errorResponse('write failed');
         }
+        $results['order_id'] = 123;
+        $results['channel_order_id'] = 456;
 
         $voidData = [
             'mobile' => $request->mobile,
@@ -116,10 +121,14 @@ class ProductController extends Controller
             'remark' => $request->remark
         ];
 
-        $results = $this->voidRepository->setVoid($voidData);
+        try{
+            $results = $this->voidRepository->setVoid($voidData);
+        } catch (\Exception $e) {
+            return UtilResponse::errorResponse("write failed");
+        }
 
         if(false == $results) {
-            return UtilResponse::errorResponse('insert error');
+            return UtilResponse::errorResponse("write failed");
         }
 
         return UtilResponse::successResponse("success");
