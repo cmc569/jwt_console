@@ -41,8 +41,8 @@ class GivePointsController extends Controller
         ]);
  
         if ($validator->fails()) {
-            return $validator->errors()->all();
-            // return UtilResponse::errorResponse("invalid parameters");
+            // return $validator->errors()->all();
+            return UtilResponse::errorResponse("invalid parameters");
         }
 
         if (empty($request->file('csv'))) {
