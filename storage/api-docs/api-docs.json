@@ -1187,6 +1187,64 @@
         ]
       }
     },
+    "/api/v1/auth/member/csv": {
+      "post": {
+        "tags": [
+          "會員管理"
+        ],
+        "summary": "會員csv下載",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization (Only:undefined)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "filter": {
+                  "type": "string",
+                  "description": "搜尋條件"
+                },
+                "start_date": {
+                  "type": "string",
+                  "description": "起始日; 當end_date指定時為必填(YYYY-mm-dd)"
+                },
+                "end_date": {
+                  "type": "string",
+                  "description": "結束日; 當start_date指定時為必填(YYYY-mm-dd)"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "default": "{\n  \"msg\": \"succsess\"\n}"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
     "/api/v1/auth/member/orderList": {
       "post": {
         "tags": [
